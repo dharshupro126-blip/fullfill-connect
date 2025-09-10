@@ -1,179 +1,178 @@
-
 {
   "placeholderImages": [
     {
       "id": "biryani",
       "title": "Biryani",
       "description": "Aromatic and flavorful rice dish with spices, meat, or vegetables.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Fbiryani.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Fbiryani.jpg?alt=media",
       "imageHint": "spicy rice"
     },
     {
       "id": "butter_chicken",
       "title": "Butter Chicken",
       "description": "Tender chicken in a mildly spiced creamy tomato sauce.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Fbutter-chicken.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Fbutter-chicken.jpg?alt=media",
       "imageHint": "chicken curry"
     },
     {
       "id": "paneer_tikka",
       "title": "Paneer Tikka",
       "description": "Marinated cubes of paneer grilled to perfection.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Fpaneer-tikka.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Fpaneer-tikka.jpg?alt=media",
       "imageHint": "grilled paneer"
     },
     {
       "id": "masala_dosa",
       "title": "Masala Dosa",
       "description": "A crispy crepe of rice and lentils, filled with spiced potatoes.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Fmasala-dosa.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Fmasala-dosa.jpg?alt=media",
       "imageHint": "indian crepe"
     },
     {
       "id": "chole_bhature",
       "title": "Chole Bhature",
       "description": "Spicy chickpea curry served with fluffy deep-fried bread.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Fchole-bhature.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Fchole-bhature.jpg?alt=media",
       "imageHint": "chickpea curry"
     },
     {
       "id": "rogan_josh",
       "title": "Rogan Josh",
       "description": "An aromatic curried meat dish of Persian or Kashmiri origin.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Frogan-josh.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Frogan-josh.jpg?alt=media",
       "imageHint": "lamb curry"
     },
     {
       "id": "dal_makhani",
       "title": "Dal Makhani",
       "description": "A rich and creamy lentil curry made with black lentils and butter.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Fdal-makhani.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Fdal-makhani.jpg?alt=media",
       "imageHint": "lentil curry"
     },
     {
       "id": "tandoori_chicken",
       "title": "Tandoori Chicken",
       "description": "Chicken marinated in yogurt and spices, roasted in a tandoor.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Ftandoori-chicken.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Ftandoori-chicken.jpg?alt=media",
       "imageHint": "grilled chicken"
     },
     {
       "id": "aloo_gobi",
       "title": "Aloo Gobi",
       "description": "A vegetarian dish made with potatoes and cauliflower.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Faloo-gobi.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Faloo-gobi.jpg?alt=media",
       "imageHint": "potato cauliflower"
     },
     {
       "id": "samosa",
       "title": "Samosa",
       "description": "A fried pastry with a savory filling, such as spiced potatoes.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Fsamosa.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Fsamosa.jpg?alt=media",
       "imageHint": "fried pastry"
     },
     {
       "id": "palak_paneer",
       "title": "Palak Paneer",
       "description": "Paneer cheese in a thick paste made from puréed spinach.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Fpalak-paneer.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Fpalak-paneer.jpg?alt=media",
       "imageHint": "spinach curry"
     },
     {
       "id": "pani_puri",
       "title": "Pani Puri",
       "description": "A hollow, crispy-fried puffed ball filled with potato and spicy water.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Fpani-puri.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Fpani-puri.jpg?alt=media",
       "imageHint": "street food"
     },
     {
       "id": "idli",
       "title": "Idli",
       "description": "A type of savory rice cake, originating from the Indian subcontinent.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Fidli.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Fidli.jpg?alt=media",
       "imageHint": "rice cake"
     },
     {
       "id": "vada_pav",
       "title": "Vada Pav",
       "description": "A deep-fried potato dumpling placed inside a bread bun.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Fvada-pav.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Fvada-pav.jpg?alt=media",
       "imageHint": "potato burger"
     },
     {
       "id": "keema",
       "title": "Keema",
       "description": "A traditional dish with minced meat, onions, tomatoes, and spices.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Fkeema.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Fkeema.jpg?alt=media",
       "imageHint": "minced meat"
     },
     {
       "id": "dhokla",
       "title": "Dhokla",
       "description": "A savory, steamed cake made from a fermented batter.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Fdhokla.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Fdhokla.jpg?alt=media",
       "imageHint": "savory cake"
     },
     {
       "id": "pav_bhaji",
       "title": "Pav Bhaji",
       "description": "A fast food dish consisting of a thick vegetable curry served with a soft bread roll.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Fpav-bhaji.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Fpav-bhaji.jpg?alt=media",
       "imageHint": "vegetable curry"
     },
     {
       "id": "chicken_curry",
       "title": "Chicken Curry",
       "description": "Chicken stewed in an onion- and tomato-based sauce, flavoured with ginger and garlic.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Fchicken-curry.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Fchicken-curry.jpg?alt=media",
       "imageHint": "spicy chicken"
     },
     {
       "id": "fish_curry",
       "title": "Fish Curry",
       "description": "A spicy and tangy fish curry, perfect with steamed rice.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Ffish-curry.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Ffish-curry.jpg?alt=media",
       "imageHint": "seafood dish"
     },
     {
       "id": "khichdi",
       "title": "Khichdi",
       "description": "A comforting dish made from rice and lentils.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Fkhichdi.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Fkhichdi.jpg?alt=media",
       "imageHint": "rice lentils"
     },
     {
       "id": "malai_kofta",
       "title": "Malai Kofta",
       "description": "Fried potato and paneer balls in a rich and creamy mild gravy.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Fmalai-kofta.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Fmalai-kofta.jpg?alt=media",
       "imageHint": "vegetarian dumplings"
     },
     {
       "id": "gulab_jamun",
       "title": "Gulab Jamun",
       "description": "An Indian sweet consisting of fried balls of a dough made from milk solids and semolina, soaked with an aromatic syrup.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Fgulab-jamun.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Fgulab-jamun.jpg?alt=media",
       "imageHint": "indian dessert"
     },
     {
       "id": "jalebi",
       "title": "Jalebi",
       "description": "A spiral-shaped sweet made by deep-frying a wheat-flour batter in pretzel or circular shapes, which are then soaked in sugar syrup.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Fjalebi.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Fjalebi.jpg?alt=media",
       "imageHint": "sweet pastry"
     },
     {
       "id": "rasgulla",
       "title": "Rasgulla",
       "description": "A syrupy dessert popular in the Indian subcontinent, made from ball-shaped dumplings of chhena and semolina dough, cooked in light sugar syrup.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Frasgulla.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Frasgulla.jpg?alt=media",
       "imageHint": "cheese dessert"
     },
     {
       "id": "kheer",
       "title": "Kheer",
       "description": "A creamy rice pudding made with milk, rice, sugar, and flavored with cardamom and nuts.",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/food-images%2Fkheer.jpg?alt=media",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fullfill-connect-app.appspot.com/o/food-images%2Fkheer.jpg?alt=media",
       "imageHint": "rice pudding"
     }
   ]
