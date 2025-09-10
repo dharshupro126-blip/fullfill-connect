@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -33,7 +34,7 @@ export default function FindFoodPage() {
       try {
         const q = query(
           collection(db, 'listings'),
-          where('status', '==', 'available'),
+          where('status', '==', 'open'),
           orderBy('createdAt', 'desc')
         );
         const querySnapshot = await getDocs(q);
