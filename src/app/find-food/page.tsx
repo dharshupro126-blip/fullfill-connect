@@ -36,11 +36,11 @@ function generateDummyData(placeholders: ImagePlaceholder[]): Listing[] {
   const shuffledPlaceholders = shuffleArray([...placeholders]);
 
   return shuffledPlaceholders.map((p, index) => ({
-    id: `dummy-${p.id}-${index}`,
+    id: p.id,
     title: p.title,
     description: p.description,
     quantity: `${Math.floor(Math.random() * 20) + 5} servings`, // Random quantity
-    imageUrls: [`https://picsum.photos/seed/${p.id}/600/400`],
+    imageUrls: [p.imageUrl],
     aiFreshness: Math.floor(Math.random() * 15) + 85, // 85-99%
     status: 'open',
   }));
@@ -137,7 +137,7 @@ export default function FindFoodPage() {
                         alt={item.title}
                         fill
                         className="object-cover"
-                        data-ai-hint={PlaceHolderImages.find(p => p.id === item.id.split('-')[1])?.imageHint}
+                        data-ai-hint={PlaceHolderImages.find(p => p.id === item.id)?.imageHint}
                         onError={(e) => { (e.currentTarget as HTMLImageElement).src = 'https://picsum.photos/seed/error/600/400'; }}
                       />
                        {item.aiFreshness && (
