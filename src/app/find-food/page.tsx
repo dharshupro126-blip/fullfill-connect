@@ -8,27 +8,20 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
-import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { firebaseApp } from '@/lib/firebase';
+import { getFirestore } from 'firebase/firestore';
 
-interface Listing extends ImagePlaceholder {
+// Define the structure of a food item listing
+interface Listing {
+  id: string;
+  title: string;
+  description: string;
   quantity: string;
-  aiFreshness?: number;
+  imageUrls: string[];
+  aiFreshness: number;
   status: string;
 }
-
-// Function to generate a new shuffled list of dummy data
-const generateDummyData = (): Listing[] => {
-  // Shuffle the array to make the order random on each load
-  const shuffled = [...PlaceHolderImages].sort(() => 0.5 - Math.random());
-  
-  return shuffled.map((item) => ({
-    ...item,
-    quantity: `${Math.floor(Math.random() * 50) + 10} servings`, // Random quantity
-    aiFreshness: Math.floor(Math.random() * 15) + 85, // Random freshness between 85-99%
-    status: 'open',
-  }));
-};
-
 
 export default function FindFoodPage() {
   const [listings, setListings] = useState<Listing[]>([]);
@@ -36,12 +29,30 @@ export default function FindFoodPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true);
-    // Use a timeout to simulate a network request
-    setTimeout(() => {
-      setListings(generateDummyData());
-      setIsLoading(false);
-    }, 500);
+    const fetchListings = async () => {
+      setIsLoading(true);
+      try {
+        const db = getFirestore(firebaseApp);
+        // Query for documents where the status is 'open'
+        const q = query(collection(db, 'listings'), where('status', '==', 'open'));
+        const querySnapshot = await getDocs(q);
+        
+        const items: Listing[] = [];
+        querySnapshot.forEach((doc) => {
+          // Add the document ID to the data object
+          items.push({ id: doc.id, ...(doc.data() as Omit<Listing, 'id'>) });
+        });
+        
+        setListings(items);
+      } catch (error) {
+        console.error("Error fetching listings:", error);
+        // Optionally, show a toast notification to the user
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchListings();
   }, []);
 
   const filteredListings = listings.filter((item) =>
@@ -94,7 +105,10 @@ export default function FindFoodPage() {
           <Card className="p-8 text-center">
             <CardTitle>No Food Available Right Now</CardTitle>
             <CardDescription>
-              {search ? `No results for "${search}".` : 'Please check back later for new donations.'}
+              {search 
+                ? `No results for "${search}".` 
+                : 'Please run the seed script or add a donation to see food here.'
+              }
             </CardDescription>
           </Card>
         )}
@@ -107,11 +121,10 @@ export default function FindFoodPage() {
                   <CardHeader className="p-0">
                     <div className="relative h-48 w-full">
                       <Image
-                        src={item.imageUrl || 'https://picsum.photos/seed/fallback/600/400'}
+                        src={item.imageUrls?.[0] || 'https://picsum.photos/seed/fallback/600/400'}
                         alt={item.title}
                         fill
                         className="object-cover"
-                        data-ai-hint={item.imageHint}
                         onError={(e) => { (e.currentTarget as HTMLImageElement).src = 'https://picsum.photos/seed/error/600/400'; }}
                       />
                        {item.aiFreshness && (
