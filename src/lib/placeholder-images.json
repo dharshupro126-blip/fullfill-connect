@@ -1,550 +1,144 @@
 {
   "placeholderImages": [
     {
-      "id": "aloo_gobi",
-      "title": "Aloo Gobi",
-      "description": "A vegetarian dish from the Indian subcontinent made with potatoes (aloo), cauliflower (gobi), and Indian spices.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Aloo%20Gobi-0.jpg",
-      "imageHint": "aloo gobi"
+      "id": "paneer_butter_masala",
+      "title": "Paneer Butter Masala",
+      "description": "A slightly sweet creamy dish of paneer, in which the gravy is prepared usually with butter, tomatoes, cashews or cream.",
+      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Paneer%20butter%20masala-0.jpg",
+      "imageHint": "paneer curry"
     },
     {
-      "id": "aloo_matar",
-      "title": "Aloo Matar",
-      "description": "A Punjabi dish from the Indian subcontinent which is made from potatoes (Aloo) and peas (matter) in a spiced creamy tomato based sauce.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Aloo%20matar-0.jpg",
-      "imageHint": "aloo matar"
-    },
-    {
-      "id": "aloo_methi",
-      "title": "Aloo Methi",
-      "description": "A dry vegetable dish, where boiled potatoes are cooked with fenugreek leaves (methi) and other spices.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Aloo%20methi-0.jpg",
-      "imageHint": "aloo methi"
-    },
-    {
-      "id": "aloo_shimla_mirch",
-      "title": "Aloo Shimla Mirch",
-      "description": "A simple and quick potato and capsicum stir fry for a delicious side dish.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Aloo%20shimla%20mirch-0.jpg",
-      "imageHint": "potato capsicum"
-    },
-    {
-      "id": "aloo_tikki",
-      "title": "Aloo Tikki",
-      "description": "A small croquette or patty made from boiled potatoes and various spices, served hot and often with a sauce.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Aloo%20tikki-0.jpg",
-      "imageHint": "aloo tikki"
-    },
-    {
-      "id": "anarsa",
-      "title": "Anarsa",
-      "description": "An Indian rice-based biscuit, commonly associated with the Hindu festival of Diwali.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Anarsa-0.jpg",
-      "imageHint": "anarsa sweet"
-    },
-    {
-      "id": "ariselu",
-      "title": "Ariselu",
-      "description": "A sweet from Andhra Pradesh and Telangana made from rice flour, jaggery and ghee.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Ariselu-0.jpg",
-      "imageHint": "ariselu sweet"
-    },
-    {
-      "id": "bandar_laddu",
-      "title": "Bandar Laddu",
-      "description": "A famous sweet from Machilipatnam of Andhra Pradesh, made from besan, jaggery, and ghee.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Bandar%20laddu-0.jpg",
-      "imageHint": "bandar laddu"
-    },
-    {
-      "id": "basundi",
-      "title": "Basundi",
-      "description": "An Indian sweet mostly in Gujarat, Maharashtra and Karnataka. It is a sweetened condensed milk made by boiling milk on low heat.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Basundi-0.jpg",
-      "imageHint": "basundi sweet"
-    },
-    {
-      "id": "bhatura",
-      "title": "Bhatura",
-      "description": "A fluffy deep-fried leavened sourdough bread originating from the Indian subcontinent.",
+      "id": "chole_bhature",
+      "title": "Chole Bhature",
+      "description": "A classic Punjabi dish featuring spicy chickpea curry (chole) served with fluffy, deep-fried bread (bhature).",
       "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Bhatura-0.jpg",
-      "imageHint": "bhatura bread"
+      "imageHint": "chickpea curry"
     },
     {
-      "id": "bhindi_masala",
-      "title": "Bhindi Masala",
-      "description": "A popular Indian dish made with okra, onion, tomatoes & spices.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Bhindi%20masala-0.jpg",
-      "imageHint": "bhindi masala"
+      "id": "masala_dosa",
+      "title": "Masala Dosa",
+      "description": "A popular South Indian breakfast dish, a crispy crepe made from fermented rice and lentil batter, filled with a spiced potato mixture.",
+      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Masala%20Dosa-1.jpg",
+      "imageHint": "masala dosa"
     },
     {
       "id": "biryani",
-      "title": "Biryani",
-      "description": "A mixed rice dish with its origins among the Muslims of the Indian subcontinent.",
+      "title": "Hyderabadi Biryani",
+      "description": "Aromatic basmati rice cooked with meat or vegetables and a blend of rich, flavorful spices. A signature dish of Hyderabad.",
       "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Biryani-0.jpg",
       "imageHint": "chicken biryani"
     },
     {
-      "id": "boondi",
-      "title": "Boondi",
-      "description": "An Indian snack made from fried chickpea flour, either as a savory snack or sweetened as a dessert.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Boondi-0.jpg",
-      "imageHint": "boondi snack"
+      "id": "pav_bhaji",
+      "title": "Pav Bhaji",
+      "description": "A flavorful mash of mixed vegetables in a spicy tomato-based gravy, served with soft, buttered bread rolls (pav).",
+      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Pav%20bhaji-0.jpg",
+      "imageHint": "vegetable mash"
     },
     {
-      "id": "butter_chicken",
-      "title": "Butter Chicken",
-      "description": "A type of curry made from chicken with a spiced tomato and butter (makhan) sauce.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Butter%20chicken-0.jpg",
-      "imageHint": "butter chicken"
+      "id": "idli_sambar",
+      "title": "Idli Sambar",
+      "description": "Soft, fluffy steamed rice cakes (idli) served with a hot and tangy lentil-based vegetable stew (sambar).",
+      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Idli-0.jpg",
+      "imageHint": "steamed rice"
     },
     {
-      "id": "chak_hao_kheer",
-      "title": "Chak Hao Kheer",
-      "description": "A pudding made from black rice, milk, sugar, and cardamom.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Chak-hao%20kheer-0.jpg",
-      "imageHint": "black rice"
+      "id": "rajma_chawal",
+      "title": "Rajma Chawal",
+      "description": "A comforting North Indian dish of red kidney beans cooked in a thick, spicy gravy, served with steamed rice.",
+      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Rajma%20chawal-0.jpg",
+      "imageHint": "kidney beans"
     },
     {
-      "id": "cham_cham",
-      "title": "Cham Cham",
-      "description": "A traditional Bengali sweet, popular throughout the Indian subcontinent.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Cham%20cham-0.jpg",
-      "imageHint": "cham cham"
-    },
-    {
-      "id": "chana_masala",
-      "title": "Chana Masala",
-      "description": "A delicious & flavorful Indian curry made by cooking chickpeas in a spicy onion tomato masala gravy.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Chana%20masala-0.jpg",
-      "imageHint": "chana masala"
-    },
-    {
-      "id": "chapati",
-      "title": "Chapati",
-      "description": "An unleavened flatbread originating from the Indian subcontinent and staple in India, Nepal, Bangladesh, Pakistan, Sri Lanka, East Africa and the Caribbean.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Chapati-0.jpg",
-      "imageHint": "chapati bread"
-    },
-    {
-      "id": "chikki",
-      "title": "Chikki",
-      "description": "A traditional Indian sweet generally made from peanuts and jaggery.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Chikki-0.jpg",
-      "imageHint": "peanut chikki"
-    },
-    {
-      "id": "daal_baati_churma",
-      "title": "Daal Baati Churma",
-      "description": "A Rajasthani dish comprising dal (lentils), baati (hard wheat rolls) and churma (sweetened cereal powder).",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Daal%20baati%20churma-0.jpg",
-      "imageHint": "dal baati"
-    },
-    {
-      "id": "daal_puri",
-      "title": "Daal Puri",
-      "description": "A fried flatbread from the Indian subcontinent where the flatbread is filled with a paste of spiced lentils.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Daal%20Puri-0.jpg",
-      "imageHint": "dal puri"
-    },
-    {
-      "id": "dal_makhani",
-      "title": "Dal Makhani",
-      "description": "A dish originating from the Punjab region of the Indian subcontinent. The primary ingredients are whole black lentils (urad), red kidney beans (rajma), butter and cream.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Dal%20makhani-0.jpg",
-      "imageHint": "dal makhani"
-    },
-    {
-      "id": "dal_tadka",
-      "title": "Dal Tadka",
-      "description": "A popular Indian lentil dish made with arhar dal or masoor dal.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Dal%20tadka-0.jpg",
-      "imageHint": "dal tadka"
+      "id": "aloo_paratha",
+      "title": "Aloo Paratha",
+      "description": "A popular Indian flatbread stuffed with a delicious spiced potato mixture, pan-fried to golden perfection.",
+      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Paratha-0.jpg",
+      "imageHint": "stuffed flatbread"
     },
     {
       "id": "dhokla",
-      "title": "Dhokla",
-      "description": "A vegetarian culinary dish that is native to the Indian state of Gujarat and parts of adjacent states.",
+      "title": "Khaman Dhokla",
+      "description": "A soft, spongy, and savory steamed cake made from gram flour, perfect as a light snack or breakfast.",
       "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Dhokla-0.jpg",
-      "imageHint": "dhokla snack"
+      "imageHint": "savory cake"
+    },
+     {
+      "id": "dal_makhani",
+      "title": "Dal Makhani",
+      "description": "A rich and creamy lentil curry made with whole black lentils and kidney beans, slow-cooked with butter and cream.",
+      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Dal%20makhani-0.jpg",
+      "imageHint": "lentil curry"
     },
     {
-      "id": "doodhpak",
-      "title": "Doodhpak",
-      "description": "A sweet dish, a kind of rice pudding made from milk, rice, sugar and nuts, and is seasoned with cardamom and nutmeg.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Doodhpak-0.jpg",
-      "imageHint": "doodhpak pudding"
+      "id": "pani_puri",
+      "title": "Pani Puri / Golgappe",
+      "description": "A popular street food snack consisting of hollow, crispy puris filled with spicy tamarind water, potatoes, and chickpeas.",
+      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Pani%20puri-0.jpg",
+      "imageHint": "street food"
     },
     {
-      "id": "double_ka_meetha",
-      "title": "Double ka Meetha",
-      "description": "A bread pudding Indian sweet of fried bread slices soaked in hot milk with spices, including saffron and cardamom.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Double%20ka%20meetha-0.jpg",
-      "imageHint": "bread pudding"
+      "id": "samosa",
+      "title": "Samosa",
+      "description": "A deep-fried pastry with a savory filling, such as spiced potatoes, onions, peas, or lentils.",
+      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Samosa-0.jpg",
+      "imageHint": "fried pastry"
     },
     {
-      "id": "dum_aloo",
-      "title": "Dum Aloo",
-      "description": "A potato-based curry dish. 'Dum' means 'slow-cooked', and 'aloo' is potatoes.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Dum%20aloo-0.jpg",
-      "imageHint": "dum aloo"
+      "id": "malai_kofta",
+      "title": "Malai Kofta",
+      "description": "A creamy and rich curry made with deep-fried potato and paneer balls (koftas) dunked in a smooth, mildly sweet gravy.",
+      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Kofta-0.jpg",
+      "imageHint": "paneer dumplings"
     },
     {
-      "id": "gajar_ka_halwa",
-      "title": "Gajar ka Halwa",
-      "description": "A carrot-based sweet dessert pudding from the Indian subcontinent.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Gajar%20ka%20halwa-0.jpg",
-      "imageHint": "carrot halwa"
-    },
-    {
-      "id": "gavvalu",
-      "title": "Gavvalu",
-      "description": "A sweet dish from Andhra Pradesh, made with rice flour and jaggery, shaped like cowries.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Gavvalu-0.jpg",
-      "imageHint": "gavvalu sweet"
-    },
-    {
-      "id": "ghevar",
-      "title": "Ghevar",
-      "description": "A Rajasthani disc-shaped sweet made from flour and soaked in sugar syrup.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Ghevar-0.jpg",
-      "imageHint": "ghevar sweet"
-    },
-    {
-      "id": "gulab_jamun",
-      "title": "Gulab Jamun",
-      "description": "A milk-solid-based sweet from the Indian subcontinent, and a type of mithai.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Gulab%20jamun-0.jpg",
-      "imageHint": "gulab jamun"
-    },
-    {
-      "id": "imarti",
-      "title": "Imarti",
-      "description": "A sweet from India, made by deep-frying vigna mungo flour batter in a circular flower shape, then soaking in sugar syrup.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Imarti-0.jpg",
-      "imageHint": "imarti sweet"
+      "id": "veg_thali",
+      "title": "Vegetarian Thali",
+      "description": "A complete Indian meal served on a single platter, featuring a variety of small dishes like curries, dal, rice, bread, and dessert.",
+      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Thali-0.jpg",
+      "imageHint": "indian platter"
     },
     {
       "id": "jalebi",
       "title": "Jalebi",
-      "description": "A popular sweet snack in south and west Asia, Africa, and Mauritius. It is made by deep-frying maida flour batter in pretzel or circular shapes, which are then soaked in sugar syrup.",
+      "description": "A spiral-shaped, crispy and chewy sweet made by deep-frying flour batter and soaking it in saffron-infused sugar syrup.",
       "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Jalebi-0.jpg",
-      "imageHint": "jalebi sweet"
+      "imageHint": "sweet spirals"
     },
     {
-      "id": "kachori",
-      "title": "Kachori",
-      "description": "A spicy snack, originating from the Indian subcontinent, and common in places with Indian diaspora and other South Asian diaspora.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Kachori-0.jpg",
-      "imageHint": "kachori snack"
+      "id": "chicken_tikka_masala",
+      "title": "Chicken Tikka Masala",
+      "description": "Chunks of roasted marinated chicken in a spiced curry. The curry is usually creamy and orange-coloured.",
+      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Chicken%20tikka-0.jpg",
+      "imageHint": "chicken curry"
     },
     {
-      "id": "kadai_paneer",
-      "title": "Kadai Paneer",
-      "description": "A popular paneer recipe where paneer and bell peppers are cooked in a spicy masala.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Kadai%20paneer-0.jpg",
-      "imageHint": "kadai paneer"
-    },
-    {
-      "id": "kajjikaya",
-      "title": "Kajjikaya",
-      "description": "A fried dumpling stuffed with a filling of roasted lentils, coconut, and jaggery.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Kajjikaya-0.jpg",
-      "imageHint": "kajjikaya sweet"
-    },
-    {
-      "id": "kala_jamun",
-      "title": "Kala Jamun",
-      "description": "A darker and chewier version of Gulab Jamun.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Kala%20jamun-0.jpg",
-      "imageHint": "kala jamun"
-    },
-    {
-      "id": "kalakand",
-      "title": "Kalakand",
-      "description": "An Indian sweet made out of solidified, sweetened milk and paneer.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Kalakand-0.jpg",
-      "imageHint": "kalakand sweet"
-    },
-    {
-      "id": "karela_bharta",
-      "title": "Karela Bharta",
-      "description": "A spicy and tangy stuffed bitter gourd dish.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Karela%20bharta-0.jpg",
-      "imageHint": "bitter gourd"
-    },
-    {
-      "id": "kofta",
-      "title": "Kofta",
-      "description": "A family of meatball or meatloaf dishes found in the Indian subcontinent, South Caucasian, Middle Eastern, Balkan, and Central Asian cuisines.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Kofta-0.jpg",
-      "imageHint": "kofta curry"
-    },
-    {
-      "id": "kuzhi_paniyaram",
-      "title": "Kuzhi Paniyaram",
-      "description": "An Indian dish made by steaming batter using a mould. The batter is made from black lentils and rice and is similar to the batter used to make idli and dosa.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Kuzhi%20paniyaram-0.jpg",
-      "imageHint": "paniyaram snack"
-    },
-    {
-      "id": "laddu",
-      "title": "Laddu",
-      "description": "A sphere-shaped sweet originating from the Indian subcontinent.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Laddu-0.jpg",
-      "imageHint": "motichoor laddu"
-    },
-    {
-      "id": "lassi",
-      "title": "Lassi",
-      "description": "A popular traditional dahi-based drink that originated in the Indian subcontinent.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Lassi-0.jpg",
-      "imageHint": "mango lassi"
-    },
-    {
-      "id": "ledikeni",
-      "title": "Ledikeni",
-      "description": "A light-fried reddish-brown sweet ball of chhana and flour, soaked in sugar syrup.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Ledikeni-0.jpg",
-      "imageHint": "ledikeni sweet"
-    },
-    {
-      "id": "litti_chokha",
-      "title": "Litti Chokha",
-      "description": "A complete meal that originated from the Indian state of Bihar. It consists of wheat and sattu dough balls with a filling of sattu, and served with chokha (a vegetable preparation).",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Litti%20chokha-0.jpg",
-      "imageHint": "litti chokha"
-    },
-    {
-      "id": "lyangcha",
-      "title": "Lyangcha",
-      "description": "A Bengali sweet dish, which is a type of fried sweet.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Lyangcha-0.jpg",
-      "imageHint": "lyangcha sweet"
-    },
-    {
-      "id": "maach_jhol",
-      "title": "Maach Jhol",
-      "description": "A traditional Bengali and Odia spicy fish stew. It is in the form of a very spicy stew that is served with rice.",
+      "id": "fish_curry",
+      "title": "Goan Fish Curry",
+      "description": "A spicy and tangy fish curry from the coastal region of Goa, made with coconut milk and a blend of aromatic spices.",
       "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Maach%20Jhol-0.jpg",
       "imageHint": "fish curry"
     },
     {
-      "id": "makki_di_roti_sarson_da_saag",
-      "title": "Makki di Roti Sarson da Saag",
-      "description": "A popular Punjabi dish. Makki di roti is a flat, unleavened bread made from corn meal, primarily eaten in the Punjab region of India and Pakistan.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Makki%20di%20roti%20sarson%20da%20saag-0.jpg",
-      "imageHint": "sarson saag"
-    },
-    {
-      "id": "malapua",
-      "title": "Malapua",
-      "description": "A pancake served as a dessert or a snack originating from the Indian subcontinent, popular in India, Nepal and Bangladesh.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Malapua-0.jpg",
-      "imageHint": "malpua sweet"
-    },
-    {
-      "id": "meetha_dal",
-      "title": "Meetha Dal",
-      "description": "A sweet and tangy lentil preparation from Gujarati cuisine.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Meetha%20dal-0.jpg",
-      "imageHint": "gujarati dal"
-    },
-    {
-      "id": "mysore_pak",
-      "title": "Mysore Pak",
-      "description": "An Indian sweet prepared in ghee that is popular in Southern India.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Mysore%20pak-0.jpg",
-      "imageHint": "mysore pak"
+      "id": "palak_paneer",
+      "title": "Palak Paneer",
+      "description": "A popular vegetarian dish consisting of paneer in a thick paste made from puréed spinach and seasoned with garlic, garam masala, and other spices.",
+      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Palak%20paneer-0.jpg",
+      "imageHint": "spinach curry"
     },
     {
       "id": "naan",
-      "title": "Naan",
-      "description": "A leavened, oven-baked flatbread found in the cuisines of West Asia, Central Asia, and South Asia.",
+      "title": "Garlic Naan",
+      "description": "A leavened, oven-baked flatbread, typically flavored with garlic and butter. Soft, chewy, and perfect for dipping into curries.",
       "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Naan-0.jpg",
-      "imageHint": "garlic naan"
+      "imageHint": "garlic bread"
     },
     {
-      "id": "navrattan_korma",
-      "title": "Navrattan Korma",
-      "description": "A vegetarian korma made with vegetables and either paneer or nuts – or sometimes both.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Navrattan%20korma-0.jpg",
-      "imageHint": "navratan korma"
-    },
-    {
-      "id": "palak_paneer",
-      "title": "Palak Paneer",
-      "description": "A vegetarian dish, consisting of paneer in a thick paste made from puréed spinach, called palak in Hindi, Marathi, Gujarati, and other Indian languages.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Palak%20paneer-0.jpg",
-      "imageHint": "palak paneer"
-    },
-    {
-      "id": "paneer_butter_masala",
-      "title": "Paneer Butter Masala",
-      "description": "A slightly sweet creamy dish of paneer, originating from the Indian subcontinent, in which the gravy is prepared usually with butter, tomatoes, cashews or cream.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Paneer%20butter%20masala-0.jpg",
-      "imageHint": "paneer butter"
-    },
-    {
-      "id": "pantua",
-      "title": "Pantua",
-      "description": "A local doughnut-like sweet from the eastern Indian subcontinent, notably in West Bengal, Odisha, and Assam.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Pantua-0.jpg",
-      "imageHint": "pantua sweet"
-    },
-    {
-      "id": "papad",
-      "title": "Papad",
-      "description": "A thin, crisp, round flatbread from the Indian subcontinent.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Papad-0.jpg",
-      "imageHint": "papadum snack"
-    },
-    {
-      "id": "paratha",
-      "title": "Paratha",
-      "description": "A flatbread native to the Indian subcontinent, prevalent throughout the modern-day nations of India, Sri Lanka, Pakistan, Nepal, Bangladesh, Maldives and Myanmar.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Paratha-0.jpg",
-      "imageHint": "paratha bread"
-    },
-    {
-      "id": "petha",
-      "title": "Petha",
-      "description": "A translucent soft candy from North India and Pakistan (Punjab region and metros). Usually rectangular or cylindrical, it is made from the ash gourd vegetable.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Petha-0.jpg",
-      "imageHint": "agra petha"
-    },
-    {
-      "id": "phirni",
-      "title": "Phirni",
-      "description": "A traditional Kashmiri dessert made with rice, milk, saffron, cardamom, and nuts.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Phirni-0.jpg",
-      "imageHint": "phirni dessert"
-    },
-    {
-      "id": "pithe",
-      "title": "Pithe",
-      "description": "A type of rice cake from the eastern regions of the Indian subcontinent, common in Bangladesh and India, especially the eastern states of Bihar, Jharkhand, Odisha, West Bengal.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Pithe-0.jpg",
-      "imageHint": "pithe sweet"
-    },
-    {
-      "id": "poha",
-      "title": "Poha",
-      "description": "A breakfast dish from the Indian subcontinent, made from flattened rice.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Poha-0.jpg",
-      "imageHint": "poha breakfast"
-    },
-    {
-      "id": "poornalu",
-      "title": "Poornalu",
-      "description": "A popular Andhra sweet, made of rice flour stuffed with a paste of jaggery and roasted gram.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Poornalu-0.jpg",
-      "imageHint": "poornalu sweet"
-    },
-    {
-      "id": "pootharekulu",
-      "title": "Pootharekulu",
-      "description": "A popular sweet from Atreyapuram, Andhra Pradesh. Pootharekulu is made from a particular kind of rice batter called jaya biyyam, powdered sugar and ghee.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Pootharekulu-0.jpg",
-      "imageHint": "paper sweet"
-    },
-    {
-      "id": "qubani_ka_meetha",
-      "title": "Qubani ka Meetha",
-      "description": "An Indian sweet made from dried apricots originating from Hyderabad, Telangana.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Qubani%20ka%20meetha-0.jpg",
-      "imageHint": "apricot sweet"
-    },
-    {
-      "id": "rabri",
-      "title": "Rabri",
-      "description": "A sweet, condensed-milk-based dish, originating from the Indian subcontinent, made by boiling the milk on low heat for a long time until it becomes dense and changes its color to off-white or pale yellow.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Rabri-0.jpg",
-      "imageHint": "rabri dessert"
-    },
-    {
-      "id": "rasgulla",
-      "title": "Rasgulla",
-      "description": "A syrupy dessert popular in the eastern part of South Asia. It is made from ball-shaped dumplings of chhena and semolina dough, cooked in light syrup made of sugar.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Rasgulla-0.jpg",
-      "imageHint": "rasgulla sweet"
-    },
-    {
-      "id": "ras_malai",
-      "title": "Ras Malai",
-      "description": "A dessert originating from the eastern regions of the Indian subcontinent. The dessert is called rossomalai in Bengali, ras malai in Hindi, and rasa malei in Odia.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Ras%20malai-0.jpg",
-      "imageHint": "ras malai"
-    },
-    {
-      "id": "sandesh",
-      "title": "Sandesh",
-      "description": "A dessert, originating from the Bengal region in the eastern part of the Indian subcontinent, created with milk and sugar.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Sandesh-0.jpg",
-      "imageHint": "sandesh sweet"
-    },
-    {
-      "id": "shankarpali",
-      "title": "Shankarpali",
-      "description": "An Indian sweet snack. It is rich in carbohydrates, making it an instant source of energy.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Shankarpali-0.jpg",
-      "imageHint": "shankarpali snack"
-    },
-    {
-      "id": "sheer_korma",
-      "title": "Sheer Korma",
-      "description": "A festival vermicelli pudding prepared by Muslims on Eid ul-Fitr and Eid al-Adha in Pakistan, Afghanistan, India, and parts of Central Asia.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Sheer%20korma-0.jpg",
-      "imageHint": "sheer korma"
-    },
-    {
-      "id": "sheermal",
-      "title": "Sheermal",
-      "description": "A saffron-flavored traditional flatbread from Greater Iran.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Sheermal-0.jpg",
-      "imageHint": "sheermal bread"
-    },
-    {
-      "id": "shrikhand",
-      "title": "Shrikhand",
-      "description": "An Indian sweet dish made of strained dahi.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Shrikhand-0.jpg",
-      "imageHint": "shrikhand dessert"
-    },
-    {
-      "id": "sohan_halwa",
-      "title": "Sohan Halwa",
-      "description": "A traditional Mughlai dessert in South Asia, which is a variety of dense, sweet confection or halwa.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Sohan%20halwa-0.jpg",
-      "imageHint": "sohan halwa"
-    },
-    {
-      "id": "sohan_papdi",
-      "title": "Sohan Papdi",
-      "description": "A popular Indian dessert. It is usually cube-shaped or served as flakes, and has a crisp and flaky texture.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Sohan%20papdi-0.jpg",
-      "imageHint": "soan papdi"
-    },
-    {
-      "id": "sutar_feni",
-      "title": "Sutar Feni",
-      "description": "A delicate, flaky, and stringy Indian sweet, similar to cotton candy.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Sutar%20feni-0.jpg",
-      "imageHint": "sutar feni"
-    },
-    {
-      "id": "unni_appam",
-      "title": "Unni Appam",
-      "description": "A small round snack made from rice, jaggery, banana, roasted coconut pieces, roasted sesame seeds, ghee and cardamom powder fried in oil.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Unni%20appam-0.jpg",
-      "imageHint": "unni appam"
-    },
-    {
-      "id": "vada",
-      "title": "Vada",
-      "description": "A category of savoury fried snacks from India. Different types of vadas can be described variously as fritters, cutlets, doughnuts, or dumplings.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Vada-0.jpg",
-      "imageHint": "medu vada"
+      "id": "gulab_jamun",
+      "title": "Gulab Jamun",
+      "description": "Soft, spongy, milk-solid-based balls soaked in a fragrant sugar syrup. A classic Indian dessert for celebrations.",
+      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Gulab%20jamun-0.jpg",
+      "imageHint": "sweet dumplings"
     }
   ]
 }
