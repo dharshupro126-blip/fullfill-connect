@@ -1,3 +1,4 @@
+
 {
   "placeholderImages": [
     {
@@ -18,7 +19,7 @@
       "id": "naan",
       "title": "Garlic Naan",
       "description": "Soft, fluffy flatbread with garlic and herbs.",
-      "imageUrl": "https://images.unsplash.com/photo-1565557623262-b9a25b03a639?q=80&w=600",
+      "imageUrl": "https://images.unsplash.com/photo-1628557941923-958f06e0094b?q=80&w=600",
       "imageHint": "naan bread"
     },
     {
@@ -32,7 +33,7 @@
       "id": "dal-makhani",
       "title": "Dal Makhani",
       "description": "A rich and creamy lentil stew, slow-cooked with spices.",
-      "imageUrl": "https://images.unsplash.com/photo-1542282811-943ef1a17834?q=80&w=600",
+      "imageUrl": "https://images.unsplash.com/photo-1602040058982-583863412145?q=80&w=600",
       "imageHint": "dal makhani"
     },
     {
@@ -52,30 +53,128 @@
     {
       "id": "masala-dosa",
       "title": "Masala Dosa",
-      "description": "A thin, crispy crepe made from fermented rice and lentils, filled with a savory potato stuffing.",
+      "description": "A thin, crispy crepe filled with a savory potato stuffing.",
       "imageUrl": "https://images.unsplash.com/photo-1668665789343-3a5e4a4d3345?q=80&w=600",
       "imageHint": "masala dosa"
     },
     {
       "id": "tandoori-chicken",
       "title": "Tandoori Chicken",
-      "description": "Chicken marinated in yogurt and spices, roasted in a cylindrical clay oven, the tandoor.",
+      "description": "Chicken marinated in yogurt and spices, roasted in a tandoor.",
       "imageUrl": "https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?q=80&w=600",
       "imageHint": "tandoori chicken"
     },
     {
       "id": "jalebi",
       "title": "Jalebi",
-      "description": "A sweet snack made by deep-frying a wheat-flour batter in pretzel or circular shapes, which are then soaked in sugar syrup.",
+      "description": "A sweet snack made by deep-frying batter in circular shapes.",
       "imageUrl": "https://images.unsplash.com/photo-1598214886806-c87b84b7078b?q=80&w=600",
       "imageHint": "jalebi sweet"
     },
     {
       "id": "palak-paneer",
       "title": "Palak Paneer",
-      "description": "A vegetarian dish consisting of paneer in a thick paste made from puréed spinach.",
+      "description": "A vegetarian dish of paneer in a thick paste of puréed spinach.",
       "imageUrl": "https://images.unsplash.com/photo-1589301760014-d929f39791e8?q=80&w=600",
       "imageHint": "palak paneer"
+    },
+    {
+      "id": "rogan-josh",
+      "title": "Rogan Josh",
+      "description": "Aromatic lamb curry with a rich gravy of tomatoes and spices.",
+      "imageUrl": "https://images.unsplash.com/photo-1565557623262-b9a25b03a639?q=80&w=600",
+      "imageHint": "rogan josh"
+    },
+    {
+      "id": "malai-kofta",
+      "title": "Malai Kofta",
+      "description": "Fried potato and paneer balls in a rich, creamy tomato gravy.",
+      "imageUrl": "https://images.unsplash.com/photo-1626777039414-24016a1ace3a?q=80&w=600",
+      "imageHint": "malai kofta"
+    },
+    {
+      "id": "pav-bhaji",
+      "title": "Pav Bhaji",
+      "description": "A fast food dish consisting of a thick vegetable curry served with a soft bread roll.",
+      "imageUrl": "https://images.unsplash.com/photo-1606495145214-b41a54a3e3b3?q=80&w=600",
+      "imageHint": "pav bhaji"
+    },
+    {
+      "id": "kheer",
+      "title": "Kheer",
+      "description": "A sweet rice pudding made with milk, sugar, and nuts.",
+      "imageUrl": "https://images.unsplash.com/photo-1609630513945-8f43690d1969?q=80&w=600",
+      "imageHint": "kheer dessert"
+    },
+    {
+      "id": "idli-sambhar",
+      "title": "Idli Sambhar",
+      "description": "Steamed rice cakes served with a flavorful lentil-based vegetable stew.",
+      "imageUrl": "https://images.unsplash.com/photo-1617470702892-e0155a0b6343?q=80&w=600",
+      "imageHint": "idli sambar"
+    },
+    {
+      "id": "vada-pav",
+      "title": "Vada Pav",
+      "description": "A deep-fried potato dumpling placed inside a bread bun.",
+      "imageUrl": "https://images.unsplash.com/photo-1627914619985-659754f98a21?q=80&w=600",
+      "imageHint": "vada pav"
+    },
+    {
+      "id": "dhokla",
+      "title": "Dhokla",
+      "description": "A savory, steamed cake made from a fermented batter of rice and chickpeas.",
+      "imageUrl": "https://images.unsplash.com/photo-1625398407436-1e9b384852ea?q=80&w=600",
+      "imageHint": "dhokla indian"
+    },
+    {
+      "id": "rasgulla",
+      "title": "Rasgulla",
+      "description": "Spongy cottage cheese balls soaked in a light sugar syrup.",
+      "imageUrl": "https://images.unsplash.com/photo-1594220263304-954e3a0928a3?q=80&w=600",
+      "imageHint": "rasgulla sweet"
+    },
+    {
+      "id": "aam-panna",
+      "title": "Aam Panna",
+      "description": "A refreshing summer drink made from raw mangoes.",
+      "imageUrl": "https://images.unsplash.com/photo-1629117600236-85617c06253c?q=80&w=600",
+      "imageHint": "mango drink"
+    },
+    {
+      "id": "lassi",
+      "title": "Mango Lassi",
+      "description": "A creamy, yogurt-based drink with sweet mango pulp.",
+      "imageUrl": "https://images.unsplash.com/photo-1552570046-e56a1b943719?q=80&w=600",
+      "imageHint": "mango lassi"
+    },
+    {
+      "id": "pakora",
+      "title": "Mixed Vegetable Pakora",
+      "description": "Assorted vegetables dipped in gram flour batter and deep-fried.",
+      "imageUrl": "https://images.unsplash.com/photo-1599454146146-751d7b375b47?q=80&w=600",
+      "imageHint": "pakora indian"
+    },
+    {
+      "id": "kachori",
+      "title": "Kachori",
+      "description": "Spicy, fried pastry filled with a mixture of lentils and spices.",
+      "imageUrl": "https://images.unsplash.com/photo-1601859256934-0937a0559f3a?q=80&w=600",
+      "imageHint": "kachori indian"
+    },
+    {
+      "id": "shahi-paneer",
+      "title": "Shahi Paneer",
+      "description": "A rich curry made with paneer, onions, nuts, and a creamy tomato sauce.",
+      "imageUrl": "https://images.unsplash.com/photo-1567188042742-3a2b5317426a?q=80&w=600",
+      "imageHint": "shahi paneer"
+    },
+    {
+      "id": "fish-curry",
+      "title": "Goan Fish Curry",
+      "description": "A spicy and tangy fish curry from the coastal region of Goa.",
+      "imageUrl": "https://images.unsplash.com/photo-1625398407436-1e9b384852ea?q=80&w=600",
+      "imageHint": "fish curry"
     }
   ]
 }

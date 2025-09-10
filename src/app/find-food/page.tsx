@@ -2,14 +2,37 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { collection, getDocs, query, where, orderBy } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
+import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
+
+// Helper function to shuffle an array
+const shuffleArray = <T,>(array: T[]): T[] => {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+};
+
+// Generate dummy data from placeholders
+const generateDummyData = (): Listing[] => {
+    const shuffledImages = shuffleArray(PlaceHolderImages);
+    return shuffledImages.map((p, index) => ({
+        id: p.id,
+        title: p.title,
+        description: p.description,
+        quantity: `${Math.floor(Math.random() * 10) + 1} servings`,
+        imageUrls: [p.imageUrl],
+        aiFreshness: Math.floor(Math.random() * 15) + 85, // 85% to 99%
+        status: 'open',
+    }));
+};
 
 interface Listing {
   id: string;
@@ -17,7 +40,7 @@ interface Listing {
   description: string;
   quantity: string;
   imageUrls: string[];
-  aiFreshness?: number; // Optional as it might not be on all items
+  aiFreshness?: number;
   status: string;
 }
 
@@ -25,32 +48,15 @@ export default function FindFoodPage() {
   const [listings, setListings] = useState<Listing[]>([]);
   const [search, setSearch] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchListings = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const q = query(
-          collection(db, 'listings'),
-          where('status', '==', 'open'),
-          orderBy('createdAt', 'desc')
-        );
-        const querySnapshot = await getDocs(q);
-        const items = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...(doc.data() as Omit<Listing, 'id'>),
-        }));
-        setListings(items);
-      } catch (err) {
-        console.error("Error fetching listings:", err);
-        setError("Could not load available food. Please try again later.");
-      } finally {
+    // Load dummy data on mount
+    setIsLoading(true);
+    // Simulate a network delay
+    setTimeout(() => {
+        setListings(generateDummyData());
         setIsLoading(false);
-      }
-    };
-    fetchListings();
+    }, 500);
   }, []);
 
   const filteredListings = listings.filter((item) =>
@@ -99,14 +105,7 @@ export default function FindFoodPage() {
           </div>
         )}
 
-        {!isLoading && error && (
-          <Card className="p-8 text-center">
-            <CardTitle className="text-destructive">An Error Occurred</CardTitle>
-            <CardDescription>{error}</CardDescription>
-          </Card>
-        )}
-
-        {!isLoading && !error && filteredListings.length === 0 && (
+        {!isLoading && filteredListings.length === 0 && (
           <Card className="p-8 text-center">
             <CardTitle>No Food Available Right Now</CardTitle>
             <CardDescription>
@@ -115,7 +114,7 @@ export default function FindFoodPage() {
           </Card>
         )}
 
-        {!isLoading && !error && filteredListings.length > 0 && (
+        {!isLoading && filteredListings.length > 0 && (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filteredListings.map((item) => (
               <motion.div key={item.id} whileHover={{ y: -5 }} className="h-full">
