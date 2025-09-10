@@ -1,60 +1,60 @@
-
 'use client';
 
 import { useEffect, useState } from 'react';
+import { collection, getDocs, query, where, orderBy } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import Image from 'next/image';
+import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
-import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
 
-// Define the shape of a listing document
 interface Listing {
   id: string;
   title: string;
   description: string;
   quantity: string;
-  imageUrl: string;
-  imageHint: string;
-  pickupAddress: string;
+  imageUrls: string[];
+  aiFreshness?: number; // Optional as it might not be on all items
+  status: string;
 }
-
-const generateDummyData = (): Listing[] => {
-  // Shuffle the entire array to display all items in a random order
-  const shuffled = [...PlaceHolderImages].sort(() => 0.5 - Math.random());
-  return shuffled.map(item => ({
-    id: item.id,
-    title: item.title,
-    description: item.description,
-    quantity: `${Math.floor(Math.random() * 10) + 1} units`,
-    imageUrl: item.imageUrl,
-    imageHint: item.imageHint,
-    pickupAddress: '123 Main St, Anytown, USA',
-  }));
-};
 
 export default function FindFoodPage() {
   const [listings, setListings] = useState<Listing[]>([]);
+  const [search, setSearch] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setIsLoading(true);
-    setError(null);
-    // Simulate fetching data with a short delay
-    const timer = setTimeout(() => {
+    const fetchListings = async () => {
+      setIsLoading(true);
+      setError(null);
       try {
-        setListings(generateDummyData());
+        const q = query(
+          collection(db, 'listings'),
+          where('status', '==', 'available'),
+          orderBy('createdAt', 'desc')
+        );
+        const querySnapshot = await getDocs(q);
+        const items = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...(doc.data() as Omit<Listing, 'id'>),
+        }));
+        setListings(items);
       } catch (err) {
-        console.error("Error generating dummy data:", err);
+        console.error("Error fetching listings:", err);
         setError("Could not load available food. Please try again later.");
       } finally {
         setIsLoading(false);
       }
-    }, 500); // 500ms delay to show loading state
-
-    return () => clearTimeout(timer);
+    };
+    fetchListings();
   }, []);
+
+  const filteredListings = listings.filter((item) =>
+    item.title.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div className="flex-1 p-4 md:p-6 lg:p-8">
@@ -68,7 +68,16 @@ export default function FindFoodPage() {
               Browse items available for pickup from generous donors in your community.
             </p>
           </div>
-          <Button>Post a Request</Button>
+          <div className="flex w-full md:w-1/3 gap-2">
+            <Input
+              type="text"
+              placeholder="Search food..."
+              className="w-full"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <Button>Post a Request</Button>
+          </div>
         </div>
 
         {isLoading && (
@@ -96,43 +105,58 @@ export default function FindFoodPage() {
           </Card>
         )}
 
-        {!isLoading && !error && listings.length === 0 && (
+        {!isLoading && !error && filteredListings.length === 0 && (
           <Card className="p-8 text-center">
             <CardTitle>No Food Available Right Now</CardTitle>
-            <CardDescription>Please check back later for new donations.</CardDescription>
+            <CardDescription>
+              {search ? `No results for "${search}".` : 'Please check back later for new donations.'}
+            </CardDescription>
           </Card>
         )}
 
-        {!isLoading && !error && listings.length > 0 && (
+        {!isLoading && !error && filteredListings.length > 0 && (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {listings.map((item) => (
-              <Card key={item.id} className="flex flex-col overflow-hidden">
-                <CardHeader className="p-0">
-                  <div className="relative h-48 w-full">
-                    <Image
-                      src={item.imageUrl}
-                      alt={item.title}
-                      data-ai-hint={item.imageHint}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                </CardHeader>
-                <CardContent className="flex-grow p-4">
-                  <CardTitle className="font-headline text-xl capitalize">
-                    {item.title}
-                  </CardTitle>
-                  <CardDescription className="mt-2 text-sm line-clamp-2">
-                    {item.description}
-                  </CardDescription>
-                   <p className="text-sm font-semibold text-muted-foreground mt-2">
-                    Quantity: {item.quantity}
-                  </p>
-                </CardContent>
-                <CardFooter className="p-4 pt-0">
-                  <Button className="w-full">Request Item</Button>
-                </CardFooter>
-              </Card>
+            {filteredListings.map((item) => (
+              <motion.div key={item.id} whileHover={{ y: -5 }} className="h-full">
+                <Card className="flex h-full flex-col overflow-hidden transition-shadow hover:shadow-xl">
+                  <CardHeader className="p-0">
+                    <div className="relative h-48 w-full">
+                      <Image
+                        src={item.imageUrls?.[0] || 'https://picsum.photos/seed/fallback/600/400'}
+                        alt={item.title}
+                        data-ai-hint={item.title}
+                        fill
+                        className="object-cover"
+                        onError={(e) => { (e.currentTarget as HTMLImageElement).src = 'https://picsum.photos/seed/error/600/400'; }}
+                      />
+                       {item.aiFreshness && (
+                         <motion.div
+                            className="absolute right-3 top-3 w-14 h-14 bg-primary/80 backdrop-blur-sm border-2 border-primary-foreground/50 rounded-full flex items-center justify-center text-primary-foreground font-bold text-lg shadow-lg"
+                            initial={{ scale: 0, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ delay: 0.2, type: 'spring', stiffness: 120 }}
+                         >
+                           {item.aiFreshness}%
+                         </motion.div>
+                       )}
+                    </div>
+                  </CardHeader>
+                  <CardContent className="flex-grow p-4">
+                    <CardTitle className="font-headline text-xl capitalize">
+                      {item.title}
+                    </CardTitle>
+                    <CardDescription className="mt-2 text-sm line-clamp-2">
+                      {item.description}
+                    </CardDescription>
+                    <p className="text-sm font-semibold text-muted-foreground mt-2">
+                      Quantity: {item.quantity}
+                    </p>
+                  </CardContent>
+                  <CardFooter className="p-4 pt-0">
+                    <Button className="w-full">Request Item</Button>
+                  </CardFooter>
+                </Card>
+              </motion.div>
             ))}
           </div>
         )}
