@@ -1,0 +1,11 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // For MVP development, allow read/write.
+    // SECURE THIS BEFORE PRODUCTION!
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
