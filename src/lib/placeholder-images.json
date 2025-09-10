@@ -67,9 +67,9 @@
     {
       "id": "jalebi",
       "title": "Jalebi",
-      "description": "A sweet snack made by deep-frying batter in circular shapes.",
-      "imageUrl": "https://images.unsplash.com/photo-1598214886806-c87b84b7078b?q=80&w=600",
-      "imageHint": "jalebi sweet"
+      "description": "A sweet snack made by deep-frying batter in circular shapes, soaked in syrup.",
+      "imageUrl": "https://images.unsplash.com/photo-1621495472473-8998a6b22b17?q=80&w=600",
+      "imageHint": "jalebi indian"
     },
     {
       "id": "palak-paneer",
@@ -135,13 +135,6 @@
       "imageHint": "rasgulla sweet"
     },
     {
-      "id": "aam-panna",
-      "title": "Aam Panna",
-      "description": "A refreshing summer drink made from raw mangoes.",
-      "imageUrl": "https://images.unsplash.com/photo-1629117600236-85617c06253c?q=80&w=600",
-      "imageHint": "mango drink"
-    },
-    {
       "id": "lassi",
       "title": "Mango Lassi",
       "description": "A creamy, yogurt-based drink with sweet mango pulp.",
@@ -163,13 +156,6 @@
       "imageHint": "kachori indian"
     },
     {
-      "id": "shahi-paneer",
-      "title": "Shahi Paneer",
-      "description": "A rich curry made with paneer, onions, nuts, and a creamy tomato sauce.",
-      "imageUrl": "https://images.unsplash.com/photo-1567188042742-3a2b5317426a?q=80&w=600",
-      "imageHint": "shahi paneer"
-    },
-    {
       "id": "fish-curry",
       "title": "Goan Fish Curry",
       "description": "A spicy and tangy fish curry from the coastal region of Goa.",
@@ -177,39 +163,62 @@
       "imageHint": "fish curry"
     },
     {
-      "id": "poha",
-      "title": "Poha",
-      "description": "A light and healthy breakfast dish made from flattened rice.",
-      "imageUrl": "https://images.unsplash.com/photo-1627662399208-8a892795c645?q=80&w=600",
-      "imageHint": "poha breakfast"
+      "id": "gharwala-paneer",
+      "title": "Gharwala Chef Paneer",
+      "description": "Homestyle paneer curry with North Indian spices.",
+      "imageUrl": "https://images.unsplash.com/photo-1567188042742-3a2b5317426a?q=80&w=600",
+      "imageHint": "paneer curry"
     },
     {
-      "id": "aloo-gobi",
-      "title": "Aloo Gobi",
-      "description": "A simple yet delicious dish made with potatoes and cauliflower.",
-      "imageUrl": "https://images.unsplash.com/photo-1626509420247-92c79a7852f0?q=80&w=600",
-      "imageHint": "aloo gobi"
+      "id": "pluto-fish-curry",
+      "title": "Pluto's Fish Curry",
+      "description": "A flavorful fish curry with Chinese and Indian fusion.",
+      "imageUrl": "https://images.unsplash.com/photo-1604692334859-0361a8473e79?q=80&w=600",
+      "imageHint": "fish curry"
     },
     {
-      "id": "rasam",
-      "title": "Rasam",
-      "description": "A tangy and spicy South Indian soup.",
-      "imageUrl": "https://images.unsplash.com/photo-1627662399208-8a892795c645?q=80&w=600",
-      "imageHint": "rasam soup"
+      "id": "ss-hyderabad-biryani",
+      "title": "SS Hyderabad Biryani",
+      "description": "Authentic Hyderabadi dum biryani with fragrant rice and tender meat.",
+      "imageUrl": "https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=600",
+      "imageHint": "hyderabadi biryani"
     },
     {
-      "id": "barfi",
-      "title": "Kaju Katli (Barfi)",
-      "description": "A diamond-shaped sweet made from cashews.",
-      "imageUrl": "https://images.unsplash.com/photo-1594220263304-954e3a0928a3?q=80&w=600",
-      "imageHint": "kaju katli"
+      "id": "daily-kitchen-thali",
+      "title": "Daily Kitchen Thali",
+      "description": "A complete home-style meal with roti, rice, dal, and sabzi.",
+      "imageUrl": "https://images.unsplash.com/photo-1564532549204-db83aa813954?q=80&w=600",
+      "imageHint": "indian thali"
     },
     {
-      "id": "chicken-korma",
-      "title": "Chicken Korma",
-      "description": "A mild and creamy chicken curry made with yogurt and nuts.",
-      "imageUrl": "https://images.unsplash.com/photo-1589301760014-d929f39791e8?q=80&w=600",
-      "imageHint": "chicken korma"
+      "id": "wefit-protein-bowl",
+      "title": "WeFit Protein Bowl",
+      "description": "A healthy and delicious bowl packed with protein and fresh vegetables.",
+      "imageUrl": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=600",
+      "imageHint": "salad bowl"
+    },
+    {
+      "id": "nh1-rajma-bowl",
+      "title": "NH1 Rajma Bowl",
+      "description": "Classic rajma chawal served highway-style in a convenient bowl.",
+      "imageUrl": "https://images.unsplash.com/photo-1599558157297-f5a043a5323a?q=80&w=600",
+      "imageHint": "rajma chawal"
+    },
+    {
+      "id": "zaza-mughal-biryani",
+      "title": "ZAZA Mughal Biryani",
+      "description": "A rich and aromatic biryani with Mughlai flavors.",
+      "imageUrl": "https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?q=80&w=600",
+      "imageHint": "mughal biryani"
+    },
+    {
+      "id": "ar-rahmaan-chicken",
+      "title": "AR Rahmaan Chicken Fry",
+      "description": "Spicy and crispy fried chicken, a local favorite.",
+      "imageUrl": "https://images.unsplash.com/photo-1626082910948-e4838aa6b45d?q=80&w=600",
+      "imageHint": "chicken fry"
     }
   ]
 }
+
+    
