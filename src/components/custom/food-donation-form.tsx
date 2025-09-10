@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -10,17 +10,18 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowLeft, ArrowRight, Check, Loader2, Sparkles, UploadCloud } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Loader2, Sparkles } from 'lucide-react';
 import Image from 'next/image';
+import { getFoodFreshnessAnalysis } from '@/app/actions';
+import type { FoodFreshnessOutput } from '@/ai/flows/food-freshness-analysis';
 
 // Step 1: Define the Zod schema for form validation
 const formSchema = z.object({
   foodName: z.string().min(3, 'Food name must be at least 3 characters.'),
   description: z.string().min(10, 'Description must be at least 10 characters.'),
   quantity: z.string().min(1, 'Please enter a quantity.'),
-  images: z.array(z.instanceof(File)).max(3, "You can upload a maximum of 3 images."),
+  images: z.custom<FileList>().refine(files => files.length > 0, 'At least one image is required.'),
   pickupWindowStart: z.string().min(1, "Please select a start time."),
   pickupWindowEnd: z.string().min(1, "Please select an end time."),
 });
@@ -28,11 +29,18 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 type Step = 'details' | 'logistics' | 'review';
 
+type ImagePreviewState = {
+  src: string;
+  file: File;
+  analysis?: FoodFreshnessOutput;
+  isLoading: boolean;
+};
+
+
 export function FoodDonationForm() {
   const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState<Step>('details');
-  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-  const [uploadProgress, setUploadProgress] = useState<number[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<ImagePreviewState[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
@@ -40,20 +48,29 @@ export function FoodDonationForm() {
     handleSubmit,
     trigger,
     getValues,
-    watch,
+    setValue,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      images: [],
+      images: undefined,
     }
   });
 
-  const watchImages = watch("images");
+  const fileToDataUri = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
-    if (files.length + getValues('images').length > 3) {
+    if (files.length === 0) return;
+    
+    if (files.length + imagePreviews.length > 3) {
       toast({
         variant: 'destructive',
         title: 'Too many images',
@@ -61,8 +78,53 @@ export function FoodDonationForm() {
       });
       return;
     }
-    const newPreviews = files.map(file => URL.createObjectURL(file));
+
+    setValue('images', event.target.files);
+
+    const newPreviews: ImagePreviewState[] = files.map(file => ({
+      src: URL.createObjectURL(file),
+      file,
+      isLoading: true,
+    }));
+
     setImagePreviews(prev => [...prev, ...newPreviews]);
+
+    // Trigger AI analysis for each new image
+    newPreviews.forEach(async (preview, index) => {
+      const dataUri = await fileToDataUri(preview.file);
+      const foodDescription = getValues('description') || getValues('foodName') || 'food item';
+      
+      try {
+        const result = await getFoodFreshnessAnalysis({
+          foodPhotoDataUri: dataUri,
+          foodDescription,
+        });
+
+        setImagePreviews(prev => {
+            const updated = [...prev];
+            const targetIndex = prev.findIndex(p => p.src === preview.src);
+            if (targetIndex !== -1) {
+              updated[targetIndex] = { ...updated[targetIndex], analysis: result, isLoading: false };
+            }
+            return updated;
+        });
+
+      } catch (error) {
+        console.error("AI Analysis failed:", error);
+         setImagePreviews(prev => {
+            const updated = [...prev];
+            const targetIndex = prev.findIndex(p => p.src === preview.src);
+            if (targetIndex !== -1) {
+              updated[targetIndex] = { 
+                ...updated[targetIndex], 
+                analysis: { freshnessAssessment: 'Analysis failed', disclaimerNeeded: true },
+                isLoading: false 
+              };
+            }
+            return updated;
+        });
+      }
+    });
   };
   
   const nextStep = async () => {
@@ -84,59 +146,12 @@ export function FoodDonationForm() {
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setIsSubmitting(true);
     
-    // This is where you would handle image uploads to Firebase Storage
-    // and then save the listing to Firestore.
-    
-    // **Snippet: Image Upload and Atomic Firestore Write**
-    // try {
-    //   const imageUrls = await Promise.all(
-    //     data.images.map(async (image, index) => {
-    //       const storageRef = ref(storage, `listings/${data.foodName}-${Date.now()}-${index}`);
-    //       const uploadTask = uploadBytesResumable(storageRef, image);
-          
-    //       return new Promise<string>((resolve, reject) => {
-    //         uploadTask.on('state_changed',
-    //           (snapshot) => {
-    //             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    //             setUploadProgress(prev => {
-    //               const newProgress = [...prev];
-    //               newProgress[index] = progress;
-    //               return newProgress;
-    //             });
-    //           },
-    //           (error) => reject(error),
-    //           async () => {
-    //             const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-    //             resolve(downloadURL);
-    //           }
-    //         );
-    //       });
-    //     })
-    //   );
-
-    //   // Now that all images are uploaded, create the Firestore document
-    //   const listingsCol = collection(db, "listings");
-    //   await addDoc(listingsCol, {
-    //     ...data,
-    //     images: imageUrls, // Save URLs instead of files
-    //     createdAt: serverTimestamp(),
-    //     status: 'available',
-    //   });
-
-    //   toast({
-    //     title: 'Donation Listed!',
-    //     description: 'Thank you for your contribution.',
-    //   });
-    // } catch (error) {
-    //   console.error("Error creating listing:", error);
-    //   toast({ variant: 'destructive', title: 'Upload Failed', description: 'Could not create your listing.' });
-    // } finally {
-    //   setIsSubmitting(false);
-    // }
-
-    // For demonstration purposes, we'll just log the data and show a toast
+    // For demonstration, we log data. In a real app, this is where you'd
+    // upload images to Firebase Storage and save the listing to Firestore.
     console.log(data);
+    console.log("Image analysis results:", imagePreviews.map(p => p.analysis));
     await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate async operation
+    
     setIsSubmitting(false);
 
     toast({
@@ -150,6 +165,15 @@ export function FoodDonationForm() {
     hidden: { opacity: 0, x: 50 },
     visible: { opacity: 1, x: 0 },
     exit: { opacity: 0, x: -50 },
+  };
+
+  const getAnalysisColor = (assessment?: string) => {
+    if (!assessment) return 'text-muted-foreground';
+    const lowerCaseAssessment = assessment.toLowerCase();
+    if (lowerCaseAssessment.includes('fresh')) return 'text-green-600';
+    if (lowerCaseAssessment.includes('spoiled') || lowerCaseAssessment.includes('rotten')) return 'text-red-600';
+    if (lowerCaseAssessment.includes('stale') || lowerCaseAssessment.includes('wilting')) return 'text-amber-600';
+    return 'text-foreground';
   };
 
   return (
@@ -189,16 +213,24 @@ export function FoodDonationForm() {
                     {errors.quantity && <p className="text-sm text-destructive">{errors.quantity.message}</p>}
                   </div>
                   <div>
-                    <Label htmlFor="images">Food Images (up to 3)</Label>
-                    <Input id="images" type="file" multiple accept="image/*" {...register('images')} onChange={handleFileChange} />
+                    <Label htmlFor="images-upload">Food Images (up to 3)</Label>
+                    <Input id="images-upload" type="file" multiple accept="image/*" onChange={handleFileChange} />
                     {errors.images && <p className="text-sm text-destructive">{errors.images.message as string}</p>}
                     <div className="mt-4 grid grid-cols-3 gap-4">
-                      {imagePreviews.map((src, index) => (
+                      {imagePreviews.map((preview, index) => (
                         <div key={index} className="relative aspect-square">
-                           <Image src={src} alt={`Preview ${index + 1}`} layout="fill" objectFit="cover" className="rounded-md" />
+                           <Image src={preview.src} alt={`Preview ${index + 1}`} layout="fill" objectFit="cover" className="rounded-md" />
                            <Card className="absolute bottom-1 left-1 right-1 p-1 bg-background/80 backdrop-blur-sm">
-                             <p className="text-xs font-semibold">AI Freshness Preview</p>
-                             <p className="text-xs text-muted-foreground">Pending...</p>
+                             <p className="text-xs font-semibold flex items-center gap-1">
+                              <Sparkles className="w-3 h-3 text-accent" /> AI Freshness
+                             </p>
+                             {preview.isLoading ? (
+                               <p className="text-xs text-muted-foreground animate-pulse">Analyzing...</p>
+                             ) : (
+                               <p className={`text-xs font-medium ${getAnalysisColor(preview.analysis?.freshnessAssessment)}`}>
+                                 {preview.analysis?.freshnessAssessment || 'Analysis failed.'}
+                               </p>
+                             )}
                            </Card>
                         </div>
                       ))}
@@ -240,9 +272,17 @@ export function FoodDonationForm() {
                       <p><strong>Pickup End:</strong> {new Date(getValues('pickupWindowEnd')).toLocaleString()}</p>
                    </div>
                    <div className="grid grid-cols-3 gap-4">
-                      {imagePreviews.map((src, index) => (
+                      {imagePreviews.map((preview, index) => (
                         <div key={index} className="relative aspect-square">
-                           <Image src={src} alt={`Preview ${index + 1}`} layout="fill" objectFit="cover" className="rounded-md" />
+                           <Image src={preview.src} alt={`Preview ${index + 1}`} layout="fill" objectFit="cover" className="rounded-md" />
+                           <Card className="absolute bottom-1 left-1 right-1 p-1 bg-background/80 backdrop-blur-sm">
+                             <p className="text-xs font-semibold flex items-center gap-1">
+                               <Sparkles className="w-3 h-3 text-accent" /> AI Assessment
+                             </p>
+                            <p className={`text-xs font-medium ${getAnalysisColor(preview.analysis?.freshnessAssessment)}`}>
+                                {preview.analysis?.freshnessAssessment}
+                            </p>
+                           </Card>
                         </div>
                       ))}
                     </div>
