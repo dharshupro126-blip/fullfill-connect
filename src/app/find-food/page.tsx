@@ -40,7 +40,7 @@ function generateDummyData(placeholders: ImagePlaceholder[]): Listing[] {
     title: p.title,
     description: p.description,
     quantity: `${Math.floor(Math.random() * 20) + 5} servings`, // Random quantity
-    imageUrls: [p.imageUrl],
+    imageUrls: [`https://picsum.photos/seed/${p.id}/600/400`],
     aiFreshness: Math.floor(Math.random() * 15) + 85, // 85-99%
     status: 'open',
   }));
