@@ -16,35 +16,61 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import { getFunctions, httpsCallable } from 'firebase/functions';
 
 type OtpDialogProps = {
   deliveryId: string;
   disabled?: boolean;
 };
 
+// Define the callable functions
+const functions = getFunctions();
+const generateOtp = httpsCallable(functions, 'generateOtp');
+const verifyOtp = httpsCallable(functions, 'verifyOtp');
+
+
 export function OtpDialog({ deliveryId, disabled }: OtpDialogProps) {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [isConfirming, setIsConfirming] = useState(false);
   const [otp, setOtp] = useState('');
+  const [hasGeneratedOtp, setHasGeneratedOtp] = useState(false);
+
+  const handleGenerateOtp = async () => {
+    setIsConfirming(true);
+    try {
+      const result = await generateOtp({ deliveryId });
+      toast({
+        title: 'OTP Generated',
+        description: 'An OTP has been sent to the receiver.',
+      });
+      setHasGeneratedOtp(true);
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        title: 'Failed to Generate OTP',
+        description: error.message || 'An unknown error occurred.',
+      });
+    } finally {
+      setIsConfirming(false);
+    }
+  }
 
   const handleConfirm = async () => {
     setIsConfirming(true);
-    // Simulate network request
-    await new Promise(resolve => setTimeout(resolve, 1500));
-
-    if (otp === '123456') { // Mock OTP
+    try {
+      await verifyOtp({ deliveryId, otp });
       toast({
         title: 'Delivery Confirmed!',
         description: `Delivery ${deliveryId} has been successfully completed.`,
         className: 'bg-primary text-primary-foreground',
       });
       setOpen(false);
-    } else {
+    } catch (error: any) {
       toast({
         variant: 'destructive',
         title: 'Incorrect OTP',
-        description: 'The OTP entered is incorrect. Please try again.',
+        description: error.message || 'The OTP entered is incorrect. Please try again.',
       });
     }
     setIsConfirming(false);
@@ -62,33 +88,47 @@ export function OtpDialog({ deliveryId, disabled }: OtpDialogProps) {
         <DialogHeader>
           <DialogTitle className="font-headline">Confirm Delivery - {deliveryId}</DialogTitle>
           <DialogDescription>
-            Please enter the One-Time Password (OTP) provided by the receiver to confirm the delivery.
+            {hasGeneratedOtp
+              ? 'Please enter the One-Time Password (OTP) provided by the receiver to confirm the delivery.'
+              : 'Generate an OTP to be sent to the receiver for confirmation.'
+            }
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="otp" className="text-right">
-              OTP
-            </Label>
-            <Input
-              id="otp"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-              className="col-span-3"
-              placeholder="Enter 6-digit code"
-            />
+        {!hasGeneratedOtp ? (
+          <div className="py-4">
+             <Button type="button" onClick={handleGenerateOtp} disabled={isConfirming} className='w-full'>
+              {isConfirming && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Generate & Send OTP
+            </Button>
           </div>
-        </div>
+        ) : (
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="otp" className="text-right">
+                OTP
+              </Label>
+              <Input
+                id="otp"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                className="col-span-3"
+                placeholder="Enter 6-digit code"
+              />
+            </div>
+          </div>
+        )}
         <DialogFooter>
           <DialogClose asChild>
             <Button type="button" variant="secondary">
               Cancel
             </Button>
           </DialogClose>
-          <Button type="button" onClick={handleConfirm} disabled={isConfirming || otp.length < 6}>
-            {isConfirming && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Confirm
-          </Button>
+          {hasGeneratedOtp && (
+            <Button type="button" onClick={handleConfirm} disabled={isConfirming || otp.length < 6}>
+              {isConfirming && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Confirm
+            </Button>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>
