@@ -2,36 +2,42 @@
   "placeholderImages": [
     {
       "id": "bread",
+      "title": "Loaf of Bread",
       "description": "Freshly baked loaf of bread.",
       "imageUrl": "https://picsum.photos/seed/bread/600/400",
       "imageHint": "bread loaf"
     },
     {
       "id": "apples",
+      "title": "Red Apples",
       "description": "A crate of fresh red apples.",
       "imageUrl": "https://picsum.photos/seed/apples/600/400",
       "imageHint": "apples fruit"
     },
     {
       "id": "carrots",
+      "title": "Organic Carrots",
       "description": "A bunch of organic carrots.",
       "imageUrl": "https://picsum.photos/seed/carrots/600/400",
       "imageHint": "carrots vegetable"
     },
     {
       "id": "canned-goods",
+      "title": "Canned Goods",
       "description": "An assortment of canned goods.",
       "imageUrl": "https://picsum.photos/seed/canned/600/400",
       "imageHint": "canned goods"
     },
     {
       "id": "milk",
+      "title": "Fresh Milk",
       "description": "Cartons of fresh milk.",
       "imageUrl": "https://picsum.photos/seed/milk/600/400",
       "imageHint": "milk carton"
     },
     {
       "id": "pasta",
+      "title": "Pasta",
       "description": "Boxes of various types of pasta.",
       "imageUrl": "https://picsum.photos/seed/pasta/600/400",
       "imageHint": "pasta box"

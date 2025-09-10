@@ -20,6 +20,7 @@ import {
   Home,
   PackageSearch,
   Truck,
+  FileText
 } from 'lucide-react';
 import { Logo } from './logo';
 import { Button } from '../ui/button';
@@ -32,6 +33,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
     { href: '/donate', label: 'Donate Food', icon: HeartHandshake },
     { href: '/find-food', label: 'Find Food', icon: PackageSearch },
     { href: '/deliveries', label: 'Deliveries', icon: Truck },
+    { href: '/reports', label: 'Reports', icon: FileText },
   ];
 
   return (

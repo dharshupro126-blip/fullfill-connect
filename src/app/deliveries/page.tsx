@@ -43,7 +43,14 @@ export default function DeliveriesPage() {
                   <TableCell>{delivery.to}</TableCell>
                   <TableCell>{delivery.item}</TableCell>
                   <TableCell>
-                    <Badge variant={delivery.status === 'Delivered' ? 'secondary' : delivery.status === 'In Transit' ? 'default' : 'outline' } className={delivery.status === 'In Transit' ? 'bg-accent text-accent-foreground' : ''}>
+                    <Badge 
+                      variant={delivery.status === 'Delivered' ? 'secondary' : delivery.status === 'In Transit' ? 'default' : 'outline' } 
+                      className={
+                        delivery.status === 'In Transit' ? 'bg-accent text-accent-foreground' 
+                        : delivery.status === 'Delivered' ? 'bg-primary/20 text-primary' 
+                        : ''
+                      }
+                    >
                       {delivery.status}
                     </Badge>
                   </TableCell>

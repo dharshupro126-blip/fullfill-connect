@@ -33,7 +33,7 @@ export default function FindFoodPage() {
               </CardHeader>
               <CardContent className="flex-grow p-4">
                 <CardTitle className="font-headline text-xl capitalize">
-                  {item.id.replace('-', ' ')}
+                  {item.title}
                 </CardTitle>
                 <CardDescription className="mt-2 text-sm">
                   {item.description}
