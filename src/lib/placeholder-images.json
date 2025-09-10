@@ -63,7 +63,7 @@
       "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Dhokla-0.jpg",
       "imageHint": "savory cake"
     },
-     {
+    {
       "id": "dal_makhani",
       "title": "Dal Makhani",
       "description": "A rich and creamy lentil curry made with whole black lentils and kidney beans, slow-cooked with butter and cream.",
@@ -139,6 +139,27 @@
       "description": "Soft, spongy, milk-solid-based balls soaked in a fragrant sugar syrup. A classic Indian dessert for celebrations.",
       "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Gulab%20jamun-0.jpg",
       "imageHint": "sweet dumplings"
+    },
+    {
+      "id": "chocolate_cake",
+      "title": "Chocolate Cake",
+      "description": "A rich and decadent layered chocolate cake with a smooth frosting, perfect for any celebration.",
+      "imageUrl": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=600&auto=format&fit=crop",
+      "imageHint": "chocolate cake"
+    },
+    {
+      "id": "rice_kheer",
+      "title": "Rice Kheer",
+      "description": "A traditional Indian rice pudding made with milk, rice, sugar, and garnished with nuts and raisins.",
+      "imageUrl": "https://images.unsplash.com/photo-1607374632993-decd3d2d74f3?q=80&w=600&auto=format&fit=crop",
+      "imageHint": "rice pudding"
+    },
+    {
+      "id": "mango_pudding",
+      "title": "Mango Pudding",
+      "description": "A sweet and creamy dessert made from fresh mango puree, milk, and sugar, often served chilled.",
+      "imageUrl": "https://plus.unsplash.com/premium_photo-1673822119335-ab32cf7a44a2?q=80&w=600&auto=format&fit=crop",
+      "imageHint": "mango dessert"
     }
   ]
 }
