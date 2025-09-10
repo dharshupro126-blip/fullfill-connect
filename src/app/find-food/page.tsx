@@ -19,6 +19,7 @@ interface Listing {
   imageUrls: string[];
   aiFreshness: number;
   status: string;
+  imageHint?: string;
 }
 
 // Function to generate varied dummy data from the placeholder images
@@ -43,6 +44,7 @@ function generateDummyData(placeholders: ImagePlaceholder[]): Listing[] {
     imageUrls: [p.imageUrl],
     aiFreshness: Math.floor(Math.random() * 15) + 85, // 85-99%
     status: 'open',
+    imageHint: p.imageHint,
   }));
 }
 
@@ -139,7 +141,7 @@ export default function FindFoodPage() {
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         priority={index < 4} // Add priority to the first 4 images
-                        data-ai-hint={PlaceHolderImages.find(p => p.id === item.id)?.imageHint}
+                        data-ai-hint={item.imageHint}
                       />
                        {item.aiFreshness && (
                          <motion.div
