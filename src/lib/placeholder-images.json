@@ -16,13 +16,6 @@
       "imageHint": "chicken curry"
     },
     {
-      "id": "paneer_tikka",
-      "title": "Paneer Tikka",
-      "description": "Marinated cubes of paneer grilled to perfection.",
-      "imageUrl": "https://images.pexels.com/photos/20650503/pexels-photo-20650503.jpeg?auto=compress&cs=tinysrgb&w=600",
-      "imageHint": "grilled paneer"
-    },
-    {
       "id": "masala_dosa",
       "title": "Masala Dosa",
       "description": "A crispy crepe of rice and lentils, filled with spiced potatoes.",
@@ -35,13 +28,6 @@
       "description": "Spicy chickpea curry served with fluffy deep-fried bread.",
       "imageUrl": "https://images.pexels.com/photos/5410400/pexels-photo-5410400.jpeg?auto=compress&cs=tinysrgb&w=600",
       "imageHint": "chickpea curry"
-    },
-    {
-      "id": "rogan_josh",
-      "title": "Rogan Josh",
-      "description": "An aromatic curried meat dish of Persian or Kashmiri origin.",
-      "imageUrl": "https://images.pexels.com/photos/10395070/pexels-photo-10395070.jpeg?auto=compress&cs=tinysrgb&w=600",
-      "imageHint": "lamb curry"
     },
     {
       "id": "dal_makhani",
@@ -58,123 +44,11 @@
       "imageHint": "grilled chicken"
     },
     {
-      "id": "aloo_gobi",
-      "title": "Aloo Gobi",
-      "description": "A vegetarian dish made with potatoes and cauliflower.",
-      "imageUrl": "https://images.pexels.com/photos/16386504/pexels-photo-16386504/free-photo-of-indian-cuisine-vegetarian-dish-with-potatoes.jpeg?auto=compress&cs=tinysrgb&w=600",
-      "imageHint": "potato cauliflower"
-    },
-    {
-      "id": "samosa",
-      "title": "Samosa",
-      "description": "A fried pastry with a savory filling, such as spiced potatoes.",
-      "imageUrl": "https://images.pexels.com/photos/4038865/pexels-photo-4038865.jpeg?auto=compress&cs=tinysrgb&w=600",
-      "imageHint": "fried pastry"
-    },
-    {
-      "id": "palak_paneer",
-      "title": "Palak Paneer",
-      "description": "Paneer cheese in a thick paste made from puréed spinach.",
-      "imageUrl": "https://images.pexels.com/photos/7963494/pexels-photo-7963494.jpeg?auto=compress&cs=tinysrgb&w=600",
-      "imageHint": "spinach curry"
-    },
-    {
-      "id": "pani_puri",
-      "title": "Pani Puri",
-      "description": "A hollow, crispy-fried puffed ball filled with potato and spicy water.",
-      "imageUrl": "https://images.pexels.com/photos/3157500/pexels-photo-3157500.jpeg?auto=compress&cs=tinysrgb&w=600",
-      "imageHint": "street food"
-    },
-    {
-      "id": "idli",
-      "title": "Idli",
-      "description": "A type of savory rice cake, originating from the Indian subcontinent.",
-      "imageUrl": "https://images.pexels.com/photos/674577/pexels-photo-674577.jpeg?auto=compress&cs=tinysrgb&w=600",
-      "imageHint": "rice cake"
-    },
-    {
-      "id": "vada_pav",
-      "title": "Vada Pav",
-      "description": "A deep-fried potato dumpling placed inside a bread bun.",
-      "imageUrl": "https://images.pexels.com/photos/10793315/pexels-photo-10793315.jpeg?auto=compress&cs=tinysrgb&w=600",
-      "imageHint": "potato burger"
-    },
-    {
-      "id": "keema",
-      "title": "Keema",
-      "description": "A traditional dish with minced meat, onions, tomatoes, and spices.",
-      "imageUrl": "https://images.pexels.com/photos/8428761/pexels-photo-8428761.jpeg?auto=compress&cs=tinysrgb&w=600",
-      "imageHint": "minced meat"
-    },
-    {
-      "id": "dhokla",
-      "title": "Dhokla",
-      "description": "A savory, steamed cake made from a fermented batter.",
-      "imageUrl": "https://images.pexels.com/photos/4006141/pexels-photo-4006141.jpeg?auto=compress&cs=tinysrgb&w=600",
-      "imageHint": "savory cake"
-    },
-    {
-      "id": "pav_bhaji",
-      "title": "Pav Bhaji",
-      "description": "A fast food dish consisting of a thick vegetable curry served with a soft bread roll.",
-      "imageUrl": "https://images.pexels.com/photos/5526188/pexels-photo-5526188.jpeg?auto=compress&cs=tinysrgb&w=600",
-      "imageHint": "vegetable curry"
-    },
-    {
-      "id": "chicken_curry",
-      "title": "Chicken Curry",
-      "description": "Chicken stewed in an onion- and tomato-based sauce, flavoured with ginger and garlic.",
-      "imageUrl": "https://images.pexels.com/photos/13109968/pexels-photo-13109968.jpeg?auto=compress&cs=tinysrgb&w=600",
-      "imageHint": "spicy chicken"
-    },
-    {
-      "id": "fish_curry",
-      "title": "Fish Curry",
-      "description": "A spicy and tangy fish curry, perfect with steamed rice.",
-      "imageUrl": "https://images.pexels.com/photos/14876673/pexels-photo-14876673.jpeg?auto=compress&cs=tinysrgb&w=600",
-      "imageHint": "seafood dish"
-    },
-    {
-      "id": "khichdi",
-      "title": "Khichdi",
-      "description": "A comforting dish made from rice and lentils.",
-      "imageUrl": "https://images.pexels.com/photos/18385311/pexels-photo-18385311/free-photo-of-cooked-rice-with-vegetables.jpeg?auto=compress&cs=tinysrgb&w=600",
-      "imageHint": "rice lentils"
-    },
-    {
       "id": "malai_kofta",
       "title": "Malai Kofta",
       "description": "Fried potato and paneer balls in a rich and creamy mild gravy.",
       "imageUrl": "https://images.pexels.com/photos/5410403/pexels-photo-5410403.jpeg?auto=compress&cs=tinysrgb&w=600",
       "imageHint": "vegetarian dumplings"
-    },
-    {
-      "id": "gulab_jamun",
-      "title": "Gulab Jamun",
-      "description": "An Indian sweet consisting of fried balls of a dough made from milk solids and semolina, soaked with an aromatic syrup.",
-      "imageUrl": "https://images.pexels.com/photos/3850781/pexels-photo-3850781.jpeg?auto=compress&cs=tinysrgb&w=600",
-      "imageHint": "indian dessert"
-    },
-    {
-      "id": "jalebi",
-      "title": "Jalebi",
-      "description": "A spiral-shaped sweet made by deep-frying a wheat-flour batter in pretzel or circular shapes, which are then soaked in sugar syrup.",
-      "imageUrl": "https://images.pexels.com/photos/4038871/pexels-photo-4038871.jpeg?auto=compress&cs=tinysrgb&w=600",
-      "imageHint": "sweet pastry"
-    },
-    {
-      "id": "rasgulla",
-      "title": "Rasgulla",
-      "description": "A syrupy dessert popular in the Indian subcontinent, made from ball-shaped dumplings of chhena and semolina dough, cooked in light sugar syrup.",
-      "imageUrl": "https://images.pexels.com/photos/8992873/pexels-photo-8992873.jpeg?auto=compress&cs=tinysrgb&w=600",
-      "imageHint": "cheese dessert"
-    },
-    {
-      "id": "kheer",
-      "title": "Kheer",
-      "description": "A creamy rice pudding made with milk, rice, sugar, and flavored with cardamom and nuts.",
-      "imageUrl": "https://images.pexels.com/photos/8782334/pexels-photo-8782334.jpeg?auto=compress&cs=tinysrgb&w=600",
-      "imageHint": "rice pudding"
     }
   ]
 }
