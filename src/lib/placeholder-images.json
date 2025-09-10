@@ -1,53 +1,82 @@
+
 {
   "placeholderImages": [
     {
       "id": "samosas",
       "title": "Vegetable Samosas",
       "description": "Crispy pastries filled with spiced potatoes and peas.",
-      "imageUrl": "https://picsum.photos/seed/samosas/600/400",
+      "imageUrl": "https://images.unsplash.com/photo-1625220194771-4948a7384852?w=600&q=80",
       "imageHint": "samosas indian"
     },
     {
       "id": "biryani",
       "title": "Chicken Biryani",
       "description": "Aromatic basmati rice cooked with chicken and exotic spices.",
-      "imageUrl": "https://picsum.photos/seed/biryani/600/400",
+      "imageUrl": "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=600&q=80",
       "imageHint": "chicken biryani"
     },
     {
       "id": "naan",
       "title": "Garlic Naan",
       "description": "Soft, fluffy flatbread with garlic and herbs.",
-      "imageUrl": "https://picsum.photos/seed/naan/600/400",
+      "imageUrl": "https://images.unsplash.com/photo-1626728043694-a5360f05f5e3?w=600&q=80",
       "imageHint": "naan bread"
     },
     {
       "id": "paneer-masala",
       "title": "Paneer Butter Masala",
       "description": "Cubes of paneer in a rich, creamy tomato-based sauce.",
-      "imageUrl": "https://picsum.photos/seed/paneer/600/400",
+      "imageUrl": "https://images.unsplash.com/photo-1589647363455-44814125b387?w=600&q=80",
       "imageHint": "paneer masala"
     },
     {
       "id": "dal-makhani",
       "title": "Dal Makhani",
       "description": "A rich and creamy lentil stew, slow-cooked with spices.",
-      "imageUrl": "https://picsum.photos/seed/dal/600/400",
+      "imageUrl": "https://images.unsplash.com/photo-1603894584379-38392f3b5a93?w=600&q=80",
       "imageHint": "dal makhani"
     },
     {
       "id": "gulab-jamun",
       "title": "Gulab Jamun",
       "description": "Soft, sweet milk-solid balls soaked in a fragrant syrup.",
-      "imageUrl": "https://picsum.photos/seed/gulabjamun/600/400",
+      "imageUrl": "https://images.unsplash.com/photo-1613563952058-93558257c963?w=600&q=80",
       "imageHint": "gulab jamun"
     },
     {
       "id": "chole-bhature",
       "title": "Chole Bhature",
       "description": "Spicy chickpea curry served with fluffy fried bread.",
-      "imageUrl": "https://picsum.photos/seed/chole/600/400",
+      "imageUrl": "https://images.unsplash.com/photo-1604383185375-3343385b0451?w=600&q=80",
       "imageHint": "chole bhature"
+    },
+    {
+      "id": "masala-dosa",
+      "title": "Masala Dosa",
+      "description": "A thin, crispy crepe made from fermented rice and lentils, filled with a savory potato stuffing.",
+      "imageUrl": "https://images.unsplash.com/photo-1643282824245-d85695a28587?w=600&q=80",
+      "imageHint": "masala dosa"
+    },
+    {
+      "id": "tandoori-chicken",
+      "title": "Tandoori Chicken",
+      "description": "Chicken marinated in yogurt and spices, roasted in a cylindrical clay oven, the tandoor.",
+      "imageUrl": "https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?w=600&q=80",
+      "imageHint": "tandoori chicken"
+    },
+    {
+      "id": "jalebi",
+      "title": "Jalebi",
+      "description": "A sweet snack made by deep-frying a wheat-flour batter in pretzel or circular shapes, which are then soaked in sugar syrup.",
+      "imageUrl": "https://images.unsplash.com/photo-1615937691194-97dbd3f3dc29?w=600&q=80",
+      "imageHint": "jalebi sweet"
+    },
+    {
+      "id": "palak-paneer",
+      "title": "Palak Paneer",
+      "description": "A vegetarian dish consisting of paneer in a thick paste made from puréed spinach.",
+      "imageUrl": "https://images.unsplash.com/photo-1673368484938-9503d1ae3543?w=600&q=80",
+      "imageHint": "palak paneer"
     }
   ]
 }

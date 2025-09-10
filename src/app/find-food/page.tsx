@@ -27,7 +27,7 @@ const generateDummyData = (): Listing[] => {
     title: item.title,
     description: item.description,
     quantity: `${Math.floor(Math.random() * 10) + 1} units`,
-    imageUrl: `https://picsum.photos/seed/${item.id}${Math.random()}/600/400`,
+    imageUrl: item.imageUrl, // Use the direct URL from the JSON file
     imageHint: item.imageHint,
     pickupAddress: '123 Main St, Anytown, USA',
   }));
