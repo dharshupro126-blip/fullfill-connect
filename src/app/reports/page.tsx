@@ -6,7 +6,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, XCircle, Clock } from 'lucide-react';
+import { CheckCircle, XCircle } from 'lucide-react';
+import { AnimatedCounter } from '@/components/custom/animated-counter';
 
 const donationData = [
   { month: 'January', donations: 65 },
@@ -39,7 +40,7 @@ export default function ReportsPage() {
             <CardDescription>All-time completed donations.</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-4xl font-bold">12,503</p>
+            <AnimatedCounter value={12503} className="text-4xl" />
           </CardContent>
         </Card>
         <Card>
@@ -48,7 +49,7 @@ export default function ReportsPage() {
             <CardDescription>Users waiting for approval.</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-4xl font-bold">{verificationQueue.length}</p>
+            <AnimatedCounter value={verificationQueue.length} className="text-4xl" />
           </CardContent>
         </Card>
         <Card>
@@ -57,7 +58,7 @@ export default function ReportsPage() {
             <CardDescription>Volunteers with a delivery in the last 30 days.</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-4xl font-bold">214</p>
+            <AnimatedCounter value={214} className="text-4xl" />
           </CardContent>
         </Card>
       </div>

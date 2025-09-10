@@ -1,13 +1,16 @@
+
 'use client';
 
+import { cn } from '@/lib/utils';
 import React from 'react';
 
 type AnimatedCounterProps = {
   value: number;
-  label: string;
+  label?: string;
+  className?: string;
 };
 
-export const AnimatedCounter = ({ value, label }: AnimatedCounterProps) => {
+export const AnimatedCounter = ({ value, label, className }: AnimatedCounterProps) => {
   const [count, setCount] = React.useState(0);
 
   React.useEffect(() => {
@@ -30,11 +33,11 @@ export const AnimatedCounter = ({ value, label }: AnimatedCounterProps) => {
   }, [value]);
 
   return (
-    <div className="min-w-[160px] rounded-2xl bg-white p-4 shadow-sm">
-      <div className="text-3xl font-semibold text-foreground">
+    <div>
+      <div className={cn("text-3xl font-semibold text-foreground", className)}>
         {count.toLocaleString()}
       </div>
-      <div className="mt-1 text-sm text-gray-500">{label}</div>
+      {label && <div className="mt-1 text-sm text-muted-foreground">{label}</div>}
     </div>
   );
 };

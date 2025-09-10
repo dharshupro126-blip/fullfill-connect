@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -53,20 +54,22 @@ export default function FindFoodPage() {
 
   return (
     <div className="flex-1 p-4 md:p-6 lg:p-8">
-      <div className="flex flex-col gap-4">
-        <div className="flex items-center justify-between">
-          <h1 className="font-headline text-3xl font-bold tracking-tight">
-            Available Food Donations
-          </h1>
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div>
+            <h1 className="font-headline text-3xl font-bold tracking-tight">
+              Available Food Donations
+            </h1>
+            <p className="mt-1 text-lg text-muted-foreground">
+              Browse items available for pickup from generous donors in your community.
+            </p>
+          </div>
           <Button>Post a Request</Button>
         </div>
-        <p className="text-lg text-muted-foreground">
-          Browse items available for pickup from generous donors in your community.
-        </p>
 
         {isLoading && (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {Array.from({ length: 4 }).map((_, index) => (
+            {Array.from({ length: 8 }).map((_, index) => (
               <Card key={index} className="flex flex-col overflow-hidden">
                 <Skeleton className="h-48 w-full" />
                 <CardContent className="flex-grow p-4 space-y-2">
@@ -114,7 +117,7 @@ export default function FindFoodPage() {
                   <CardTitle className="font-headline text-xl capitalize">
                     {item.title}
                   </CardTitle>
-                  <CardDescription className="mt-2 text-sm">
+                  <CardDescription className="mt-2 text-sm line-clamp-2">
                     {item.description}
                   </CardDescription>
                    <p className="text-sm font-semibold text-muted-foreground mt-2">
