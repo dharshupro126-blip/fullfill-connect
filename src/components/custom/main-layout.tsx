@@ -24,9 +24,15 @@ import {
 } from 'lucide-react';
 import { Logo } from './logo';
 import { Button } from '../ui/button';
+import { useFcm } from '@/hooks/use-fcm';
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+
+  // In a real app, you would get the user's UID after they log in.
+  // For this example, we'll use a hardcoded ID.
+  const volunteerId = 'jane-doe-volunteer-id'; // Replace with dynamic user ID
+  useFcm(volunteerId);
 
   const menuItems = [
     { href: '/', label: 'Dashboard', icon: Home },
@@ -72,7 +78,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
             </Avatar>
             <div className='overflow-hidden'>
               <p className="font-semibold truncate">Jane Doe</p>
-              <p className="text-xs text-muted-foreground truncate">Organization Admin</p>
+              <p className="text-muted-foreground truncate">Organization Admin</p>
             </div>
           </div>
         </SidebarFooter>

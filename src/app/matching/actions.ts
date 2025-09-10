@@ -14,6 +14,43 @@ const db = admin.firestore();
 // Set these using `firebase functions:config:set matching.radius_km="10"`
 const SEARCH_RADIUS_KM = functions.config().matching?.radius_km || '10';
 
+// --- Notification Helper ---
+
+/**
+ * Sends a push notification to a volunteer's device and handles cleanup for invalid tokens.
+ * @param {string} deviceToken The FCM token of the device to notify.
+ * @param {string} volunteerId The ID of the volunteer document.
+ * @param {string} title The title of the notification.
+ * @param {string} body The body text of the notification.
+ * @param {object} data The data payload to send with the notification.
+ */
+async function notifyVolunteer(deviceToken: string, volunteerId: string, title: string, body: string, data: { [key: string]: string }) {
+    if (!deviceToken) {
+        functions.logger.warn(`Volunteer ${volunteerId} does not have a device token. Cannot send notification.`);
+        return;
+    }
+
+    const message = {
+        notification: { title, body },
+        token: deviceToken,
+        data: data
+    };
+
+    try {
+        await admin.messaging().send(message);
+        functions.logger.info(`Successfully sent notification to volunteer ${volunteerId}.`);
+    } catch (error: any) {
+        functions.logger.error(`Error sending FCM notification to volunteer ${volunteerId}:`, error);
+        // Clean up stale tokens if they are unregistered.
+        if (error.code === 'messaging/registration-token-not-registered') {
+            functions.logger.info(`FCM token for volunteer ${volunteerId} is stale. Removing it.`);
+            await db.collection('volunteers').doc(volunteerId).update({
+                deviceToken: admin.firestore.FieldValue.delete()
+            });
+        }
+    }
+}
+
 
 /**
  * Cloud Function triggered when a new food listing is created.
@@ -44,7 +81,7 @@ export const onListingCreate = onDocumentCreated('listings/{listingId}', async (
     return;
   }
   
-  const { location, donorId } = listing;
+  const { location, donorId, title } = listing;
 
   if (!location || !location.latitude || !location.longitude) {
     functions.logger.error(`Listing ${listingId} is missing a valid location.`, { structuredData: true });
@@ -127,26 +164,14 @@ export const onListingCreate = onDocumentCreated('listings/{listingId}', async (
 
 
     // --- 4. Send FCM Notification to Volunteer ---
-    const deviceToken = volunteerData?.deviceToken;
-    if (deviceToken) {
-      const message = {
-        notification: {
-          title: 'New Delivery Assignment!',
-          body: `You have a new pickup from ${listing.title}. Please check the app for details.`,
-        },
-        token: deviceToken,
-      };
+    await notifyVolunteer(
+        volunteerData?.deviceToken,
+        volunteerId,
+        'New Delivery Assignment!',
+        `You have a new pickup for "${title}". Tap to view details.`,
+        { deliveryId: deliveryRef.id, click_action: '/deliveries' }
+    );
 
-      try {
-        await admin.messaging().send(message);
-        functions.logger.info(`Successfully sent notification to volunteer ${volunteerId}.`);
-      } catch (error) {
-        functions.logger.error(`Error sending FCM notification to volunteer ${volunteerId}:`, error);
-        // Note: Don't fail the whole function if notification fails.
-      }
-    } else {
-        functions.logger.warn(`Volunteer ${volunteerId} does not have a device token. Cannot send notification.`);
-    }
 
   } catch (error) {
     functions.logger.error(`Failed to process listing ${listingId}:`, error);
