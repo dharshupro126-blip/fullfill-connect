@@ -15,7 +15,7 @@ interface Listing {
   title: string;
   description: string;
   quantity: string;
-  imageUrls: string[];
+  imageUrls?: string[]; // Make this optional to handle missing data
   pickupAddress: string;
 }
 
@@ -106,7 +106,7 @@ export default function FindFoodPage() {
                 <CardHeader className="p-0">
                   <div className="relative h-48 w-full">
                     <Image
-                      src={item.imageUrls[0] || "https://picsum.photos/seed/placeholder/600/400"}
+                      src={item.imageUrls && item.imageUrls.length > 0 ? item.imageUrls[0] : "https://picsum.photos/seed/placeholder/600/400"}
                       alt={item.title}
                       fill
                       className="object-cover"
