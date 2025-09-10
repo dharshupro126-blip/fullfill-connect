@@ -1,6 +1,62 @@
 {
   "placeholderImages": [
     {
+      "id": "greek-salad",
+      "title": "Greek Salad",
+      "description": "A refreshing salad with olives, feta cheese, and fresh vegetables.",
+      "imageUrl": "https://images.unsplash.com/photo-1551248429-40974011e423?q=80&w=600",
+      "imageHint": "greek salad"
+    },
+    {
+      "id": "veg-salad",
+      "title": "Veg Salad",
+      "description": "A healthy mix of fresh, crisp garden vegetables.",
+      "imageUrl": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=600",
+      "imageHint": "vegetable salad"
+    },
+    {
+      "id": "clover-salad",
+      "title": "Clover Salad",
+      "description": "A unique salad with clover sprouts and a light vinaigrette.",
+      "imageUrl": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600",
+      "imageHint": "fresh salad"
+    },
+    {
+      "id": "chicken-salad",
+      "title": "Chicken Salad",
+      "description": "Creamy chicken salad with celery and herbs.",
+      "imageUrl": "https://images.unsplash.com/photo-1594041682983-7a6e1f37b6a4?q=80&w=600",
+      "imageHint": "chicken salad"
+    },
+    {
+      "id": "lasagna",
+      "title": "Lasagna",
+      "description": "Layers of pasta, cheese, and a rich meat sauce.",
+      "imageUrl": "https://images.unsplash.com/photo-1574894709920-31b2e3d5b7e4?q=80&w=600",
+      "imageHint": "lasagna pasta"
+    },
+    {
+      "id": "peri-peri-fries",
+      "title": "Peri Peri Fries",
+      "description": "Crispy fries seasoned with spicy peri peri seasoning.",
+      "imageUrl": "https://images.unsplash.com/photo-1598679253544-2c97992403ea?q=80&w=600",
+      "imageHint": "french fries"
+    },
+    {
+      "id": "chicken-soup",
+      "title": "Chicken Soup",
+      "description": "A hearty and comforting chicken noodle soup.",
+      "imageUrl": "https://images.unsplash.com/photo-1629446377370-9899a1a1964a?q=80&w=600",
+      "imageHint": "chicken soup"
+    },
+    {
+      "id": "veg-soup",
+      "title": "Veg Soup",
+      "description": "A warm and nourishing soup made with mixed vegetables.",
+      "imageUrl": "https://images.unsplash.com/photo-1547592166-23ac45744acd?q=80&w=600",
+      "imageHint": "vegetable soup"
+    },
+    {
       "id": "samosas",
       "title": "Vegetable Samosas",
       "description": "Crispy pastries filled with spiced potatoes and peas.",
