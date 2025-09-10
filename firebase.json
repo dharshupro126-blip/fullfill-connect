@@ -1,9 +1,5 @@
 
 {
-  "functions": {
-    "source": ".",
-    "runtime": "nodejs18"
-  },
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
@@ -12,17 +8,11 @@
     "rules": "storage.rules"
   },
   "hosting": {
-    "public": "public",
+    "source": ".",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "function": "nextServer"
-      }
     ]
   },
   "emulators": {
