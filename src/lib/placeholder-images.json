@@ -44,11 +44,11 @@
       "imageHint": "grilled chicken"
     },
     {
-      "id": "malai_kofta",
-      "title": "Malai Kofta",
-      "description": "Fried potato and paneer balls in a rich and creamy mild gravy.",
+      "id": "fish_curry",
+      "title": "Fish Curry",
+      "description": "Spicy and tangy fish curry, a coastal specialty.",
       "imageUrl": "https://images.pexels.com/photos/5410403/pexels-photo-5410403.jpeg?auto=compress&cs=tinysrgb&w=600",
-      "imageHint": "vegetarian dumplings"
+      "imageHint": "fish curry"
     }
   ]
 }
