@@ -5,77 +5,77 @@
       "id": "samosas",
       "title": "Vegetable Samosas",
       "description": "Crispy pastries filled with spiced potatoes and peas.",
-      "imageUrl": "https://images.unsplash.com/photo-1609951372322-0e54e4de517b?w=600&q=80",
+      "imageUrl": "https://images.unsplash.com/photo-1562376552-0d160a2f4393?q=80&w=600",
       "imageHint": "samosas indian"
     },
     {
       "id": "biryani",
       "title": "Chicken Biryani",
       "description": "Aromatic basmati rice cooked with chicken and exotic spices.",
-      "imageUrl": "https://images.unsplash.com/photo-1631515243349-e0cb75fb8da7?w=600&q=80",
+      "imageUrl": "https://images.unsplash.com/photo-1631515243349-e0cb75fb8da7?q=80&w=600",
       "imageHint": "chicken biryani"
     },
     {
       "id": "naan",
       "title": "Garlic Naan",
       "description": "Soft, fluffy flatbread with garlic and herbs.",
-      "imageUrl": "https://images.unsplash.com/photo-1595343421933-53342360212f?w=600&q=80",
+      "imageUrl": "https://images.unsplash.com/photo-1626700051185-5c799c889348?q=80&w=600",
       "imageHint": "naan bread"
     },
     {
       "id": "paneer-masala",
       "title": "Paneer Butter Masala",
       "description": "Cubes of paneer in a rich, creamy tomato-based sauce.",
-      "imageUrl": "https://images.unsplash.com/photo-1589647363455-44814125b387?w=600&q=80",
+      "imageUrl": "https://images.unsplash.com/photo-1589647363455-44814125b387?q=80&w=600",
       "imageHint": "paneer masala"
     },
     {
       "id": "dal-makhani",
       "title": "Dal Makhani",
       "description": "A rich and creamy lentil stew, slow-cooked with spices.",
-      "imageUrl": "https://images.unsplash.com/photo-1585937421612-70a0586276d8?w=600&q=80",
+      "imageUrl": "https://images.unsplash.com/photo-1628139399679-b93111ef85f3?q=80&w=600",
       "imageHint": "dal makhani"
     },
     {
       "id": "gulab-jamun",
       "title": "Gulab Jamun",
       "description": "Soft, sweet milk-solid balls soaked in a fragrant syrup.",
-      "imageUrl": "https://images.unsplash.com/photo-1670984572248-115f7560fac3?w=600&q=80",
+      "imageUrl": "https://images.unsplash.com/photo-1670984572248-115f7560fac3?q=80&w=600",
       "imageHint": "gulab jamun"
     },
     {
       "id": "chole-bhature",
       "title": "Chole Bhature",
       "description": "Spicy chickpea curry served with fluffy fried bread.",
-      "imageUrl": "https://images.unsplash.com/photo-1604383185375-3343385b0451?w=600&q=80",
+      "imageUrl": "https://images.unsplash.com/photo-1604383185375-3343385b0451?q=80&w=600",
       "imageHint": "chole bhature"
     },
     {
       "id": "masala-dosa",
       "title": "Masala Dosa",
       "description": "A thin, crispy crepe made from fermented rice and lentils, filled with a savory potato stuffing.",
-      "imageUrl": "https://images.unsplash.com/photo-1668665789343-3a5e4a4d3345?w=600&q=80",
+      "imageUrl": "https://images.unsplash.com/photo-1668665789343-3a5e4a4d3345?q=80&w=600",
       "imageHint": "masala dosa"
     },
     {
       "id": "tandoori-chicken",
       "title": "Tandoori Chicken",
       "description": "Chicken marinated in yogurt and spices, roasted in a cylindrical clay oven, the tandoor.",
-      "imageUrl": "https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?w=600&q=80",
+      "imageUrl": "https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?q=80&w=600",
       "imageHint": "tandoori chicken"
     },
     {
       "id": "jalebi",
       "title": "Jalebi",
       "description": "A sweet snack made by deep-frying a wheat-flour batter in pretzel or circular shapes, which are then soaked in sugar syrup.",
-      "imageUrl": "https://images.unsplash.com/photo-1598214886806-c87b84b7078b?w=600&q=80",
+      "imageUrl": "https://images.unsplash.com/photo-1598214886806-c87b84b7078b?q=80&w=600",
       "imageHint": "jalebi sweet"
     },
     {
       "id": "palak-paneer",
       "title": "Palak Paneer",
       "description": "A vegetarian dish consisting of paneer in a thick paste made from puréed spinach.",
-      "imageUrl": "https://images.unsplash.com/photo-1673368484938-9503d1ae3543?w=600&q=80",
+      "imageUrl": "https://images.unsplash.com/photo-1589301760014-d929f39791e8?q=80&w=600",
       "imageHint": "palak paneer"
     }
   ]
