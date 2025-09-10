@@ -4,140 +4,140 @@
       "id": "paneer_butter_masala",
       "title": "Paneer Butter Masala",
       "description": "A slightly sweet creamy dish of paneer, in which the gravy is prepared usually with butter, tomatoes, cashews or cream.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Paneer%20butter%20masala-0.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1589647363585-f4a7d3877931?q=80&w=600&auto=format&fit=crop",
       "imageHint": "paneer curry"
     },
     {
       "id": "chole_bhature",
       "title": "Chole Bhature",
       "description": "A classic Punjabi dish featuring spicy chickpea curry (chole) served with fluffy, deep-fried bread (bhature).",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Bhatura-0.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1625398407436-117d36316273?q=80&w=600&auto=format&fit=crop",
       "imageHint": "chickpea curry"
     },
     {
       "id": "masala_dosa",
       "title": "Masala Dosa",
       "description": "A popular South Indian breakfast dish, a crispy crepe made from fermented rice and lentil batter, filled with a spiced potato mixture.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Masala%20Dosa-1.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1668665793092-c4883a4f72f0?q=80&w=600&auto=format&fit=crop",
       "imageHint": "masala dosa"
     },
     {
       "id": "biryani",
       "title": "Hyderabadi Biryani",
       "description": "Aromatic basmati rice cooked with meat or vegetables and a blend of rich, flavorful spices. A signature dish of Hyderabad.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Biryani-0.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=600&auto=format&fit=crop",
       "imageHint": "chicken biryani"
     },
     {
       "id": "pav_bhaji",
       "title": "Pav Bhaji",
       "description": "A flavorful mash of mixed vegetables in a spicy tomato-based gravy, served with soft, buttered bread rolls (pav).",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Pav%20bhaji-0.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1606495147381-52a5a5441539?q=80&w=600&auto=format&fit=crop",
       "imageHint": "vegetable mash"
     },
     {
       "id": "idli_sambar",
       "title": "Idli Sambar",
       "description": "Soft, fluffy steamed rice cakes (idli) served with a hot and tangy lentil-based vegetable stew (sambar).",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Idli-0.jpg",
+      "imageUrl": "https://plus.unsplash.com/premium_photo-1695286595304-48283733b1e3?q=80&w=600&auto=format&fit=crop",
       "imageHint": "steamed rice"
     },
     {
       "id": "rajma_chawal",
       "title": "Rajma Chawal",
       "description": "A comforting North Indian dish of red kidney beans cooked in a thick, spicy gravy, served with steamed rice.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Rajma%20chawal-0.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1604383185361-913079015c91?q=80&w=600&auto=format&fit=crop",
       "imageHint": "kidney beans"
     },
     {
       "id": "aloo_paratha",
       "title": "Aloo Paratha",
       "description": "A popular Indian flatbread stuffed with a delicious spiced potato mixture, pan-fried to golden perfection.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Paratha-0.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1643216899168-a3794a0f19f2?q=80&w=600&auto=format&fit=crop",
       "imageHint": "stuffed flatbread"
     },
     {
       "id": "dhokla",
       "title": "Khaman Dhokla",
       "description": "A soft, spongy, and savory steamed cake made from gram flour, perfect as a light snack or breakfast.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Dhokla-0.jpg",
+      "imageUrl": "https://plus.unsplash.com/premium_photo-1695286595392-a775143a5370?q=80&w=600&auto=format&fit=crop",
       "imageHint": "savory cake"
     },
     {
       "id": "dal_makhani",
       "title": "Dal Makhani",
       "description": "A rich and creamy lentil curry made with whole black lentils and kidney beans, slow-cooked with butter and cream.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Dal%20makhani-0.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1599557422834-8a72a7c4a115?q=80&w=600&auto=format&fit=crop",
       "imageHint": "lentil curry"
     },
     {
       "id": "pani_puri",
       "title": "Pani Puri / Golgappe",
       "description": "A popular street food snack consisting of hollow, crispy puris filled with spicy tamarind water, potatoes, and chickpeas.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Pani%20puri-0.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1597814420822-d79082a933f6?q=80&w=600&auto=format&fit=crop",
       "imageHint": "street food"
     },
     {
       "id": "samosa",
       "title": "Samosa",
       "description": "A deep-fried pastry with a savory filling, such as spiced potatoes, onions, peas, or lentils.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Samosa-0.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1601050690594-716e1d9de6b1?q=80&w=600&auto=format&fit=crop",
       "imageHint": "fried pastry"
     },
     {
       "id": "malai_kofta",
       "title": "Malai Kofta",
       "description": "A creamy and rich curry made with deep-fried potato and paneer balls (koftas) dunked in a smooth, mildly sweet gravy.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Kofta-0.jpg",
+      "imageUrl": "https://plus.unsplash.com/premium_photo-1695286595217-1a89c9225732?q=80&w=600&auto=format&fit=crop",
       "imageHint": "paneer dumplings"
     },
     {
       "id": "veg_thali",
       "title": "Vegetarian Thali",
       "description": "A complete Indian meal served on a single platter, featuring a variety of small dishes like curries, dal, rice, bread, and dessert.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Thali-0.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1564936283131-3e05093539df?q=80&w=600&auto=format&fit=crop",
       "imageHint": "indian platter"
     },
     {
       "id": "jalebi",
       "title": "Jalebi",
       "description": "A spiral-shaped, crispy and chewy sweet made by deep-frying flour batter and soaking it in saffron-infused sugar syrup.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Jalebi-0.jpg",
+      "imageUrl": "https://plus.unsplash.com/premium_photo-1669680785324-4b533f81525a?q=80&w=600&auto=format&fit=crop",
       "imageHint": "sweet spirals"
     },
     {
       "id": "chicken_tikka_masala",
       "title": "Chicken Tikka Masala",
       "description": "Chunks of roasted marinated chicken in a spiced curry. The curry is usually creamy and orange-coloured.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Chicken%20tikka-0.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1626500049938-b6393de703e0?q=80&w=600&auto=format&fit=crop",
       "imageHint": "chicken curry"
     },
     {
       "id": "fish_curry",
       "title": "Goan Fish Curry",
       "description": "A spicy and tangy fish curry from the coastal region of Goa, made with coconut milk and a blend of aromatic spices.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Maach%20Jhol-0.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?q=80&w=600&auto=format&fit=crop",
       "imageHint": "fish curry"
     },
     {
       "id": "palak_paneer",
       "title": "Palak Paneer",
       "description": "A popular vegetarian dish consisting of paneer in a thick paste made from puréed spinach and seasoned with garlic, garam masala, and other spices.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Palak%20paneer-0.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1574484284002-952d92456975?q=80&w=600&auto=format&fit=crop",
       "imageHint": "spinach curry"
     },
     {
       "id": "naan",
       "title": "Garlic Naan",
       "description": "A leavened, oven-baked flatbread, typically flavored with garlic and butter. Soft, chewy, and perfect for dipping into curries.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Naan-0.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1620242229562-f4a43f55097f?q=80&w=600&auto=format&fit=crop",
       "imageHint": "garlic bread"
     },
     {
       "id": "gulab_jamun",
       "title": "Gulab Jamun",
       "description": "Soft, spongy, milk-solid-based balls soaked in a fragrant sugar syrup. A classic Indian dessert for celebrations.",
-      "imageUrl": "https://raw.githubusercontent.com/websitecreatr99/Web-Scrapping-For-Cuisines/master/images/Gulab%20jamun-0.jpg",
+      "imageUrl": "https://plus.unsplash.com/premium_photo-1669680785640-15310e53a992?q=80&w=600&auto=format&fit=crop",
       "imageHint": "sweet dumplings"
     },
     {
