@@ -5,21 +5,21 @@
       "id": "samosas",
       "title": "Vegetable Samosas",
       "description": "Crispy pastries filled with spiced potatoes and peas.",
-      "imageUrl": "https://images.unsplash.com/photo-1625220194771-4948a7384852?w=600&q=80",
+      "imageUrl": "https://images.unsplash.com/photo-1609951372322-0e54e4de517b?w=600&q=80",
       "imageHint": "samosas indian"
     },
     {
       "id": "biryani",
       "title": "Chicken Biryani",
       "description": "Aromatic basmati rice cooked with chicken and exotic spices.",
-      "imageUrl": "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=600&q=80",
+      "imageUrl": "https://images.unsplash.com/photo-1631515243349-e0cb75fb8da7?w=600&q=80",
       "imageHint": "chicken biryani"
     },
     {
       "id": "naan",
       "title": "Garlic Naan",
       "description": "Soft, fluffy flatbread with garlic and herbs.",
-      "imageUrl": "https://images.unsplash.com/photo-1626728043694-a5360f05f5e3?w=600&q=80",
+      "imageUrl": "https://images.unsplash.com/photo-1595343421933-53342360212f?w=600&q=80",
       "imageHint": "naan bread"
     },
     {
@@ -33,14 +33,14 @@
       "id": "dal-makhani",
       "title": "Dal Makhani",
       "description": "A rich and creamy lentil stew, slow-cooked with spices.",
-      "imageUrl": "https://images.unsplash.com/photo-1603894584379-38392f3b5a93?w=600&q=80",
+      "imageUrl": "https://images.unsplash.com/photo-1585937421612-70a0586276d8?w=600&q=80",
       "imageHint": "dal makhani"
     },
     {
       "id": "gulab-jamun",
       "title": "Gulab Jamun",
       "description": "Soft, sweet milk-solid balls soaked in a fragrant syrup.",
-      "imageUrl": "https://images.unsplash.com/photo-1613563952058-93558257c963?w=600&q=80",
+      "imageUrl": "https://images.unsplash.com/photo-1670984572248-115f7560fac3?w=600&q=80",
       "imageHint": "gulab jamun"
     },
     {
@@ -54,7 +54,7 @@
       "id": "masala-dosa",
       "title": "Masala Dosa",
       "description": "A thin, crispy crepe made from fermented rice and lentils, filled with a savory potato stuffing.",
-      "imageUrl": "https://images.unsplash.com/photo-1643282824245-d85695a28587?w=600&q=80",
+      "imageUrl": "https://images.unsplash.com/photo-1668665789343-3a5e4a4d3345?w=600&q=80",
       "imageHint": "masala dosa"
     },
     {
@@ -68,7 +68,7 @@
       "id": "jalebi",
       "title": "Jalebi",
       "description": "A sweet snack made by deep-frying a wheat-flour batter in pretzel or circular shapes, which are then soaked in sugar syrup.",
-      "imageUrl": "https://images.unsplash.com/photo-1615937691194-97dbd3f3dc29?w=600&q=80",
+      "imageUrl": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=80",
       "imageHint": "jalebi sweet"
     },
     {
