@@ -1,71 +1,99 @@
 rules_version = '2';
 
+// Helper functions to simplify rule definitions
+function isSignedIn() {
+  return request.auth != null;
+}
+
+function isOwner(userId) {
+  return request.auth.uid == userId;
+}
+
+// Rules for each collection
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Helper functions to improve readability
-    function isSignedIn() {
-      return request.auth != null;
-    }
-
-    function isOwner(userId) {
-      return request.auth.uid == userId;
-    }
-
-    // Donors: Users can only create a donor profile for themselves.
-    // They can only update or delete their own profile.
+    // --- Donors Collection ---
+    // Donors are companies or individuals providing food.
     match /donors/{donorId} {
+      // Anyone authenticated can read donor profiles (e.g., for display on a map).
       allow read: if isSignedIn();
+      // Only the authenticated owner can create their own donor profile.
       allow create: if isSignedIn() && isOwner(request.resource.data.userId);
-      allow update, delete: if isSignedIn() && isOwner(resource.data.userId);
-    }
-
-    // Receivers: Similar to donors, users can manage their own receiver profile.
-    match /receivers/{receiverId} {
-      allow read: if isSignedIn();
-      allow create: if isSignedIn() && isOwner(request.resource.data.userId);
-      allow update, delete: if isSignedIn() && isOwner(resource.data.userId);
-    }
-
-    // Volunteers: Can manage their own profile.
-    // Can only update non-sensitive fields like status and location.
-    match /volunteers/{volunteerId} {
-      allow read: if isSignedIn();
-      allow create: if isSignedIn() && isOwner(request.resource.data.userId);
-      allow update: if isSignedIn() && isOwner(resource.data.userId)
-                    && request.resource.data.keys().hasAll(['status', 'currentLocation']);
-    }
-
-    // Listings: Publicly readable. Only the original donor can create or update their own listings.
-    match /listings/{listingId} {
-      allow read: if true;
-      allow create: if isSignedIn() && request.auth.uid == request.resource.data.donorId;
-      allow update: if isSignedIn() && request.auth.uid == resource.data.donorId;
-      allow delete: if false; // Soft delete by changing status instead
-    }
-
-    // Deliveries: Can only be read by involved parties (donor, receiver, volunteer).
-    // Creation is handled by backend functions. Client can only update status.
-    match /deliveries/{deliveryId} {
-      allow read: if isSignedIn() && (
-        request.auth.uid == resource.data.donorId ||
-        request.auth.uid == resource.data.receiverId ||
-        request.auth.uid == resource.data.volunteerId
-      );
-
-      // Creation should be done via a Cloud Function for security.
-      allow create: if false;
-
-      // Only volunteers can update the status. OTP hash cannot be written by the client.
-      allow update: if isSignedIn() && request.auth.uid == resource.data.volunteerId
-                      && !("otpHash" in request.resource.data);
-
+      // Only the owner can update their profile.
+      allow update: if isSignedIn() && isOwner(resource.data.userId);
+      // Deletes are disallowed for now to maintain data integrity.
       allow delete: if false;
     }
 
-    // AuditLogs: Should be write-only and only from Cloud Functions. No client access.
+    // --- Receivers Collection ---
+    // Receivers are organizations that get the food.
+    match /receivers/{receiverId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isOwner(request.resource.data.userId);
+      allow update: if isSignedIn() && isOwner(resource.data.userId);
+      allow delete: if false;
+    }
+
+    // --- Volunteers Collection ---
+    // Volunteers handle the delivery of food.
+    match /volunteers/{volunteerId} {
+      allow read: if isSignedIn();
+      // A volunteer can only update their own status or location.
+      // Other fields (like name, phone) should be updated via a backend process.
+      allow update: if isSignedIn() && isOwner(resource.data.userId)
+                    && request.resource.data.keys().hasOnly(['status', 'currentLocation', 'deviceToken']);
+      allow create: if isSignedIn() && isOwner(request.resource.data.userId);
+      allow delete: if false;
+    }
+
+    // --- Listings Collection ---
+    // Food donation posts from donors.
+    match /listings/{listingId} {
+      // Anyone can read available listings to find food.
+      allow read: if true;
+      // Only an authenticated donor can create a listing for themselves.
+      allow create: if isSignedIn() && request.auth.uid == request.resource.data.donorId;
+      // Only the original donor can update or a function can update status.
+      allow update: if isSignedIn() && request.auth.uid == resource.data.donorId;
+      allow delete: if isSignedIn() && request.auth.uid == resource.data.donorId;
+    }
+
+    // --- Deliveries Collection ---
+    // Tracks a delivery from donor to receiver.
+    match /deliveries/{deliveryId} {
+      // Involved parties (donor, receiver, volunteer) can read the delivery details.
+      allow read: if isSignedIn() && (
+                    request.auth.uid == resource.data.donorId ||
+                    request.auth.uid == resource.data.receiverId ||
+                    request.auth.uid == resource.data.volunteerId
+                  );
+      // Deliveries are only created by Cloud Functions.
+      allow create: if false;
+      // Only the assigned volunteer can update the status.
+      // The otpHash and otpExpiry should only be written by a function, not the client.
+      allow update: if isSignedIn() && request.auth.uid == resource.data.volunteerId
+                    && !("otpHash" in request.resource.data);
+      allow delete: if false;
+    }
+
+    // --- Audit Logs Collection ---
+    // For tracking important system events.
     match /auditLogs/{logId} {
-        allow read, write: if false;
+      // Only backend functions can create logs.
+      allow create: if false;
+      // Logs are immutable.
+      allow read, update, delete: if false;
+    }
+    
+    // --- Containers (IoT) Collection ---
+    // Tracks smart containers used for temperature-sensitive deliveries.
+    match /containers/{containerId} {
+      // Authenticated users (admins, assigned volunteers) can read container data.
+      allow read: if isSignedIn();
+      // Only backend functions can create or update container documents.
+      // This prevents clients from tampering with thresholds or assignments.
+      allow create, update, delete: if false;
     }
   }
 }
