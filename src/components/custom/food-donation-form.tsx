@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -15,6 +15,10 @@ import { ArrowLeft, ArrowRight, Check, Loader2, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import { getFoodFreshnessAnalysis } from '@/app/actions';
 import type { FoodFreshnessOutput } from '@/ai/flows/food-freshness-analysis';
+import { getFirestore, collection, addDoc, serverTimestamp, GeoPoint } from 'firebase/firestore';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { firebaseApp } from '@/lib/firebase';
+import { useAuth } from '@/hooks/use-auth'; // A placeholder for a real auth hook
 
 // Step 1: Define the Zod schema for form validation
 const formSchema = z.object({
@@ -24,6 +28,7 @@ const formSchema = z.object({
   images: z.custom<FileList>().refine(files => files && files.length > 0, 'At least one image is required.'),
   pickupWindowStart: z.string().min(1, "Please select a start time."),
   pickupWindowEnd: z.string().min(1, "Please select an end time."),
+  address: z.string().min(5, 'Please enter a valid pickup address.'),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -42,6 +47,8 @@ export function FoodDonationForm() {
   const [currentStep, setCurrentStep] = useState<Step>('details');
   const [imagePreviews, setImagePreviews] = useState<ImagePreviewState[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  // In a real app, you'd get the user from a proper auth context
+  const { user } = useAuth(); 
 
   const {
     register,
@@ -71,22 +78,21 @@ export function FoodDonationForm() {
     const fileList = event.target.files;
 
     if (!fileList) {
-      // If the user cancels the file dialog, do nothing.
       return;
     }
-
+    
+    // Check if files were selected
     if (fileList.length === 0) {
-        // Clear images if no files are selected or selection is cancelled
-        setImagePreviews([]);
-        // Use an empty DataTransfer object to create an empty FileList
-        const dataTransfer = new DataTransfer();
-        setValue('images', dataTransfer.files, { shouldValidate: true });
-        return;
+      // Clear images if no files are selected or selection is cancelled
+      setImagePreviews([]);
+      const dataTransfer = new DataTransfer();
+      setValue('images', dataTransfer.files, { shouldValidate: true });
+      return;
     }
 
     const files = Array.from(fileList);
     
-    if (files.length + imagePreviews.length > 3) {
+    if (files.length > 3) {
       toast({
         variant: 'destructive',
         title: 'Too many images',
@@ -103,7 +109,7 @@ export function FoodDonationForm() {
       isLoading: true,
     }));
 
-    setImagePreviews(prev => [...prev, ...newPreviews]);
+    setImagePreviews(newPreviews); // Replace instead of append to enforce max
 
     // Trigger AI analysis for each new image
     newPreviews.forEach(async (preview) => {
@@ -149,7 +155,7 @@ export function FoodDonationForm() {
       isValid = await trigger(['foodName', 'description', 'quantity', 'images']);
       if (isValid) setCurrentStep('logistics');
     } else if (currentStep === 'logistics') {
-      isValid = await trigger(['pickupWindowStart', 'pickupWindowEnd']);
+      isValid = await trigger(['pickupWindowStart', 'pickupWindowEnd', 'address']);
       if (isValid) setCurrentStep('review');
     }
   };
@@ -162,24 +168,58 @@ export function FoodDonationForm() {
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setIsSubmitting(true);
     
-    // For demonstration, we log data. In a real app, this is where you'd
-    // upload images to Firebase Storage and save the listing to Firestore.
-    // Example: const imageUrls = await uploadFilesToStorage(data.images);
-    // await createListingInFirestore({ ...data, imageUrls });
-    console.log('Submitting data:', data);
-    console.log("Image analysis results:", imagePreviews.map(p => p.analysis));
-    await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate async operation
-    
-    setIsSubmitting(false);
-    reset(); // Reset form fields
-    setImagePreviews([]); // Clear image previews
-    setCurrentStep('details'); // Reset to the first step
+    try {
+        const db = getFirestore(firebaseApp);
+        const storage = getStorage(firebaseApp);
+        const imageUrls: string[] = [];
 
-    toast({
-      title: 'Donation Listed!',
-      description: 'Thank you for your contribution to the community.',
-      className: 'bg-primary text-primary-foreground',
-    });
+        // 1. Upload images to Firebase Storage
+        for (const file of Array.from(data.images)) {
+            const storageRef = ref(storage, `listings/${user.uid}/${Date.now()}-${file.name}`);
+            const snapshot = await uploadBytes(storageRef, file);
+            const downloadURL = await getDownloadURL(snapshot.ref);
+            imageUrls.push(downloadURL);
+        }
+
+        // 2. Create the listing document in Firestore
+        await addDoc(collection(db, 'listings'), {
+            title: data.foodName,
+            description: data.description,
+            quantity: data.quantity,
+            imageUrls: imageUrls,
+            donorId: user.uid, // Replace with actual authenticated user ID
+            status: 'available', // Initial status
+            createdAt: serverTimestamp(),
+            pickupWindow: {
+                start: new Date(data.pickupWindowStart),
+                end: new Date(data.pickupWindowEnd),
+            },
+            // For demo, using a fixed GeoPoint. In a real app, you'd geocode the address.
+            location: new GeoPoint(40.7128, -74.0060), 
+            pickupAddress: data.address,
+            freshnessAnalyses: imagePreviews.map(p => p.analysis)
+        });
+
+        setIsSubmitting(false);
+        reset(); // Reset form fields
+        setImagePreviews([]); // Clear image previews
+        setCurrentStep('details'); // Reset to the first step
+
+        toast({
+            title: 'Donation Listed!',
+            description: 'Thank you! Your donation is now visible to receivers.',
+            className: 'bg-primary text-primary-foreground',
+        });
+
+    } catch (error) {
+        console.error("Error submitting donation:", error);
+        setIsSubmitting(false);
+        toast({
+            variant: 'destructive',
+            title: 'Submission Failed',
+            description: 'Could not save your donation. Please try again.',
+        });
+    }
   };
 
   const stepVariants = {
@@ -229,7 +269,7 @@ export function FoodDonationForm() {
                     {errors.description && <p className="text-sm text-destructive">{errors.description.message}</p>}
                   </div>
                    <div>
-                    <Label htmlFor="quantity">Quantity (e.g., serves, kg)</Label>
+                    <Label htmlFor="quantity">Quantity (e.g., servings, kg, loaves)</Label>
                     <Input id="quantity" {...register('quantity')} placeholder="e.g., 2 loaves, 1 case" />
                     {errors.quantity && <p className="text-sm text-destructive">{errors.quantity.message}</p>}
                   </div>
@@ -277,8 +317,9 @@ export function FoodDonationForm() {
                     </div>
                   </div>
                   <div>
-                    <Label>Pickup Location</Label>
-                    <Input placeholder="Enter address or drop a pin on a map (map feature coming soon)" />
+                    <Label htmlFor="address">Pickup Location</Label>
+                    <Input id="address" {...register('address')} placeholder="Enter full pickup address" />
+                     {errors.address && <p className="text-sm text-destructive">{errors.address.message}</p>}
                   </div>
                 </div>
               )}
@@ -291,6 +332,7 @@ export function FoodDonationForm() {
                       <p><strong>Description:</strong> {getValues('description')}</p>
                       <p><strong>Pickup Start:</strong> {new Date(getValues('pickupWindowStart')).toLocaleString()}</p>
                       <p><strong>Pickup End:</strong> {new Date(getValues('pickupWindowEnd')).toLocaleString()}</p>
+                      <p><strong>Address:</strong> {getValues('address')}</p>
                    </div>
                    <div className="grid grid-cols-3 gap-4">
                       {imagePreviews.map((preview, index) => (
@@ -326,7 +368,7 @@ export function FoodDonationForm() {
                 Next <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             ) : (
-              <Button type="submit" disabled={isSubmitting}>
+              <Button type="submit" disabled={isSubmitting || !user}>
                 {isSubmitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Check className="mr-2 h-4 w-4" />}
                 Publish Donation
               </Button>
