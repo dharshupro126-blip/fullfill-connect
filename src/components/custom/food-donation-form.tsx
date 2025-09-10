@@ -21,7 +21,7 @@ const formSchema = z.object({
   foodName: z.string().min(3, 'Food name must be at least 3 characters.'),
   description: z.string().min(10, 'Description must be at least 10 characters.'),
   quantity: z.string().min(1, 'Please enter a quantity.'),
-  images: z.custom<FileList>().refine(files => files.length > 0, 'At least one image is required.'),
+  images: z.custom<FileList>().refine(files => files && files.length > 0, 'At least one image is required.'),
   pickupWindowStart: z.string().min(1, "Please select a start time."),
   pickupWindowEnd: z.string().min(1, "Please select an end time."),
 });
@@ -69,7 +69,12 @@ export function FoodDonationForm() {
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
-    if (files.length === 0) return;
+    if (!event.target.files || files.length === 0) {
+      // Clear images if no files are selected
+      setImagePreviews([]);
+      setValue('images', new DataTransfer().files); // Set an empty FileList
+      return;
+    }
     
     if (files.length + imagePreviews.length > 3) {
       toast({
@@ -156,7 +161,6 @@ export function FoodDonationForm() {
     await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate async operation
     
     setIsSubmitting(false);
-    setOpen(false); // Close dialog on success
     reset(); // Reset form fields
     setImagePreviews([]); // Clear image previews
     setCurrentStep('details'); // Reset to the first step
@@ -323,3 +327,5 @@ export function FoodDonationForm() {
     </Card>
   );
 }
+
+    
