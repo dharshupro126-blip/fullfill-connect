@@ -1,46 +1,53 @@
 {
   "placeholderImages": [
     {
-      "id": "bread",
-      "title": "Loaf of Bread",
-      "description": "Freshly baked loaf of bread.",
-      "imageUrl": "https://picsum.photos/seed/bread/600/400",
-      "imageHint": "bread loaf"
+      "id": "samosas",
+      "title": "Vegetable Samosas",
+      "description": "Crispy pastries filled with spiced potatoes and peas.",
+      "imageUrl": "https://picsum.photos/seed/samosas/600/400",
+      "imageHint": "samosas indian"
     },
     {
-      "id": "apples",
-      "title": "Red Apples",
-      "description": "A crate of fresh red apples.",
-      "imageUrl": "https://picsum.photos/seed/apples/600/400",
-      "imageHint": "apples fruit"
+      "id": "biryani",
+      "title": "Chicken Biryani",
+      "description": "Aromatic basmati rice cooked with chicken and exotic spices.",
+      "imageUrl": "https://picsum.photos/seed/biryani/600/400",
+      "imageHint": "chicken biryani"
     },
     {
-      "id": "carrots",
-      "title": "Organic Carrots",
-      "description": "A bunch of organic carrots.",
-      "imageUrl": "https://picsum.photos/seed/carrots/600/400",
-      "imageHint": "carrots vegetable"
+      "id": "naan",
+      "title": "Garlic Naan",
+      "description": "Soft, fluffy flatbread with garlic and herbs.",
+      "imageUrl": "https://picsum.photos/seed/naan/600/400",
+      "imageHint": "naan bread"
     },
     {
-      "id": "canned-goods",
-      "title": "Canned Goods",
-      "description": "An assortment of canned goods.",
-      "imageUrl": "https://picsum.photos/seed/canned/600/400",
-      "imageHint": "canned goods"
+      "id": "paneer-masala",
+      "title": "Paneer Butter Masala",
+      "description": "Cubes of paneer in a rich, creamy tomato-based sauce.",
+      "imageUrl": "https://picsum.photos/seed/paneer/600/400",
+      "imageHint": "paneer masala"
     },
     {
-      "id": "milk",
-      "title": "Fresh Milk",
-      "description": "Cartons of fresh milk.",
-      "imageUrl": "https://picsum.photos/seed/milk/600/400",
-      "imageHint": "milk carton"
+      "id": "dal-makhani",
+      "title": "Dal Makhani",
+      "description": "A rich and creamy lentil stew, slow-cooked with spices.",
+      "imageUrl": "https://picsum.photos/seed/dal/600/400",
+      "imageHint": "dal makhani"
     },
     {
-      "id": "pasta",
-      "title": "Pasta",
-      "description": "Boxes of various types of pasta.",
-      "imageUrl": "https://picsum.photos/seed/pasta/600/400",
-      "imageHint": "pasta box"
+      "id": "gulab-jamun",
+      "title": "Gulab Jamun",
+      "description": "Soft, sweet milk-solid balls soaked in a fragrant syrup.",
+      "imageUrl": "https://picsum.photos/seed/gulabjamun/600/400",
+      "imageHint": "gulab jamun"
+    },
+    {
+      "id": "chole-bhature",
+      "title": "Chole Bhature",
+      "description": "Spicy chickpea curry served with fluffy fried bread.",
+      "imageUrl": "https://picsum.photos/seed/chole/600/400",
+      "imageHint": "chole bhature"
     }
   ]
 }
