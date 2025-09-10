@@ -68,13 +68,18 @@ export function FoodDonationForm() {
   };
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(event.target.files || []);
-    if (!event.target.files || files.length === 0) {
-      // Clear images if no files are selected
+    const fileList = event.target.files;
+
+    if (!fileList || fileList.length === 0) {
+      // Clear images if no files are selected or selection is cancelled
       setImagePreviews([]);
-      setValue('images', new DataTransfer().files); // Set an empty FileList
+      // Use an empty DataTransfer object to create an empty FileList
+      const dataTransfer = new DataTransfer();
+      setValue('images', dataTransfer.files, { shouldValidate: true });
       return;
     }
+
+    const files = Array.from(fileList);
     
     if (files.length + imagePreviews.length > 3) {
       toast({
@@ -85,7 +90,7 @@ export function FoodDonationForm() {
       return;
     }
 
-    setValue('images', event.target.files);
+    setValue('images', fileList, { shouldValidate: true });
 
     const newPreviews: ImagePreviewState[] = files.map(file => ({
       src: URL.createObjectURL(file),
@@ -96,7 +101,7 @@ export function FoodDonationForm() {
     setImagePreviews(prev => [...prev, ...newPreviews]);
 
     // Trigger AI analysis for each new image
-    newPreviews.forEach(async (preview, index) => {
+    newPreviews.forEach(async (preview) => {
       const dataUri = await fileToDataUri(preview.file);
       const foodDescription = getValues('description') || getValues('foodName') || 'food item';
       
