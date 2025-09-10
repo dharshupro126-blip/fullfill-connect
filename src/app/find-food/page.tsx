@@ -34,13 +34,11 @@ export default function FindFoodPage() {
         const querySnapshot = await getDocs(q);
         const items: Listing[] = [];
         querySnapshot.forEach((doc) => {
-          // Make sure to cast to the correct type, including the id
           items.push({ id: doc.id, ...(doc.data() as Omit<Listing, 'id'>) });
         });
         setListings(items);
       } catch (error) {
         console.error("Error fetching listings:", error);
-        // Handle the error appropriately in a real app
       } finally {
         setIsLoading(false);
       }
@@ -98,7 +96,7 @@ export default function FindFoodPage() {
           <Card className="p-8 text-center">
             <CardTitle>No Food Available Right Now</CardTitle>
             <CardDescription>
-              {search ? `No results for "${search}".` : 'Your database might be empty. Please check back later or add listings.'}
+              {search ? `No results for "${search}".` : 'Please run the seed script (node scripts/seed.js) to populate the database.'}
             </CardDescription>
           </Card>
         )}

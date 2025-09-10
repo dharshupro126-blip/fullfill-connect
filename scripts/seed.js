@@ -54,13 +54,9 @@ async function seedFirestore() {
         imageUrls: [`https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/listings%2F${item.image}?alt=media`],
         aiFreshness: Math.floor(Math.random() * 14) + 85, // 85-98%
         donorId: "uid_demo_donor",
-        pickupWindow: {
-            start: new Date(),
-            end: new Date(Date.now() + 2 * 60 * 60 * 1000) // 2 hours from now
-        },
-        location: { lat: 28.6139, lng: 77.209 }, // Using GeoPoint is better
+        pickupWindow: new Date().toISOString(),
+        location: { lat: 28.6139, lng: 77.209 },
         status: "open",
-        createdAt: new Date(),
       });
       console.log("Added document with ID:", docRef.id);
     } catch (error) {
