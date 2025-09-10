@@ -70,13 +70,18 @@ export function FoodDonationForm() {
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files;
 
-    if (!fileList || fileList.length === 0) {
-      // Clear images if no files are selected or selection is cancelled
-      setImagePreviews([]);
-      // Use an empty DataTransfer object to create an empty FileList
-      const dataTransfer = new DataTransfer();
-      setValue('images', dataTransfer.files, { shouldValidate: true });
+    if (!fileList) {
+      // If the user cancels the file dialog, do nothing.
       return;
+    }
+
+    if (fileList.length === 0) {
+        // Clear images if no files are selected or selection is cancelled
+        setImagePreviews([]);
+        // Use an empty DataTransfer object to create an empty FileList
+        const dataTransfer = new DataTransfer();
+        setValue('images', dataTransfer.files, { shouldValidate: true });
+        return;
     }
 
     const files = Array.from(fileList);
@@ -332,5 +337,3 @@ export function FoodDonationForm() {
     </Card>
   );
 }
-
-    
