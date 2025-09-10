@@ -20,14 +20,14 @@ interface Listing {
 }
 
 const generateDummyData = (): Listing[] => {
+  // Shuffle the entire array to display all items in a random order
   const shuffled = [...PlaceHolderImages].sort(() => 0.5 - Math.random());
-  const count = Math.floor(Math.random() * (shuffled.length - 2)) + 2; // Get 2 to all items
-  return shuffled.slice(0, count).map(item => ({
+  return shuffled.map(item => ({
     id: item.id,
     title: item.title,
     description: item.description,
     quantity: `${Math.floor(Math.random() * 10) + 1} units`,
-    imageUrl: item.imageUrl, // Use the direct URL from the JSON file
+    imageUrl: item.imageUrl,
     imageHint: item.imageHint,
     pickupAddress: '123 Main St, Anytown, USA',
   }));
