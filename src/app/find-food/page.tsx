@@ -1,16 +1,14 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import { firebaseApp } from '@/lib/firebase';
-import { getFirestore } from 'firebase/firestore';
+import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
 
 // Define the structure of a food item listing
 interface Listing {
@@ -23,37 +21,51 @@ interface Listing {
   status: string;
 }
 
+// Function to generate varied dummy data from the placeholder images
+function generateDummyData(placeholders: ImagePlaceholder[]): Listing[] {
+  // Simple shuffle function
+  const shuffleArray = (array: any[]) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  };
+  
+  // Use the full, shuffled array of placeholders
+  const shuffledPlaceholders = shuffleArray([...placeholders]);
+
+  return shuffledPlaceholders.map((p, index) => ({
+    id: `dummy-${p.id}-${index}`,
+    title: p.title,
+    description: p.description,
+    quantity: `${Math.floor(Math.random() * 20) + 5} servings`, // Random quantity
+    imageUrls: [p.imageUrl],
+    aiFreshness: Math.floor(Math.random() * 15) + 85, // 85-99%
+    status: 'open',
+  }));
+}
+
 export default function FindFoodPage() {
   const [listings, setListings] = useState<Listing[]>([]);
   const [search, setSearch] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
+  // Use useMemo to generate the dummy data only once
+  const dummyData = useMemo(() => generateDummyData(PlaceHolderImages), []);
+
   useEffect(() => {
-    const fetchListings = async () => {
+    const fetchListings = () => {
       setIsLoading(true);
-      try {
-        const db = getFirestore(firebaseApp);
-        // Query for documents where the status is 'open'
-        const q = query(collection(db, 'listings'), where('status', '==', 'open'));
-        const querySnapshot = await getDocs(q);
-        
-        const items: Listing[] = [];
-        querySnapshot.forEach((doc) => {
-          // Add the document ID to the data object
-          items.push({ id: doc.id, ...(doc.data() as Omit<Listing, 'id'>) });
-        });
-        
-        setListings(items);
-      } catch (error) {
-        console.error("Error fetching listings:", error);
-        // Optionally, show a toast notification to the user
-      } finally {
+      // Simulate a network delay
+      setTimeout(() => {
+        setListings(dummyData);
         setIsLoading(false);
-      }
+      }, 500); // 500ms delay
     };
 
     fetchListings();
-  }, []);
+  }, [dummyData]);
 
   const filteredListings = listings.filter((item) =>
     item.title.toLowerCase().includes(search.toLowerCase())
@@ -85,7 +97,7 @@ export default function FindFoodPage() {
 
         {isLoading && (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {Array.from({ length: 8 }).map((_, index) => (
+            {Array.from({ length: 12 }).map((_, index) => (
               <Card key={index} className="flex flex-col overflow-hidden">
                 <Skeleton className="h-48 w-full" />
                 <CardContent className="flex-grow p-4 space-y-2">
@@ -107,7 +119,7 @@ export default function FindFoodPage() {
             <CardDescription>
               {search 
                 ? `No results for "${search}".` 
-                : 'Please run the seed script or add a donation to see food here.'
+                : 'Please check back later for new donations.'
               }
             </CardDescription>
           </Card>
@@ -125,6 +137,7 @@ export default function FindFoodPage() {
                         alt={item.title}
                         fill
                         className="object-cover"
+                        data-ai-hint={PlaceHolderImages.find(p => p.id === item.id.split('-')[1])?.imageHint}
                         onError={(e) => { (e.currentTarget as HTMLImageElement).src = 'https://picsum.photos/seed/error/600/400'; }}
                       />
                        {item.aiFreshness && (
