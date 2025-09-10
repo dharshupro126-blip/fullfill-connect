@@ -1,62 +1,18 @@
-
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Skeleton } from '@/components/ui/skeleton';
 import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
 
-// Define the structure of a food item listing
-interface Listing {
-  id: string;
-  title: string;
-  description: string;
-  quantity: string;
-  imageUrls: string[];
-  aiFreshness: number;
-  status: string;
-  imageHint?: string;
-}
-
-// Function to generate varied dummy data from the placeholder images
-function generateDummyData(placeholders: ImagePlaceholder[]): Listing[] {
-  // Use the placeholders directly without shuffling
-  return placeholders.map((p, index) => ({
-    id: p.id,
-    title: p.title,
-    description: p.description,
-    quantity: `${Math.floor(Math.random() * 20) + 5} servings`, // Random quantity
-    imageUrls: [p.imageUrl],
-    aiFreshness: Math.floor(Math.random() * 15) + 85, // 85-99%
-    status: 'open',
-    imageHint: p.imageHint,
-  }));
-}
+// The data is now imported directly, so we can use the ImagePlaceholder type
+const listings: ImagePlaceholder[] = PlaceHolderImages;
 
 export default function FindFoodPage() {
-  const [listings, setListings] = useState<Listing[]>([]);
   const [search, setSearch] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Use useMemo to generate the dummy data only once
-  const dummyData = useMemo(() => generateDummyData(PlaceHolderImages), []);
-
-  useEffect(() => {
-    const fetchListings = () => {
-      setIsLoading(true);
-      // Simulate a network delay
-      setTimeout(() => {
-        setListings(dummyData);
-        setIsLoading(false);
-      }, 500); // 500ms delay
-    };
-
-    fetchListings();
-  }, [dummyData]);
 
   const filteredListings = listings.filter((item) =>
     item.title.toLowerCase().includes(search.toLowerCase())
@@ -86,25 +42,7 @@ export default function FindFoodPage() {
           </div>
         </div>
 
-        {isLoading && (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {Array.from({ length: 12 }).map((_, index) => (
-              <Card key={index} className="flex flex-col overflow-hidden">
-                <Skeleton className="h-48 w-full" />
-                <CardContent className="flex-grow p-4 space-y-2">
-                  <Skeleton className="h-6 w-3/4" />
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-4 w-1/2" />
-                </CardContent>
-                <CardFooter className="p-4 pt-0">
-                  <Skeleton className="h-10 w-full" />
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
-        )}
-
-        {!isLoading && filteredListings.length === 0 && (
+        {filteredListings.length === 0 && (
           <Card className="p-8 text-center">
             <CardTitle>No Food Available Right Now</CardTitle>
             <CardDescription>
@@ -116,7 +54,7 @@ export default function FindFoodPage() {
           </Card>
         )}
 
-        {!isLoading && filteredListings.length > 0 && (
+        {filteredListings.length > 0 && (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filteredListings.map((item, index) => (
               <motion.div key={item.id} whileHover={{ y: -5 }} className="h-full">
@@ -124,7 +62,7 @@ export default function FindFoodPage() {
                   <CardHeader className="p-0">
                     <div className="relative h-48 w-full">
                       <Image
-                        src={item.imageUrls?.[0] || 'https://picsum.photos/seed/fallback/600/400'}
+                        src={item.imageUrl}
                         alt={item.title}
                         fill
                         className="object-cover"
@@ -132,16 +70,14 @@ export default function FindFoodPage() {
                         priority={index < 4} // Add priority to the first 4 images
                         data-ai-hint={item.imageHint}
                       />
-                       {item.aiFreshness && (
-                         <motion.div
-                            className="absolute right-3 top-3 w-14 h-14 bg-primary/80 backdrop-blur-sm border-2 border-primary-foreground/50 rounded-full flex items-center justify-center text-primary-foreground font-bold text-lg shadow-lg"
-                            initial={{ scale: 0, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            transition={{ delay: 0.2, type: 'spring', stiffness: 120 }}
-                         >
-                           {item.aiFreshness}%
-                         </motion.div>
-                       )}
+                       <motion.div
+                          className="absolute right-3 top-3 w-14 h-14 bg-primary/80 backdrop-blur-sm border-2 border-primary-foreground/50 rounded-full flex items-center justify-center text-primary-foreground font-bold text-lg shadow-lg"
+                          initial={{ scale: 0, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          transition={{ delay: 0.2, type: 'spring', stiffness: 120 }}
+                       >
+                         {Math.floor(Math.random() * 15) + 85}%
+                       </motion.div>
                     </div>
                   </CardHeader>
                   <CardContent className="flex-grow p-4">
@@ -152,7 +88,7 @@ export default function FindFoodPage() {
                       {item.description}
                     </CardDescription>
                     <p className="text-sm font-semibold text-muted-foreground mt-2">
-                      Quantity: {item.quantity}
+                      Quantity: {`${Math.floor(Math.random() * 20) + 5} servings`}
                     </p>
                   </CardContent>
                   <CardFooter className="p-4 pt-0">
