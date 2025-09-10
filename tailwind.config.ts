@@ -70,6 +70,12 @@ export default {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+        xl: 'calc(var(--radius) + 4px)',
+        '2xl': '22px',
+      },
+      boxShadow: {
+        DEFAULT: '0 6px 18px rgba(45,45,45,0.06)',
+        sm: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
       },
       keyframes: {
         'accordion-down': {
