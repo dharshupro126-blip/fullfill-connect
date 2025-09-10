@@ -15,55 +15,54 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 25 Indian Food Items
-const foodItems = [
-  { title: "Paneer Butter Masala", description: "Rich, creamy tomato-based paneer curry", quantity: 100, image: "paneer_butter_masala.jpg" },
-  { title: "Chole Bhature", description: "Spicy chickpeas with fried bread", quantity: 120, image: "chole_bhature.jpg" },
-  { title: "Masala Dosa", description: "Crispy rice crepe with potato filling", quantity: 150, image: "masala_dosa.jpg" },
-  { title: "Biryani", description: "Aromatic basmati rice with spices & meat", quantity: 80, image: "biryani.jpg" },
-  { title: "Pav Bhaji", description: "Spicy vegetable mash with buttered bread", quantity: 100, image: "pav_bhaji.jpg" },
-  { title: "Idli Sambar", description: "Steamed rice cakes with lentil soup", quantity: 200, image: "idli_sambar.jpg" },
-  { title: "Rajma Chawal", description: "Kidney beans curry with steamed rice", quantity: 120, image: "rajma_chawal.jpg" },
-  { title: "Aloo Paratha", description: "Stuffed potato flatbread", quantity: 150, image: "aloo_paratha.jpg" },
-  { title: "Dhokla", description: "Steamed chickpea flour cake", quantity: 90, image: "dhokla.jpg" },
-  { title: "Butter Naan & Dal", description: "Soft naan with spiced lentil curry", quantity: 100, image: "butter_naan_dal.jpg" },
-  { title: "Pani Puri", description: "Hollow fried crisp with spicy water", quantity: 250, image: "pani_puri.jpg" },
-  { title: "Samosa Chaat", description: "Crunchy samosa with tangy toppings", quantity: 120, image: "samosa_chaat.jpg" },
-  { title: "Malai Kofta", description: "Deep-fried dumplings in creamy gravy", quantity: 80, image: "malai_kofta.jpg" },
-  { title: "Veg Thali", description: "Full vegetarian plate with sides", quantity: 100, image: "veg_thali.jpg" },
-  { title: "Jalebi & Rabri", description: "Sweet fried spirals with condensed milk", quantity: 150, image: "jalebi_rabri.jpg" },
-  { title: "Chicken Tikka", description: "Spiced grilled chicken chunks", quantity: 100, image: "chicken_tikka.jpg" },
-  { title: "Fish Curry", description: "Spicy coastal fish curry", quantity: 80, image: "fish_curry.jpg" },
-  { title: "Matar Paneer", description: "Peas and paneer curry", quantity: 120, image: "matar_paneer.jpg" },
-  { title: "Lemon Rice", description: "Tangy and fragrant lemon rice", quantity: 150, image: "lemon_rice.jpg" },
-  { title: "Vegetable Pulao", description: "Mildly spiced rice with veggies", quantity: 150, image: "veg_pulao.jpg" },
-  { title: "Tandoori Roti", description: "Whole wheat flatbread", quantity: 200, image: "tandoori_roti.jpg" },
-  { title: "Dal Makhani", description: "Creamy black lentil curry", quantity: 100, image: "dal_makhani.jpg" },
-  { title: "Bhindi Masala", description: "Stir-fried okra with spices", quantity: 120, image: "bhindi_masala.jpg" },
-  { title: "Gajar Halwa", description: "Carrot-based sweet dessert", quantity: 100, image: "gajar_halwa.jpg" },
-  { title: "Rasgulla", description: "Soft spongy sweet syrup balls", quantity: 150, image: "rasgulla.jpg" },
+const foods = [
+  { title: "Paneer Butter Masala", desc: "Rich, creamy tomato-based paneer curry", qty: 100, img: "paneer_butter_masala.jpg" },
+  { title: "Chole Bhature", desc: "Spicy chickpeas with fried bread", qty: 120, img: "chole_bhature.jpg" },
+  { title: "Masala Dosa", desc: "Crispy rice crepe with potato filling", qty: 150, img: "masala_dosa.jpg" },
+  { title: "Biryani", desc: "Aromatic basmati rice with spices & meat", qty: 80, img: "biryani.jpg" },
+  { title: "Pav Bhaji", desc: "Spicy vegetable mash with buttered bread", qty: 100, img: "pav_bhaji.jpg" },
+  { title: "Idli Sambar", desc: "Steamed rice cakes with lentil soup", qty: 200, img: "idli_sambar.jpg" },
+  { title: "Rajma Chawal", desc: "Kidney beans curry with steamed rice", qty: 120, img: "rajma_chawal.jpg" },
+  { title: "Aloo Paratha", desc: "Stuffed potato flatbread", qty: 150, img: "aloo_paratha.jpg" },
+  { title: "Dhokla", desc: "Steamed chickpea flour cake", qty: 90, img: "dhokla.jpg" },
+  { title: "Butter Naan & Dal", desc: "Soft naan with spiced lentil curry", qty: 100, img: "butter_naan_dal.jpg" },
+  { title: "Pani Puri", desc: "Hollow fried crisp with spicy water", qty: 250, img: "pani_puri.jpg" },
+  { title: "Samosa Chaat", desc: "Crunchy samosa with tangy toppings", qty: 120, img: "samosa_chaat.jpg" },
+  { title: "Malai Kofta", desc: "Deep-fried dumplings in creamy gravy", qty: 80, img: "malai_kofta.jpg" },
+  { title: "Veg Thali", desc: "Full vegetarian plate with sides", qty: 100, img: "veg_thali.jpg" },
+  { title: "Jalebi & Rabri", desc: "Sweet fried spirals with condensed milk", qty: 150, img: "jalebi_rabri.jpg" },
+  { title: "Chicken Tikka", desc: "Spiced grilled chicken chunks", qty: 100, img: "chicken_tikka.jpg" },
+  { title: "Fish Curry", desc: "Spicy coastal fish curry", qty: 80, img: "fish_curry.jpg" },
+  { title: "Matar Paneer", desc: "Peas and paneer curry", qty: 120, img: "matar_paneer.jpg" },
+  { title: "Lemon Rice", desc: "Tangy and fragrant lemon rice", qty: 150, img: "lemon_rice.jpg" },
+  { title: "Vegetable Pulao", desc: "Mildly spiced rice with veggies", qty: 150, img: "veg_pulao.jpg" },
+  { title: "Tandoori Roti", desc: "Whole wheat flatbread", qty: 200, img: "tandoori_roti.jpg" },
+  { title: "Dal Makhani", desc: "Creamy black lentil curry", qty: 100, img: "dal_makhani.jpg" },
+  { title: "Bhindi Masala", desc: "Stir-fried okra with spices", qty: 120, img: "bhindi_masala.jpg" },
+  { title: "Gajar Halwa", desc: "Carrot-based sweet dessert", qty: 100, img: "gajar_halwa.jpg" },
+  { title: "Rasgulla", desc: "Soft spongy sweet syrup balls", qty: 150, img: "rasgulla.jpg" },
 ];
 
-async function seedFirestore() {
-  for (const item of foodItems) {
+async function seed() {
+  for (const food of foods) {
     try {
-      const docRef = await addDoc(collection(db, "listings"), {
-        title: item.title,
-        description: item.description,
-        quantity: item.quantity,
-        imageUrls: [`https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/listings%2F${item.image}?alt=media`],
-        aiFreshness: Math.floor(Math.random() * 14) + 85, // 85-98%
+      await addDoc(collection(db, "listings"), {
+        title: food.title,
+        description: food.desc,
+        quantity: food.qty,
+        imageUrls: [`https://firebasestorage.googleapis.com/v0/b/<YOUR_PROJECT_ID>.appspot.com/o/listings%2F${food.img}?alt=media`],
+        aiFreshness: Math.floor(Math.random() * 14) + 85,
         donorId: "uid_demo_donor",
         pickupWindow: new Date().toISOString(),
         location: { lat: 28.6139, lng: 77.209 },
         status: "open",
       });
-      console.log("Added document with ID:", docRef.id);
-    } catch (error) {
-      console.error("Error adding document:", error);
+      console.log(`Added: ${food.title}`);
+    } catch (err) {
+      console.error("Error:", err);
     }
   }
-  console.log("Seeding completed!");
+  console.log("All foods seeded!");
 }
 
-seedFirestore();
+seed();
