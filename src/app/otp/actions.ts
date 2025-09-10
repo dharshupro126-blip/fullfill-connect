@@ -128,7 +128,7 @@ export const verifyOtp = onCall<{ deliveryId: string, otp: string }>(async (requ
         throw new HttpsError('failed-precondition', 'This delivery has already been confirmed.');
     }
     
-    const { otpHash, otpExpiry } = delivery;
+    const { otpHash, otpExpiry, listingId } = delivery;
 
     if (!otpHash || !otpExpiry) {
         throw new HttpsError('failed-precondition', 'No OTP has been generated for this delivery.');
@@ -145,29 +145,40 @@ export const verifyOtp = onCall<{ deliveryId: string, otp: string }>(async (requ
     }
 
     try {
-        // --- Perform atomic update and logging ---
+        const listingRef = db.collection('listings').doc(listingId);
         const auditLogRef = db.collection('auditLogs').doc();
         
+        // Use a transaction to ensure atomic updates
         await db.runTransaction(async (transaction) => {
+            // 1. Update the delivery status
             transaction.update(deliveryRef, {
                 status: 'delivered',
                 otpHash: admin.firestore.FieldValue.delete(), // Remove OTP fields after use
                 otpExpiry: admin.firestore.FieldValue.delete(),
             });
+
+            // 2. Update the corresponding listing status
+            transaction.update(listingRef, {
+                status: 'delivered'
+            });
             
+            // 3. Create an audit log entry
             transaction.set(auditLogRef, {
                 action: 'verifyOtp',
                 status: 'success',
                 userId: uid,
                 deliveryId: deliveryId,
+                listingId: listingId,
                 timestamp: admin.firestore.FieldValue.serverTimestamp(),
             });
         });
 
+        functions.logger.info(`Delivery ${deliveryId} and Listing ${listingId} successfully marked as delivered by volunteer ${uid}.`);
         return { success: true, message: 'Delivery confirmed successfully!' };
     
     } catch (error) {
         console.error("Error verifying OTP:", error);
+        functions.logger.error(`Transaction failed for delivery ${deliveryId}:`, error);
         throw new HttpsError('internal', 'An unexpected error occurred while verifying the OTP.');
     }
 });
