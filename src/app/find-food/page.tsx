@@ -127,7 +127,7 @@ export default function FindFoodPage() {
 
         {!isLoading && filteredListings.length > 0 && (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {filteredListings.map((item) => (
+            {filteredListings.map((item, index) => (
               <motion.div key={item.id} whileHover={{ y: -5 }} className="h-full">
                 <Card className="flex h-full flex-col overflow-hidden transition-shadow hover:shadow-xl">
                   <CardHeader className="p-0">
@@ -137,6 +137,8 @@ export default function FindFoodPage() {
                         alt={item.title}
                         fill
                         className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        priority={index < 4} // Add priority to the first 4 images
                         data-ai-hint={PlaceHolderImages.find(p => p.id === item.id)?.imageHint}
                         onError={(e) => { (e.currentTarget as HTMLImageElement).src = 'https://picsum.photos/seed/error/600/400'; }}
                       />
