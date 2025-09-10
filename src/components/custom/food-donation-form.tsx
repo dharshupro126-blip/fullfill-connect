@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -167,6 +168,16 @@ export function FoodDonationForm() {
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setIsSubmitting(true);
+    
+    if (!user) {
+      toast({
+        variant: 'destructive',
+        title: 'Authentication Error',
+        description: 'You must be logged in to create a donation.',
+      });
+      setIsSubmitting(false);
+      return;
+    }
     
     try {
         const db = getFirestore(firebaseApp);
@@ -368,7 +379,7 @@ export function FoodDonationForm() {
                 Next <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             ) : (
-              <Button type="submit" disabled={isSubmitting || !user}>
+              <Button type="submit" disabled={isSubmitting}>
                 {isSubmitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Check className="mr-2 h-4 w-4" />}
                 Publish Donation
               </Button>
