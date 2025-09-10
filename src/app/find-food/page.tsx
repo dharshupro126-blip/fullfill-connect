@@ -24,19 +24,8 @@ interface Listing {
 
 // Function to generate varied dummy data from the placeholder images
 function generateDummyData(placeholders: ImagePlaceholder[]): Listing[] {
-  // Simple shuffle function
-  const shuffleArray = (array: any[]) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  };
-  
-  // Use the full, shuffled array of placeholders
-  const shuffledPlaceholders = shuffleArray([...placeholders]);
-
-  return shuffledPlaceholders.map((p, index) => ({
+  // Use the placeholders directly without shuffling
+  return placeholders.map((p, index) => ({
     id: p.id,
     title: p.title,
     description: p.description,
