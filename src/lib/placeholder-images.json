@@ -1,62 +1,6 @@
 {
   "placeholderImages": [
     {
-      "id": "greek-salad",
-      "title": "Greek Salad",
-      "description": "A refreshing salad with olives, feta cheese, and fresh vegetables.",
-      "imageUrl": "https://images.unsplash.com/photo-1551248429-40974011e423?q=80&w=600",
-      "imageHint": "greek salad"
-    },
-    {
-      "id": "veg-salad",
-      "title": "Veg Salad",
-      "description": "A healthy mix of fresh, crisp garden vegetables.",
-      "imageUrl": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=600",
-      "imageHint": "vegetable salad"
-    },
-    {
-      "id": "clover-salad",
-      "title": "Clover Salad",
-      "description": "A unique salad with clover sprouts and a light vinaigrette.",
-      "imageUrl": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600",
-      "imageHint": "fresh salad"
-    },
-    {
-      "id": "chicken-salad",
-      "title": "Chicken Salad",
-      "description": "Creamy chicken salad with celery and herbs.",
-      "imageUrl": "https://images.unsplash.com/photo-1594041682983-7a6e1f37b6a4?q=80&w=600",
-      "imageHint": "chicken salad"
-    },
-    {
-      "id": "lasagna",
-      "title": "Lasagna",
-      "description": "Layers of pasta, cheese, and a rich meat sauce.",
-      "imageUrl": "https://images.unsplash.com/photo-1574894709920-31b2e3d5b7e4?q=80&w=600",
-      "imageHint": "lasagna pasta"
-    },
-    {
-      "id": "peri-peri-fries",
-      "title": "Peri Peri Fries",
-      "description": "Crispy fries seasoned with spicy peri peri seasoning.",
-      "imageUrl": "https://images.unsplash.com/photo-1598679253544-2c97992403ea?q=80&w=600",
-      "imageHint": "french fries"
-    },
-    {
-      "id": "chicken-soup",
-      "title": "Chicken Soup",
-      "description": "A hearty and comforting chicken noodle soup.",
-      "imageUrl": "https://images.unsplash.com/photo-1629446377370-9899a1a1964a?q=80&w=600",
-      "imageHint": "chicken soup"
-    },
-    {
-      "id": "veg-soup",
-      "title": "Veg Soup",
-      "description": "A warm and nourishing soup made with mixed vegetables.",
-      "imageUrl": "https://images.unsplash.com/photo-1547592166-23ac45744acd?q=80&w=600",
-      "imageHint": "vegetable soup"
-    },
-    {
       "id": "samosas",
       "title": "Vegetable Samosas",
       "description": "Crispy pastries filled with spiced potatoes and peas.",
@@ -83,6 +27,104 @@
       "description": "Cubes of paneer in a rich, creamy tomato-based sauce.",
       "imageUrl": "https://images.unsplash.com/photo-1589647363455-44814125b387?q=80&w=600",
       "imageHint": "paneer masala"
+    },
+    {
+      "id": "chole-bhature",
+      "title": "Chole Bhature",
+      "description": "A classic Punjabi dish featuring spicy chickpea curry with soft, fluffy fried bread.",
+      "imageUrl": "https://plus.unsplash.com/premium_photo-1695911532968-d6671a141a4a?q=80&w=600",
+      "imageHint": "chole bhature"
+    },
+    {
+      "id": "masala-dosa",
+      "title": "Masala Dosa",
+      "description": "A South Indian specialty: a crispy rice and lentil crepe filled with spiced potatoes.",
+      "imageUrl": "https://plus.unsplash.com/premium_photo-1664648005525-245f8b05b380?q=80&w=600",
+      "imageHint": "masala dosa"
+    },
+    {
+      "id": "pav-bhaji",
+      "title": "Pav Bhaji",
+      "description": "A flavorful mash of mixed vegetables cooked in spices, served with soft, buttered bread rolls.",
+      "imageUrl": "https://images.unsplash.com/photo-1630409349884-93c6543b3543?q=80&w=600",
+      "imageHint": "pav bhaji"
+    },
+    {
+      "id": "idli-sambar",
+      "title": "Idli Sambar",
+      "description": "Steamed savory rice cakes served with a hot and tangy lentil soup (sambar).",
+      "imageUrl": "https://plus.unsplash.com/premium_photo-1664648005524-fe68352668e1?q=80&w=600",
+      "imageHint": "idli sambar"
+    },
+    {
+      "id": "rajma-chawal",
+      "title": "Rajma Chawal",
+      "description": "A comforting North Indian meal of red kidney bean curry served with steamed rice.",
+      "imageUrl": "https://plus.unsplash.com/premium_photo-1695911532851-f762f928e4eb?q=80&w=600",
+      "imageHint": "rajma chawal"
+    },
+    {
+      "id": "aloo-paratha",
+      "title": "Aloo Paratha",
+      "description": "Whole wheat flatbread stuffed with a delicious spiced potato mixture.",
+      "imageUrl": "https://images.unsplash.com/photo-1643299401927-8a4d467793d4?q=80&w=600",
+      "imageHint": "aloo paratha"
+    },
+    {
+      "id": "dhokla",
+      "title": "Khaman Dhokla",
+      "description": "A savory and spongy steamed cake made from gram flour, popular in Gujarat.",
+      "imageUrl": "https://plus.unsplash.com/premium_photo-1695911532822-6872a0f83652?q=80&w=600",
+      "imageHint": "khaman dhokla"
+    },
+    {
+      "id": "pani-puri",
+      "title": "Pani Puri",
+      "description": "A famous street food snack of hollow, crispy balls filled with spicy tamarind water and fillings.",
+      "imageUrl": "https://images.unsplash.com/photo-1630409349884-93c6543b3543?q=80&w=600",
+      "imageHint": "pani puri"
+    },
+    {
+      "id": "malai-kofta",
+      "title": "Malai Kofta",
+      "description": "Fried potato and paneer dumplings served in a rich, creamy, and mildly sweet gravy.",
+      "imageUrl": "https://plus.unsplash.com/premium_photo-1695911532970-52313a297e6e?q=80&w=600",
+      "imageHint": "malai kofta"
+    },
+    {
+      "id": "veg-thali",
+      "title": "Vegetarian Thali",
+      "description": "A complete meal on a single platter, featuring a variety of curries, bread, rice, and dessert.",
+      "imageUrl": "https://images.unsplash.com/photo-1565557623262-b51c2513a641?q=80&w=600",
+      "imageHint": "indian thali"
+    },
+    {
+      "id": "jalebi",
+      "title": "Jalebi",
+      "description": "A sweet and crispy spiral-shaped dessert made from fried batter soaked in saffron syrup.",
+      "imageUrl": "https://plus.unsplash.com/premium_photo-1664648005523-c15fea545927?q=80&w=600",
+      "imageHint": "indian jalebi"
+    },
+    {
+      "id": "chicken-tikka",
+      "title": "Chicken Tikka",
+      "description": "Small pieces of boneless chicken baked using skewers after marinating in Indian spices and yogurt.",
+      "imageUrl": "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?q=80&w=600",
+      "imageHint": "chicken tikka"
+    },
+    {
+      "id": "fish-curry",
+      "title": "Fish Curry",
+      "description": "A spicy and tangy fish curry, perfect with steamed rice.",
+      "imageUrl": "https://images.unsplash.com/photo-1604329227363-2f883f3a1f33?q=80&w=600",
+      "imageHint": "fish curry"
+    },
+    {
+      "id": "dal-makhani",
+      "title": "Dal Makhani",
+      "description": "A classic North Indian dish made with black lentils, butter, and cream.",
+      "imageUrl": "https://images.unsplash.com/photo-1604329227363-2f883f3a1f33?q=80&w=600",
+      "imageHint": "dal makhani"
     }
   ]
 }
