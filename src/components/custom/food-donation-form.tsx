@@ -50,6 +50,7 @@ export function FoodDonationForm() {
     getValues,
     setValue,
     formState: { errors },
+    reset,
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -148,11 +149,17 @@ export function FoodDonationForm() {
     
     // For demonstration, we log data. In a real app, this is where you'd
     // upload images to Firebase Storage and save the listing to Firestore.
-    console.log(data);
+    // Example: const imageUrls = await uploadFilesToStorage(data.images);
+    // await createListingInFirestore({ ...data, imageUrls });
+    console.log('Submitting data:', data);
     console.log("Image analysis results:", imagePreviews.map(p => p.analysis));
     await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate async operation
     
     setIsSubmitting(false);
+    setOpen(false); // Close dialog on success
+    reset(); // Reset form fields
+    setImagePreviews([]); // Clear image previews
+    setCurrentStep('details'); // Reset to the first step
 
     toast({
       title: 'Donation Listed!',
@@ -185,7 +192,7 @@ export function FoodDonationForm() {
         </CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <CardContent className="overflow-hidden">
+        <CardContent className="overflow-hidden min-h-[450px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentStep}
@@ -219,7 +226,7 @@ export function FoodDonationForm() {
                     <div className="mt-4 grid grid-cols-3 gap-4">
                       {imagePreviews.map((preview, index) => (
                         <div key={index} className="relative aspect-square">
-                           <Image src={preview.src} alt={`Preview ${index + 1}`} layout="fill" objectFit="cover" className="rounded-md" />
+                           <Image src={preview.src} alt={`Preview ${index + 1}`} fill objectFit="cover" className="rounded-md" />
                            <Card className="absolute bottom-1 left-1 right-1 p-1 bg-background/80 backdrop-blur-sm">
                              <p className="text-xs font-semibold flex items-center gap-1">
                               <Sparkles className="w-3 h-3 text-accent" /> AI Freshness
@@ -274,7 +281,7 @@ export function FoodDonationForm() {
                    <div className="grid grid-cols-3 gap-4">
                       {imagePreviews.map((preview, index) => (
                         <div key={index} className="relative aspect-square">
-                           <Image src={preview.src} alt={`Preview ${index + 1}`} layout="fill" objectFit="cover" className="rounded-md" />
+                           <Image src={preview.src} alt={`Preview ${index + 1}`} fill objectFit="cover" className="rounded-md" />
                            <Card className="absolute bottom-1 left-1 right-1 p-1 bg-background/80 backdrop-blur-sm">
                              <p className="text-xs font-semibold flex items-center gap-1">
                                <Sparkles className="w-3 h-3 text-accent" /> AI Assessment

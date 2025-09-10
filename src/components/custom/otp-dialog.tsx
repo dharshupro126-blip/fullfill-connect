@@ -16,20 +16,26 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
-import { getFunctions, httpsCallable } from 'firebase/functions';
+import { getFunctions, httpsCallable, FirebaseFunctions } from 'firebase/functions';
+import { firebaseApp } from '@/lib/firebase';
 
 type OtpDialogProps = {
   deliveryId: string;
   disabled?: boolean;
+  onConfirm: (deliveryId: string) => void;
 };
 
 // Define the callable functions
-const functions = getFunctions();
-const generateOtp = httpsCallable(functions, 'generateOtp');
-const verifyOtp = httpsCallable(functions, 'verifyOtp');
+let functions: FirebaseFunctions;
+if (typeof window !== 'undefined') {
+  functions = getFunctions(firebaseApp);
+}
+
+const generateOtp = functions ? httpsCallable(functions, 'generateOtp') : null;
+const verifyOtp = functions ? httpsCallable(functions, 'verifyOtp') : null;
 
 
-export function OtpDialog({ deliveryId, disabled }: OtpDialogProps) {
+export function OtpDialog({ deliveryId, disabled, onConfirm }: OtpDialogProps) {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [isConfirming, setIsConfirming] = useState(false);
@@ -37,9 +43,10 @@ export function OtpDialog({ deliveryId, disabled }: OtpDialogProps) {
   const [hasGeneratedOtp, setHasGeneratedOtp] = useState(false);
 
   const handleGenerateOtp = async () => {
+    if (!generateOtp) return;
     setIsConfirming(true);
     try {
-      const result = await generateOtp({ deliveryId });
+      await generateOtp({ deliveryId });
       toast({
         title: 'OTP Generated',
         description: 'An OTP has been sent to the receiver.',
@@ -57,6 +64,7 @@ export function OtpDialog({ deliveryId, disabled }: OtpDialogProps) {
   }
 
   const handleConfirm = async () => {
+     if (!verifyOtp) return;
     setIsConfirming(true);
     try {
       await verifyOtp({ deliveryId, otp });
@@ -65,20 +73,32 @@ export function OtpDialog({ deliveryId, disabled }: OtpDialogProps) {
         description: `Delivery ${deliveryId} has been successfully completed.`,
         className: 'bg-primary text-primary-foreground',
       });
-      setOpen(false);
+      onConfirm(deliveryId);
+      setOpen(false); // Close the dialog on success
     } catch (error: any) {
       toast({
         variant: 'destructive',
         title: 'Incorrect OTP',
         description: error.message || 'The OTP entered is incorrect. Please try again.',
       });
+    } finally {
+        setIsConfirming(false);
+        setOtp('');
     }
-    setIsConfirming(false);
-    setOtp('');
   };
+  
+  const handleOpenChange = (isOpen: boolean) => {
+    setOpen(isOpen);
+    if (!isOpen) {
+        // Reset state when closing the dialog
+        setIsConfirming(false);
+        setHasGeneratedOtp(false);
+        setOtp('');
+    }
+  }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" disabled={disabled}>
           Confirm Delivery
@@ -96,7 +116,7 @@ export function OtpDialog({ deliveryId, disabled }: OtpDialogProps) {
         </DialogHeader>
         {!hasGeneratedOtp ? (
           <div className="py-4">
-             <Button type="button" onClick={handleGenerateOtp} disabled={isConfirming} className='w-full'>
+             <Button type="button" onClick={handleGenerateOtp} disabled={isConfirming || !generateOtp} className='w-full'>
               {isConfirming && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Generate & Send OTP
             </Button>
@@ -113,6 +133,7 @@ export function OtpDialog({ deliveryId, disabled }: OtpDialogProps) {
                 onChange={(e) => setOtp(e.target.value)}
                 className="col-span-3"
                 placeholder="Enter 6-digit code"
+                maxLength={6}
               />
             </div>
           </div>
@@ -124,7 +145,7 @@ export function OtpDialog({ deliveryId, disabled }: OtpDialogProps) {
             </Button>
           </DialogClose>
           {hasGeneratedOtp && (
-            <Button type="button" onClick={handleConfirm} disabled={isConfirming || otp.length < 6}>
+            <Button type="button" onClick={handleConfirm} disabled={isConfirming || otp.length < 6 || !verifyOtp}>
               {isConfirming && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Confirm
             </Button>
