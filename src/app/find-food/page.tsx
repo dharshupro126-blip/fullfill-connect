@@ -5,9 +5,8 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import Image from 'next/image';
-import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
-import { firebaseApp } from '@/lib/firebase';
 import { Skeleton } from '@/components/ui/skeleton';
+import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
 
 // Define the shape of a listing document
 interface Listing {
@@ -15,9 +14,24 @@ interface Listing {
   title: string;
   description: string;
   quantity: string;
-  imageUrls?: string[]; // Make this optional to handle missing data
+  imageUrl: string;
+  imageHint: string;
   pickupAddress: string;
 }
+
+const generateDummyData = (): Listing[] => {
+  const shuffled = [...PlaceHolderImages].sort(() => 0.5 - Math.random());
+  const count = Math.floor(Math.random() * (shuffled.length - 2)) + 2; // Get 2 to all items
+  return shuffled.slice(0, count).map(item => ({
+    id: item.id,
+    title: item.title,
+    description: item.description,
+    quantity: `${Math.floor(Math.random() * 10) + 1} units`,
+    imageUrl: `https://picsum.photos/seed/${item.id}${Math.random()}/600/400`,
+    imageHint: item.imageHint,
+    pickupAddress: '123 Main St, Anytown, USA',
+  }));
+};
 
 export default function FindFoodPage() {
   const [listings, setListings] = useState<Listing[]>([]);
@@ -25,31 +39,21 @@ export default function FindFoodPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchListings = async () => {
-      setIsLoading(true);
-      setError(null);
+    setIsLoading(true);
+    setError(null);
+    // Simulate fetching data with a short delay
+    const timer = setTimeout(() => {
       try {
-        const db = getFirestore(firebaseApp);
-        const listingsRef = collection(db, 'listings');
-        // Query for listings that are currently available
-        const q = query(listingsRef, where('status', '==', 'available'));
-        const querySnapshot = await getDocs(q);
-        
-        const listingsData = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        } as Listing));
-        
-        setListings(listingsData);
+        setListings(generateDummyData());
       } catch (err) {
-        console.error("Error fetching listings:", err);
+        console.error("Error generating dummy data:", err);
         setError("Could not load available food. Please try again later.");
       } finally {
         setIsLoading(false);
       }
-    };
+    }, 500); // 500ms delay to show loading state
 
-    fetchListings();
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -106,8 +110,9 @@ export default function FindFoodPage() {
                 <CardHeader className="p-0">
                   <div className="relative h-48 w-full">
                     <Image
-                      src={item.imageUrls && item.imageUrls.length > 0 ? item.imageUrls[0] : "https://picsum.photos/seed/placeholder/600/400"}
+                      src={item.imageUrl}
                       alt={item.title}
+                      data-ai-hint={item.imageHint}
                       fill
                       className="object-cover"
                     />
