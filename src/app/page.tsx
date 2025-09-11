@@ -96,25 +96,25 @@ export default function HomePage() {
 
             <div className="relative hidden h-80 w-full items-center justify-center md:flex">
                 {/* Enhanced Floating Icons */}
-                <motion.div variants={floatingIconVariants(0, 6)} initial="initial" animate="animate" className="absolute top-10 left-20 text-green-400">
+                <motion.div variants={floatingIconVariants(0, 6)} initial="initial" animate="animate" className="absolute top-10 left-16 text-green-400">
                     <Leaf size={64} strokeWidth={1.5} />
                 </motion.div>
-                <motion.div variants={floatingIconVariants(0.5, 5.5)} initial="initial" animate="animate" className="absolute top-32 right-16 text-red-400">
+                <motion.div variants={floatingIconVariants(0.5, 5.5)} initial="initial" animate="animate" className="absolute top-28 right-12 text-red-400">
                     <Apple size={80} strokeWidth={1.5} />
                 </motion.div>
-                <motion.div variants={floatingIconVariants(1, 7)} initial="initial" animate="animate" className="absolute bottom-12 left-24 text-yellow-400">
+                <motion.div variants={floatingIconVariants(1, 7)} initial="initial" animate="animate" className="absolute bottom-8 left-20 text-yellow-400">
                     <HeartHandshake size={72} strokeWidth={1.5} />
                 </motion.div>
-                <motion.div variants={floatingIconVariants(1.5, 5)} initial="initial" animate="animate" className="absolute bottom-24 right-32 text-blue-300">
+                <motion.div variants={floatingIconVariants(1.5, 5)} initial="initial" animate="animate" className="absolute bottom-20 right-32 text-blue-300">
                     <Leaf size={48} strokeWidth={1.5} />
                 </motion.div>
-                <motion.div variants={floatingIconVariants(2, 6.5)} initial="initial" animate="animate" className="absolute top-12 right-48 text-orange-400">
+                <motion.div variants={floatingIconVariants(2, 6.5)} initial="initial" animate="animate" className="absolute top-12 right-52 text-orange-400">
                     <Carrot size={56} strokeWidth={1.5} />
                 </motion.div>
-                <motion.div variants={floatingIconVariants(2.5, 4.5)} initial="initial" animate="animate" className="absolute bottom-10 right-8 text-indigo-400">
+                <motion.div variants={floatingIconVariants(2.5, 4.5)} initial="initial" animate="animate" className="absolute bottom-16 right-8 text-indigo-400">
                     <UtensilsCrossed size={40} strokeWidth={1.5} />
                 </motion.div>
-                 <motion.div variants={floatingIconVariants(3, 8)} initial="initial" animate="animate" className="absolute top-40 left-10 text-lime-500">
+                 <motion.div variants={floatingIconVariants(3, 8)} initial="initial" animate="animate" className="absolute top-44 left-10 text-lime-500">
                     <Sandwich size={60} strokeWidth={1.5} />
                 </motion.div>
             </div>
