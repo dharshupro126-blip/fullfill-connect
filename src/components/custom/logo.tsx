@@ -10,7 +10,7 @@ export const Logo = ({ className, ...props }: React.SVGProps<SVGSVGElement>) => 
     <defs>
       <linearGradient id="circle-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" style={{ stopColor: '#F39C12' }} />
-        <stop offset="100%" style={{ stopColor: '#F1C40F' }} />
+        <stop offset="100%" style={{ stopColor: 'F1C40F' }} />
       </linearGradient>
     </defs>
     
