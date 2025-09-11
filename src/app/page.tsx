@@ -4,8 +4,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { AnimatedCounter } from '@/components/custom/animated-counter';
 import Link from 'next/link';
-import Lottie from 'lottie-react';
-import logoAnimation from '@/lib/logo-animation.json';
+import { Apple, HeartHandshake, Leaf } from 'lucide-react';
 
 
 export default function HomePage() {
@@ -32,6 +31,18 @@ export default function HomePage() {
     },
   };
 
+  const floatingIconVariants = (delay: number, duration: number) => ({
+    initial: { y: 0 },
+    animate: {
+      y: [0, -15, 0],
+      transition: {
+        delay,
+        duration,
+        ease: 'easeInOut',
+        repeat: Infinity,
+      },
+    },
+  });
 
   return (
     <div className="flex flex-1 flex-col">
@@ -82,14 +93,40 @@ export default function HomePage() {
               
             </motion.div>
 
-            <motion.div 
-              className="relative flex justify-center h-80 w-full"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-               <Lottie animationData={logoAnimation} loop={true} />
-            </motion.div>
+            <div className="relative hidden h-80 w-full items-center justify-center md:flex">
+              <motion.div
+                variants={floatingIconVariants(0, 4)}
+                initial="initial"
+                animate="animate"
+                className="absolute top-10 left-20 text-green-400"
+              >
+                <Leaf size={64} strokeWidth={1.5} />
+              </motion.div>
+              <motion.div
+                variants={floatingIconVariants(0.5, 3.5)}
+                initial="initial"
+                animate="animate"
+                className="absolute top-32 right-16 text-red-400"
+              >
+                <Apple size={80} strokeWidth={1.5} />
+              </motion.div>
+              <motion.div
+                variants={floatingIconVariants(1, 5)}
+                initial="initial"
+                animate="animate"
+                className="absolute bottom-12 left-24 text-yellow-400"
+              >
+                <HeartHandshake size={72} strokeWidth={1.5} />
+              </motion.div>
+                 <motion.div
+                variants={floatingIconVariants(1.5, 4.5)}
+                initial="initial"
+                animate="animate"
+                className="absolute bottom-24 right-32 text-blue-300"
+              >
+                <Leaf size={48} strokeWidth={1.5} />
+              </motion.div>
+            </div>
           </div>
            <motion.div 
             className="mt-16 flex flex-wrap gap-8 justify-center"
