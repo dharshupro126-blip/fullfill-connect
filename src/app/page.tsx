@@ -2,15 +2,40 @@
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { AnimatedCounter } from '@/components/custom/animated-counter';
-import Lottie from 'lottie-react';
-import animationData from '@/lib/food-movement-lottie.json';
 import Link from 'next/link';
+import { Apple, Leaf, HeartHandshake } from 'lucide-react';
+
+
+const FloatingIcon = ({ icon, className, delay, duration }: { icon: React.ElementType, className: string, delay: number, duration: number }) => {
+  const Icon = icon;
+  return (
+    <motion.div
+      className={`absolute ${className}`}
+      initial={{ y: 0, opacity: 0 }}
+      animate={{ 
+        y: [0, -20, 0],
+        opacity: [0, 0.7, 0]
+      }}
+      transition={{
+        delay,
+        duration,
+        ease: "easeInOut",
+        repeat: Infinity,
+        repeatType: "loop",
+      }}
+    >
+      <Icon className="h-full w-full" />
+    </motion.div>
+  );
+};
+
 
 export default function HomePage() {
   return (
     <div className="flex flex-1 flex-col">
-       <header className="w-full py-10 bg-gradient-to-br from-background to-slate-50">
-        <div className="mx-auto max-w-7xl px-4">
+       <header className="relative w-full py-10 bg-gradient-to-br from-background to-slate-50 overflow-hidden">
+       
+        <div className="mx-auto max-w-7xl px-4 z-10">
           <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-2">
             <div className="text-center md:text-left">
               <h1 className="text-4xl font-bold text-secondary md:text-5xl font-headline">
@@ -41,10 +66,12 @@ export default function HomePage() {
               
             </div>
 
-            <div className="flex justify-center">
-              <div className="flex h-64 w-96 items-center justify-center rounded-2xl">
-                 <Lottie animationData={animationData} loop={true} />
-              </div>
+            <div className="relative flex justify-center h-64 w-96">
+                <FloatingIcon icon={HeartHandshake} className="w-20 h-20 text-primary/30 top-0 left-20" delay={0} duration={8} />
+                <FloatingIcon icon={Leaf} className="w-16 h-16 text-accent/40 top-1/2 left-10" delay={2} duration={10} />
+                <FloatingIcon icon={Apple} className="w-12 h-12 text-primary/20 top-1/4 right-20" delay={1} duration={7} />
+                <FloatingIcon icon={HeartHandshake} className="w-10 h-10 text-accent/30 bottom-0 right-10" delay={3} duration={9} />
+                 <FloatingIcon icon={Leaf} className="w-24 h-24 text-primary/20 top-10 right-0" delay={0.5} duration={12} />
             </div>
           </div>
            <div className="mt-16 flex flex-wrap gap-8 justify-center">
