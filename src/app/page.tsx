@@ -61,15 +61,15 @@ export default function HomePage() {
                 className="text-4xl font-bold text-secondary md:text-5xl font-headline"
                 variants={itemVariants}
               >
-                Connecting Surplus,
+                Full plates,
                 <br />
-                <span className="text-primary">Nourishing Communities</span>
+                <span className="text-primary">full hearts.</span>
               </motion.h1>
               <motion.p 
                 className="mt-4 max-w-2xl text-lg text-muted-foreground mx-auto md:mx-0"
                 variants={itemVariants}
               >
-                Your central hub for linking surplus food with those who need it most. Together, we can combat hunger and reduce waste.
+                Connecting surplus food with those who need it most — reducing waste, fighting hunger, and nourishing communities.
               </motion.p>
 
               <motion.div 
