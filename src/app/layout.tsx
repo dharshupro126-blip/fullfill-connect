@@ -4,7 +4,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { MainLayout } from '@/components/custom/main-layout';
 
 export const metadata: Metadata = {
-  title: 'FullFill Connect',
+  title: 'FullFill',
   description: 'Connecting food donors with those in need.',
 };
 

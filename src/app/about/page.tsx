@@ -36,7 +36,7 @@ export default function AboutPage() {
         >
           <Card className="overflow-hidden">
              <div className="bg-muted p-12 text-center">
-                <CardTitle className="font-headline text-4xl">About FullFill Connect</CardTitle>
+                <CardTitle className="font-headline text-4xl">About FullFill</CardTitle>
                 <CardDescription className="mt-2 text-lg max-w-3xl mx-auto">
                     Our mission is simple: to bridge the gap between food surplus and community need. We leverage technology to create an efficient, reliable, and scalable platform for food donation and distribution.
                 </CardDescription>
@@ -108,7 +108,7 @@ export default function AboutPage() {
                         </div>
                         <div className="flex items-center gap-4">
                             <Mail className="w-6 h-6 text-primary" />
-                            <span>contact@fullfillconnect.org</span>
+                            <span>contact@fullfill.org</span>
                         </div>
                     </CardContent>
                 </Card>

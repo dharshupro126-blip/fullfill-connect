@@ -46,7 +46,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="font-headline text-3xl">Welcome Back!</CardTitle>
-          <CardDescription>Sign in to continue to FullFill Connect.</CardDescription>
+          <CardDescription>Sign in to continue to FullFill.</CardDescription>
         </CardHeader>
         <form onSubmit={handleLogin}>
             <CardContent className="space-y-4">

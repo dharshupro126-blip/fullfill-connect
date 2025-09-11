@@ -51,7 +51,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
           <div className="flex items-center gap-2">
             <Logo />
             <span className="text-lg font-headline font-semibold">
-              FullFill Connect
+              FullFill
             </span>
           </div>
         </SidebarHeader>

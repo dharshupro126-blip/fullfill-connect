@@ -1,10 +1,10 @@
-# FullFill Connect: Handoff & Developer Guide
+# FullFill: Handoff & Developer Guide
 
-Welcome to FullFill Connect, a platform designed to bridge the gap between food surplus and community need. This guide provides all necessary information for judges, developers, and project managers to understand, run, and evaluate the application.
+Welcome to FullFill, a platform designed to bridge the gap between food surplus and community need. This guide provides all necessary information for judges, developers, and project managers to understand, run, and evaluate the application.
 
 ## 1. Project Overview
 
-FullFill Connect is a full-stack application built on Next.js, Firebase, and Google's Genkit. It provides a real-time marketplace for food donations, an intelligent matching system to assign deliveries, and an administrative dashboard for oversight.
+FullFill is a full-stack application built on Next.js, Firebase, and Google's Genkit. It provides a real-time marketplace for food donations, an intelligent matching system to assign deliveries, and an administrative dashboard for oversight.
 
 **Core Features:**
 - **AI-Powered Food Donation:** Donors can list food items with an AI-powered freshness assessment.
