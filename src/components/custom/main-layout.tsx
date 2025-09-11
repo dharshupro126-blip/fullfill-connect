@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -10,9 +11,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarFooter,
 } from '@/components/ui/sidebar';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -73,12 +72,19 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
         </SidebarContent>
       </Sidebar>
       <SidebarInset>
-        <header className="flex h-14 items-center gap-4 border-b bg-background px-4 lg:h-[60px] lg:px-6">
+        <header className="flex h-14 items-center justify-between gap-4 border-b bg-background px-4 lg:h-[60px] lg:px-6">
           <SidebarTrigger className="md:hidden" />
           <div className="flex-1">
             {/* Can add breadcrumbs or page title here */}
           </div>
-          <Button variant="ghost">Log Out</Button>
+          <div className="flex items-center gap-2">
+             <Link href="/login" passHref>
+               <Button variant="ghost">Login</Button>
+            </Link>
+            <Link href="/get-started" passHref>
+               <Button>Get Started</Button>
+            </Link>
+          </div>
         </header>
         <AnimatePresence mode="wait">
            <motion.div
