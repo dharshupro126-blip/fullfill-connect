@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { AnimatedCounter } from '@/components/custom/animated-counter';
 import Link from 'next/link';
 import Lottie from 'lottie-react';
-import foodMovementAnimation from '@/lib/food-movement-lottie.json';
+import logoAnimation from '@/lib/logo-animation.json';
 
 
 export default function HomePage() {
@@ -49,15 +49,15 @@ export default function HomePage() {
                 className="text-4xl font-bold text-secondary md:text-5xl font-headline"
                 variants={itemVariants}
               >
-                Welcome to{' '}
-                <span className="text-primary">FullFill Connect</span>
+                Connecting Surplus,
+                <br />
+                <span className="text-primary">Nourishing Communities</span>
               </motion.h1>
               <motion.p 
                 className="mt-4 max-w-2xl text-lg text-muted-foreground mx-auto md:mx-0"
                 variants={itemVariants}
               >
-                Your central hub for connecting surplus food with communities
-                in need. Together, we can fight hunger and reduce food waste.
+                Your central hub for linking surplus food with those who need it most. Together, we can combat hunger and reduce waste.
               </motion.p>
 
               <motion.div 
@@ -83,12 +83,12 @@ export default function HomePage() {
             </motion.div>
 
             <motion.div 
-              className="relative flex justify-center h-64 w-full"
+              className="relative flex justify-center h-80 w-full"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-               <Lottie animationData={foodMovementAnimation} loop={true} />
+               <Lottie animationData={logoAnimation} loop={true} />
             </motion.div>
           </div>
            <motion.div 
