@@ -26,6 +26,9 @@ const initialDeliveries: Delivery[] = [
   { id: "DLV001", from: "Green Grocer", to: "Community Shelter", item: "Fresh Vegetables", status: "Assigned", donorCoords: { lat: 40.7128, lng: -74.0060 }, receiverCoords: { lat: 40.7580, lng: -73.9855 } },
   { id: "DLV002", from: "BakeHouse", to: "Northside Pantry", item: "Bread and Pastries", status: "In Transit", donorCoords: { lat: 40.7295, lng: -73.9965 }, receiverCoords: { lat: 40.7831, lng: -73.9712 } },
   { id: "DLV003", from: "Daily Catch", to: "Southside Kitchen", item: "Fresh Fish", status: "Delivered", donorCoords: { lat: 40.6892, lng: -74.0445 }, receiverCoords: { lat: 40.6782, lng: -73.9442 } },
+  { id: "DLV004", from: "City Farm Co-op", to: "Downtown Soup Kitchen", item: "Organic Produce Box", status: "Assigned", donorCoords: { lat: 40.7484, lng: -73.9857 }, receiverCoords: { lat: 40.7182, lng: -74.0152 } },
+  { id: "DLV005", from: "The Corner Cafe", to: "West End Shelter", item: "Prepared Meals", status: "Cancelled", donorCoords: { lat: 40.7610, lng: -73.9920 }, receiverCoords: { lat: 40.7550, lng: -74.0020 } },
+  { id: "DLV006", from: "Gourmet Foods", to: "Eastside Food Bank", item: "Canned Goods", status: "Delivered", donorCoords: { lat: 40.7831, lng: -73.9712 }, receiverCoords: { lat: 40.7721, lng: -73.9522 } },
 ];
 
 const containerStyle = {
@@ -107,7 +110,7 @@ export default function DeliveriesPage() {
                         <p className="text-sm text-muted-foreground">To: {delivery.to}</p>
                     </div>
                      <Badge 
-                      variant={delivery.status === 'Delivered' ? 'default' : delivery.status === 'In Transit' ? 'secondary' : 'outline' } 
+                      variant={delivery.status === 'Delivered' ? 'default' : delivery.status === 'In Transit' ? 'secondary' : delivery.status === 'Cancelled' ? 'destructive' : 'outline' } 
                       className={
                         delivery.status === 'In Transit' ? 'bg-accent text-accent-foreground' 
                         : delivery.status === 'Delivered' ? 'bg-primary/80 text-primary-foreground' 
