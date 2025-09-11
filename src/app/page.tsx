@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { AnimatedCounter } from '@/components/custom/animated-counter';
 import Link from 'next/link';
-import { Apple, HeartHandshake, Leaf } from 'lucide-react';
+import { Apple, HeartHandshake, Leaf, Carrot, Sandwich, UtensilsCrossed } from 'lucide-react';
 
 
 export default function HomePage() {
@@ -32,9 +32,10 @@ export default function HomePage() {
   };
 
   const floatingIconVariants = (delay: number, duration: number) => ({
-    initial: { y: 0 },
+    initial: { y: 0, rotate: -10 },
     animate: {
       y: [0, -15, 0],
+      rotate: [-10, 10, -10],
       transition: {
         delay,
         duration,
@@ -94,38 +95,28 @@ export default function HomePage() {
             </motion.div>
 
             <div className="relative hidden h-80 w-full items-center justify-center md:flex">
-              <motion.div
-                variants={floatingIconVariants(0, 4)}
-                initial="initial"
-                animate="animate"
-                className="absolute top-10 left-20 text-green-400"
-              >
-                <Leaf size={64} strokeWidth={1.5} />
-              </motion.div>
-              <motion.div
-                variants={floatingIconVariants(0.5, 3.5)}
-                initial="initial"
-                animate="animate"
-                className="absolute top-32 right-16 text-red-400"
-              >
-                <Apple size={80} strokeWidth={1.5} />
-              </motion.div>
-              <motion.div
-                variants={floatingIconVariants(1, 5)}
-                initial="initial"
-                animate="animate"
-                className="absolute bottom-12 left-24 text-yellow-400"
-              >
-                <HeartHandshake size={72} strokeWidth={1.5} />
-              </motion.div>
-                 <motion.div
-                variants={floatingIconVariants(1.5, 4.5)}
-                initial="initial"
-                animate="animate"
-                className="absolute bottom-24 right-32 text-blue-300"
-              >
-                <Leaf size={48} strokeWidth={1.5} />
-              </motion.div>
+                {/* Enhanced Floating Icons */}
+                <motion.div variants={floatingIconVariants(0, 6)} initial="initial" animate="animate" className="absolute top-10 left-20 text-green-400">
+                    <Leaf size={64} strokeWidth={1.5} />
+                </motion.div>
+                <motion.div variants={floatingIconVariants(0.5, 5.5)} initial="initial" animate="animate" className="absolute top-32 right-16 text-red-400">
+                    <Apple size={80} strokeWidth={1.5} />
+                </motion.div>
+                <motion.div variants={floatingIconVariants(1, 7)} initial="initial" animate="animate" className="absolute bottom-12 left-24 text-yellow-400">
+                    <HeartHandshake size={72} strokeWidth={1.5} />
+                </motion.div>
+                <motion.div variants={floatingIconVariants(1.5, 5)} initial="initial" animate="animate" className="absolute bottom-24 right-32 text-blue-300">
+                    <Leaf size={48} strokeWidth={1.5} />
+                </motion.div>
+                <motion.div variants={floatingIconVariants(2, 6.5)} initial="initial" animate="animate" className="absolute top-12 right-48 text-orange-400">
+                    <Carrot size={56} strokeWidth={1.5} />
+                </motion.div>
+                <motion.div variants={floatingIconVariants(2.5, 4.5)} initial="initial" animate="animate" className="absolute bottom-10 right-8 text-indigo-400">
+                    <UtensilsCrossed size={40} strokeWidth={1.5} />
+                </motion.div>
+                 <motion.div variants={floatingIconVariants(3, 8)} initial="initial" animate="animate" className="absolute top-40 left-10 text-lime-500">
+                    <Sandwich size={60} strokeWidth={1.5} />
+                </motion.div>
             </div>
           </div>
            <motion.div 
