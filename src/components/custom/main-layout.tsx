@@ -71,18 +71,6 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
             ))}
           </SidebarMenu>
         </SidebarContent>
-        <SidebarFooter>
-          <div className="flex items-center gap-3">
-             <Avatar>
-              <AvatarImage src="https://picsum.photos/seed/user/40/40" />
-              <AvatarFallback>JD</AvatarFallback>
-            </Avatar>
-            <div className='overflow-hidden'>
-              <p className="font-semibold truncate">Jane Doe</p>
-              <p className="text-muted-foreground truncate">Organization Admin</p>
-            </div>
-          </div>
-        </SidebarFooter>
       </Sidebar>
       <SidebarInset>
         <header className="flex h-14 items-center gap-4 border-b bg-background px-4 lg:h-[60px] lg:px-6">
