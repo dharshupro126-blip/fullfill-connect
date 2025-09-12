@@ -13,26 +13,34 @@ import {
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   HeartHandshake,
   Home,
   PackageSearch,
   Truck,
   FileText,
-  Info
+  Info,
+  LogOut,
 } from 'lucide-react';
 import { Logo } from './logo';
 import { Button } from '../ui/button';
 import { useFcm } from '@/hooks/use-fcm';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useAuth } from '@/hooks/use-auth-context';
+import { getAuth, signOut } from 'firebase/auth';
+import { firebaseApp } from '@/lib/firebase';
+import { useToast } from '@/hooks/use-toast';
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, loading } = useAuth();
+  const { toast } = useToast();
 
   // In a real app, you would get the user's UID after they log in.
   // For this example, we'll use a hardcoded ID.
-  const volunteerId = 'jane-doe-volunteer-id'; // Replace with dynamic user ID
+  const volunteerId = user ? user.uid : null; // Use real user ID
   useFcm(volunteerId);
 
   const menuItems = [
@@ -43,6 +51,24 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
     { href: '/reports', label: 'Reports', icon: FileText },
     { href: '/about', label: 'About & Contact', icon: Info },
   ];
+
+  const handleLogout = async () => {
+    const auth = getAuth(firebaseApp);
+    try {
+      await signOut(auth);
+      toast({
+        title: 'Logged Out',
+        description: 'You have been successfully logged out.',
+      });
+      router.push('/login');
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Logout Failed',
+        description: 'An error occurred during logout. Please try again.',
+      });
+    }
+  };
 
   return (
     <SidebarProvider>
@@ -72,6 +98,16 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
             ))}
           </SidebarMenu>
         </SidebarContent>
+        {user && (
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton onClick={handleLogout} tooltip="Log Out">
+                <LogOut />
+                <span>Log Out</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        )}
       </Sidebar>
       <SidebarInset>
         <header className="flex h-14 items-center justify-between gap-4 border-b bg-background px-4 lg:h-[60px] lg:px-6">
@@ -80,12 +116,21 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
             {/* Can add breadcrumbs or page title here */}
           </div>
           <div className="flex items-center gap-2">
-             <Link href="/login" passHref>
-               <Button variant="ghost">Login</Button>
-            </Link>
-            <Link href="/get-started" passHref>
-               <Button>Get Started</Button>
-            </Link>
+            {!loading && !user && (
+              <>
+                <Link href="/login" passHref>
+                  <Button variant="ghost">Login</Button>
+                </Link>
+                <Link href="/get-started" passHref>
+                  <Button>Get Started</Button>
+                </Link>
+              </>
+            )}
+             {user && (
+              <span className="text-sm text-muted-foreground">
+                Welcome, {user.displayName || user.email}
+              </span>
+            )}
           </div>
         </header>
         <AnimatePresence mode="wait">

@@ -1,28 +1,23 @@
-// This is a placeholder hook for demonstration purposes.
-// In a real application, you would use Firebase Authentication
-// to get the currently signed-in user.
+// This file is no longer the primary source of auth state, 
+// but is kept for compatibility with components that might still import it.
+// The primary auth logic is now in `use-auth-context.tsx`.
 
 import { useState, useEffect } from 'react';
-
-// A mock user object
-const mockUser = {
-  uid: 'donor-test-uid',
-  email: 'donor@sunrisebakery.com',
-  displayName: 'Sunrise Bakery',
-};
+import { getAuth, onAuthStateChanged, type User } from 'firebase/auth';
+import { firebaseApp } from '@/lib/firebase';
 
 export const useAuth = () => {
-  const [user, setUser] = useState<typeof mockUser | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate fetching user data
-    const timer = setTimeout(() => {
-      setUser(mockUser);
+    const auth = getAuth(firebaseApp);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
       setLoading(false);
-    }, 500);
+    });
 
-    return () => clearTimeout(timer);
+    return () => unsubscribe();
   }, []);
 
   return { user, loading };
