@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -25,6 +26,22 @@ type OtpDialogProps = {
   onConfirm: (deliveryId: string) => void;
 };
 
+// Lazily initialize functions and callables outside the component
+let functions: FirebaseFunctions | null = null;
+let generateOtp: ReturnType<typeof httpsCallable> | null = null;
+let verifyOtp: ReturnType<typeof httpsCallable> | null = null;
+
+const getFirebaseFunctions = () => {
+    if (typeof window !== 'undefined') {
+        if (!functions) {
+            functions = getFunctions(firebaseApp);
+            generateOtp = httpsCallable(functions, 'generateOtp');
+            verifyOtp = httpsCallable(functions, 'verifyOtp');
+        }
+    }
+}
+
+
 export function OtpDialog({ deliveryId, disabled, onConfirm }: OtpDialogProps) {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
@@ -32,20 +49,15 @@ export function OtpDialog({ deliveryId, disabled, onConfirm }: OtpDialogProps) {
   const [otp, setOtp] = useState('');
   const [hasGeneratedOtp, setHasGeneratedOtp] = useState(false);
 
-  // Lazily initialize Firebase Functions to ensure it's client-side
-  const functions = useMemo(() => {
-    if (typeof window !== 'undefined') {
-      return getFunctions(firebaseApp);
-    }
-    return null;
-  }, []);
-
-  const generateOtp = useMemo(() => functions ? httpsCallable(functions, 'generateOtp') : null, [functions]);
-  const verifyOtp = useMemo(() => functions ? httpsCallable(functions, 'verifyOtp') : null, [functions]);
+  // Ensure functions are initialized on the client
+  useMemo(() => getFirebaseFunctions(), []);
 
 
   const handleGenerateOtp = async () => {
-    if (!generateOtp) return;
+    if (!generateOtp) {
+        toast({ variant: 'destructive', title: 'Error', description: 'Functions not initialized.' });
+        return;
+    };
     setIsConfirming(true);
     try {
       await generateOtp({ deliveryId });
@@ -55,6 +67,7 @@ export function OtpDialog({ deliveryId, disabled, onConfirm }: OtpDialogProps) {
       });
       setHasGeneratedOtp(true);
     } catch (error: any) {
+      console.error("Error generating OTP:", error);
       toast({
         variant: 'destructive',
         title: 'Failed to Generate OTP',
@@ -66,7 +79,10 @@ export function OtpDialog({ deliveryId, disabled, onConfirm }: OtpDialogProps) {
   }
 
   const handleConfirm = async () => {
-     if (!verifyOtp) return;
+     if (!verifyOtp) {
+        toast({ variant: 'destructive', title: 'Error', description: 'Functions not initialized.' });
+        return;
+    };
     setIsConfirming(true);
     try {
       const result = await verifyOtp({ deliveryId, otp });
@@ -161,3 +177,5 @@ export function OtpDialog({ deliveryId, disabled, onConfirm }: OtpDialogProps) {
     </Dialog>
   );
 }
+
+    

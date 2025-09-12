@@ -1,35 +1,33 @@
+
 'use client';
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { OtpDialog } from "@/components/custom/otp-dialog";
 import { Button } from "@/components/ui/button";
-import { List, Map, Navigation, Check, Bike, Rocket } from "lucide-react";
-import { useState, useMemo } from "react";
+import { List, Map, Rocket, Check, Loader2 } from "lucide-react";
+import { useState, useMemo, useEffect } from "react";
 import { GoogleMap, useJsApiLoader, Marker, Polyline } from '@react-google-maps/api';
 import Lottie from 'lottie-react';
 import confettiAnimation from '@/lib/confetti-lottie.json';
+import { useAuth } from "@/hooks/use-auth-context";
+import { getFirestore, collection, query, where, onSnapshot, doc, updateDoc, GeoPoint } from "firebase/firestore";
+import { firebaseApp } from "@/lib/firebase";
 
 type DeliveryStatus = "Assigned" | "In Transit" | "Delivered" | "Cancelled";
 
 type Delivery = {
   id: string;
-  from: string;
-  to: string;
-  item: string;
+  donorName: string;
+  receiverName: string;
+  itemName: string;
   status: DeliveryStatus;
   donorCoords: { lat: number; lng: number };
   receiverCoords: { lat: number; lng: number };
+  volunteerId?: string;
+  donorId?: string;
+  receiverId?: string;
 };
-
-const initialDeliveries: Delivery[] = [
-  { id: "DLV001", from: "Green Grocer", to: "Community Shelter", item: "Fresh Vegetables", status: "Assigned", donorCoords: { lat: 40.7128, lng: -74.0060 }, receiverCoords: { lat: 40.7580, lng: -73.9855 } },
-  { id: "DLV002", from: "BakeHouse", to: "Northside Pantry", item: "Bread and Pastries", status: "In Transit", donorCoords: { lat: 40.7295, lng: -73.9965 }, receiverCoords: { lat: 40.7831, lng: -73.9712 } },
-  { id: "DLV003", from: "Daily Catch", to: "Southside Kitchen", item: "Fresh Fish", status: "Delivered", donorCoords: { lat: 40.6892, lng: -74.0445 }, receiverCoords: { lat: 40.6782, lng: -73.9442 } },
-  { id: "DLV004", from: "City Farm Co-op", to: "Downtown Soup Kitchen", item: "Organic Produce Box", status: "Assigned", donorCoords: { lat: 40.7484, lng: -73.9857 }, receiverCoords: { lat: 40.7182, lng: -74.0152 } },
-  { id: "DLV005", from: "The Corner Cafe", to: "West End Shelter", item: "Prepared Meals", status: "Cancelled", donorCoords: { lat: 40.7610, lng: -73.9920 }, receiverCoords: { lat: 40.7550, lng: -74.0020 } },
-  { id: "DLV006", from: "Gourmet Foods", to: "Eastside Food Bank", item: "Canned Goods", status: "Delivered", donorCoords: { lat: 40.7831, lng: -73.9712 }, receiverCoords: { lat: 40.7721, lng: -73.9522 } },
-];
 
 const containerStyle = {
   width: '100%',
@@ -37,27 +35,79 @@ const containerStyle = {
   borderRadius: '12px',
 };
 
-
 export default function DeliveriesPage() {
-  const [deliveries, setDeliveries] = useState<Delivery[]>(initialDeliveries);
+  const [deliveries, setDeliveries] = useState<Delivery[]>([]);
   const [view, setView] = useState<'list' | 'map'>('list');
-  const [selectedDelivery, setSelectedDelivery] = useState(deliveries[0]);
+  const [selectedDelivery, setSelectedDelivery] = useState<Delivery | null>(null);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const { user } = useAuth();
+  const db = getFirestore(firebaseApp);
+
+  useEffect(() => {
+    if (!user) {
+        setIsLoading(false);
+        setDeliveries([]);
+        return;
+    }
+
+    setIsLoading(true);
+    const deliveriesQuery = query(
+      collection(db, "deliveries"),
+      where("volunteerId", "==", user.uid)
+    );
+
+    const unsubscribe = onSnapshot(deliveriesQuery, (snapshot) => {
+      const fetchedDeliveries: Delivery[] = snapshot.docs.map(doc => {
+        const data = doc.data();
+        // Fallback for GeoPoint objects
+        const donorCoords = data.donorCoords instanceof GeoPoint ? { lat: data.donorCoords.latitude, lng: data.donorCoords.longitude } : data.donorCoords;
+        const receiverCoords = data.receiverCoords instanceof GeoPoint ? { lat: data.receiverCoords.latitude, lng: data.receiverCoords.longitude } : data.receiverCoords;
+
+        return {
+          id: doc.id,
+          donorName: data.donorName || 'Unknown Donor',
+          receiverName: data.receiverName || 'Unknown Receiver',
+          itemName: data.itemName || 'Unknown Item',
+          status: data.status,
+          donorCoords,
+          receiverCoords,
+        };
+      });
+      setDeliveries(fetchedDeliveries);
+      if (fetchedDeliveries.length > 0 && !selectedDelivery) {
+        setSelectedDelivery(fetchedDeliveries[0]);
+      } else if (fetchedDeliveries.length === 0) {
+        setSelectedDelivery(null);
+      }
+      setIsLoading(false);
+    }, (error) => {
+        console.error("Error fetching deliveries:", error);
+        setIsLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [user, db, selectedDelivery]);
+
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""
   })
 
-  const demoPath = useMemo(() => [
-    selectedDelivery.donorCoords,
-    { lat: (selectedDelivery.donorCoords.lat + selectedDelivery.receiverCoords.lat) / 2 + 0.01, lng: (selectedDelivery.donorCoords.lng + selectedDelivery.receiverCoords.lng) / 2 },
-    selectedDelivery.receiverCoords
-  ], [selectedDelivery]);
+  const demoPath = useMemo(() => {
+    if (!selectedDelivery) return [];
+    return [
+        selectedDelivery.donorCoords,
+        { lat: (selectedDelivery.donorCoords.lat + selectedDelivery.receiverCoords.lat) / 2 + 0.01, lng: (selectedDelivery.donorCoords.lng + selectedDelivery.receiverCoords.lng) / 2 },
+        selectedDelivery.receiverCoords
+    ]
+  }, [selectedDelivery]);
 
-  const updateDeliveryStatus = (deliveryId: string, newStatus: DeliveryStatus) => {
-    setDeliveries(prev => prev.map(d => d.id === deliveryId ? { ...d, status: newStatus } : d));
-    setSelectedDelivery(prev => prev.id === deliveryId ? { ...prev, status: newStatus } : prev);
+  const updateDeliveryStatus = async (deliveryId: string, newStatus: DeliveryStatus) => {
+    const deliveryRef = doc(db, "deliveries", deliveryId);
+    await updateDoc(deliveryRef, { status: newStatus });
+    // The onSnapshot listener will automatically update the local state.
   };
 
   const handleDeliveryConfirmed = (deliveryId: string) => {
@@ -97,17 +147,21 @@ export default function DeliveriesPage() {
               </div>
             </CardHeader>
             <CardContent className="space-y-4">
+              {isLoading && <div className="flex justify-center p-4"><Loader2 className="animate-spin" /></div>}
+              {!isLoading && deliveries.length === 0 && (
+                <p className="text-center text-muted-foreground p-4">You have no assigned deliveries.</p>
+              )}
               {deliveries.map((delivery) => (
                 <Card 
                     key={delivery.id} 
-                    className={`p-4 cursor-pointer transition-all ${selectedDelivery.id === delivery.id ? 'border-primary ring-2 ring-primary' : ''}`}
+                    className={`p-4 cursor-pointer transition-all ${selectedDelivery?.id === delivery.id ? 'border-primary ring-2 ring-primary' : ''}`}
                     onClick={() => setSelectedDelivery(delivery)}
                 >
                   <div className="flex justify-between items-start">
                     <div>
-                        <p className="font-semibold">{delivery.item}</p>
-                        <p className="text-sm text-muted-foreground">From: {delivery.from}</p>
-                        <p className="text-sm text-muted-foreground">To: {delivery.to}</p>
+                        <p className="font-semibold">{delivery.itemName}</p>
+                        <p className="text-sm text-muted-foreground">From: {delivery.donorName}</p>
+                        <p className="text-sm text-muted-foreground">To: {delivery.receiverName}</p>
                     </div>
                      <Badge 
                       variant={delivery.status === 'Delivered' ? 'default' : delivery.status === 'In Transit' ? 'secondary' : delivery.status === 'Cancelled' ? 'destructive' : 'outline' } 
@@ -127,11 +181,11 @@ export default function DeliveriesPage() {
         </div>
         
         <div className="lg:col-span-2">
-            <Card>
+           {selectedDelivery ? (
+             <Card>
                 <CardHeader>
                     <CardTitle className="font-headline">Delivery Details: {selectedDelivery.id}</CardTitle>
-
-                    <CardDescription>{selectedDelivery.item} from {selectedDelivery.from} to {selectedDelivery.to}</CardDescription>
+                    <CardDescription>{selectedDelivery.itemName} from {selectedDelivery.donorName} to {selectedDelivery.receiverName}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     {view === 'list' && (
@@ -139,7 +193,7 @@ export default function DeliveriesPage() {
                             <div className="flex items-center gap-4 p-4 border rounded-lg">
                                 <Rocket className="w-6 h-6 text-primary"/>
                                 <div>
-                                    <p className="font-semibold">Pickup from {selectedDelivery.from}</p>
+                                    <p className="font-semibold">Pickup from {selectedDelivery.donorName}</p>
                                     <p className="text-sm text-muted-foreground">Status: {selectedDelivery.status === 'Assigned' ? 'Pending Pickup' : 'Picked Up'}</p>
                                 </div>
                                 <Button 
@@ -154,7 +208,7 @@ export default function DeliveriesPage() {
                              <div className="flex items-center gap-4 p-4 border rounded-lg">
                                 <Check className="w-6 h-6 text-primary"/>
                                 <div>
-                                    <p className="font-semibold">Drop-off at {selectedDelivery.to}</p>
+                                    <p className="font-semibold">Drop-off at {selectedDelivery.receiverName}</p>
                                     <p className="text-sm text-muted-foreground">Status: {selectedDelivery.status === 'Delivered' ? 'Completed' : 'Pending Drop-off'}</p>
                                 </div>
                                 <OtpDialog 
@@ -203,8 +257,17 @@ export default function DeliveriesPage() {
                     )}
                 </CardContent>
             </Card>
+           ) : (
+             <Card className="flex items-center justify-center h-full min-h-[400px]">
+                <CardContent>
+                    <p className="text-muted-foreground">Select a delivery to see the details.</p>
+                </CardContent>
+             </Card>
+           )}
         </div>
       </div>
     </div>
   );
 }
+
+    
