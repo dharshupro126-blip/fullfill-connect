@@ -19,7 +19,7 @@ import type { FoodFreshnessOutput } from '@/ai/flows/food-freshness-analysis';
 import { getFirestore, collection, addDoc, serverTimestamp, GeoPoint } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { firebaseApp } from '@/lib/firebase';
-import { useAuth } from '@/hooks/use-auth'; // A placeholder for a real auth hook
+import { useAuth } from '@/hooks/use-auth-context';
 
 // Step 1: Define the Zod schema for form validation
 const formSchema = z.object({
