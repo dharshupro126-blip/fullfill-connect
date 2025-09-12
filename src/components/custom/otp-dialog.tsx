@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Loader2 } from 'lucide-react';
 import { getFunctions, httpsCallable, FirebaseFunctions } from 'firebase/functions';
 import { firebaseApp } from '@/lib/firebase';
@@ -25,22 +25,24 @@ type OtpDialogProps = {
   onConfirm: (deliveryId: string) => void;
 };
 
-// Define the callable functions
-let functions: FirebaseFunctions;
-if (typeof window !== 'undefined') {
-  functions = getFunctions(firebaseApp);
-}
-
-const generateOtp = functions ? httpsCallable(functions, 'generateOtp') : null;
-const verifyOtp = functions ? httpsCallable(functions, 'verifyOtp') : null;
-
-
 export function OtpDialog({ deliveryId, disabled, onConfirm }: OtpDialogProps) {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [isConfirming, setIsConfirming] = useState(false);
   const [otp, setOtp] = useState('');
   const [hasGeneratedOtp, setHasGeneratedOtp] = useState(false);
+
+  // Lazily initialize Firebase Functions to ensure it's client-side
+  const functions = useMemo(() => {
+    if (typeof window !== 'undefined') {
+      return getFunctions(firebaseApp);
+    }
+    return null;
+  }, []);
+
+  const generateOtp = useMemo(() => functions ? httpsCallable(functions, 'generateOtp') : null, [functions]);
+  const verifyOtp = useMemo(() => functions ? httpsCallable(functions, 'verifyOtp') : null, [functions]);
+
 
   const handleGenerateOtp = async () => {
     if (!generateOtp) return;
@@ -67,14 +69,18 @@ export function OtpDialog({ deliveryId, disabled, onConfirm }: OtpDialogProps) {
      if (!verifyOtp) return;
     setIsConfirming(true);
     try {
-      await verifyOtp({ deliveryId, otp });
-      toast({
-        title: 'Delivery Confirmed!',
-        description: `Delivery ${deliveryId} has been successfully completed.`,
-        className: 'bg-primary text-primary-foreground',
-      });
-      onConfirm(deliveryId);
-      setOpen(false); // Close the dialog on success
+      const result = await verifyOtp({ deliveryId, otp });
+      if ((result.data as any).success) {
+        toast({
+          title: 'Delivery Confirmed!',
+          description: `Delivery ${deliveryId} has been successfully completed.`,
+          className: 'bg-primary text-primary-foreground',
+        });
+        onConfirm(deliveryId);
+        setOpen(false); // Close the dialog on success
+      } else {
+         throw new Error((result.data as any).message || 'The OTP entered is incorrect.');
+      }
     } catch (error: any) {
       toast({
         variant: 'destructive',
