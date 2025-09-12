@@ -21,29 +21,46 @@ const foods = [
   { title: "Masala Dosa", desc: "Crispy rice crepe with potato filling", qty: 150, img: "masala_dosa.jpg" },
   { title: "Biryani", desc: "Aromatic basmati rice with spices & meat", qty: 80, img: "biryani.jpg" },
   { title: "Pav Bhaji", desc: "Spicy vegetable mash with buttered bread", qty: 100, img: "pav_bhaji.jpg" },
-  { title: "Idli Sambar", desc: "Steamed rice cakes with lentil soup", qty: 200, img: "idli_sambar.jpg" },
-  { title: "Rajma Chawal", desc: "Kidney beans curry with steamed rice", qty: 120, img: "rajma_chawal.jpg" },
-  { title: "Aloo Paratha", desc: "Stuffed potato flatbread", qty: 150, img: "aloo_paratha.jpg" },
-  { title: "Dhokla", desc: "Steamed chickpea flour cake", qty: 90, img: "dhokla.jpg" },
-  { title: "Butter Naan & Dal", desc: "Soft naan with spiced lentil curry", qty: 100, img: "butter_naan_dal.jpg" },
-  { title: "Pani Puri", desc: "Hollow fried crisp with spicy water", qty: 250, img: "pani_puri.jpg" },
-  { title: "Samosa Chaat", desc: "Crunchy samosa with tangy toppings", qty: 120, img: "samosa_chaat.jpg" },
-  { title: "Malai Kofta", desc: "Deep-fried dumplings in creamy gravy", qty: 80, img: "malai_kofta.jpg" },
-  { title: "Veg Thali", desc: "Full vegetarian plate with sides", qty: 100, img: "veg_thali.jpg" },
-  { title: "Jalebi & Rabri", desc: "Sweet fried spirals with condensed milk", qty: 150, img: "jalebi_rabri.jpg" },
-  { title: "Chicken Tikka", desc: "Spiced grilled chicken chunks", qty: 100, img: "chicken_tikka.jpg" },
-  { title: "Fish Curry", desc: "Spicy coastal fish curry", qty: 80, img: "fish_curry.jpg" },
-  { title: "Matar Paneer", desc: "Peas and paneer curry", qty: 120, img: "matar_paneer.jpg" },
-  { title: "Lemon Rice", desc: "Tangy and fragrant lemon rice", qty: 150, img: "lemon_rice.jpg" },
-  { title: "Vegetable Pulao", desc: "Mildly spiced rice with veggies", qty: 150, img: "veg_pulao.jpg" },
-  { title: "Tandoori Roti", desc: "Whole wheat flatbread", qty: 200, img: "tandoori_roti.jpg" },
-  { title: "Dal Makhani", desc: "Creamy black lentil curry", qty: 100, img: "dal_makhani.jpg" },
-  { title: "Bhindi Masala", desc: "Stir-fried okra with spices", qty: 120, img: "bhindi_masala.jpg" },
-  { title: "Gajar Halwa", desc: "Carrot-based sweet dessert", qty: 100, img: "gajar_halwa.jpg" },
-  { title: "Rasgulla", desc: "Soft spongy sweet syrup balls", qty: 150, img: "rasgulla.jpg" },
 ];
 
-async function seed() {
+const deliveries = [
+    {
+        donorName: "Sunrise Bakery",
+        receiverName: "Community Shelter",
+        itemName: "Assorted Pastries",
+        status: "Assigned",
+        donorCoords: { lat: 40.7128, lng: -74.0060 }, // NYC
+        receiverCoords: { lat: 40.7580, lng: -73.9855 }, // Times Square
+        volunteerId: "uid_demo_volunteer",
+        donorId: "uid_demo_donor",
+        receiverId: "uid_demo_receiver"
+    },
+    {
+        donorName: "The Corner Cafe",
+        receiverName: "Downtown Food Bank",
+        itemName: "Vegetable Soup (10L)",
+        status: "In Transit",
+        donorCoords: { lat: 40.7484, lng: -73.9857 }, // Empire State Building
+        receiverCoords: { lat: 40.7061, lng: -73.9969 }, // Near Wall Street
+        volunteerId: "uid_demo_volunteer",
+        donorId: "uid_demo_donor_2",
+        receiverId: "uid_demo_receiver_2"
+    },
+    {
+        donorName: "Good Eats Catering",
+        receiverName: "Uptown Soup Kitchen",
+        itemName: "Chicken & Rice (50 servings)",
+        status: "Delivered",
+        donorCoords: { lat: 40.7796, lng: -73.9632 }, // Central Park
+        receiverCoords: { lat: 40.8116, lng: -73.9465 }, // Harlem
+        volunteerId: "uid_demo_volunteer",
+        donorId: "uid_demo_donor_3",
+        receiverId: "uid_demo_receiver_3"
+    }
+];
+
+async function seedListings() {
+  console.log("Seeding listings...");
   for (const food of foods) {
     try {
       await addDoc(collection(db, "listings"), {
@@ -57,12 +74,36 @@ async function seed() {
         location: { lat: 28.6139, lng: 77.209 },
         status: "open",
       });
-      console.log(`Added: ${food.title}`);
+      console.log(`Added listing: ${food.title}`);
     } catch (err) {
-      console.error("Error:", err);
+      console.error("Error adding listing:", err);
     }
   }
-  console.log("All foods seeded!");
+  console.log("Listings seeding complete!");
 }
 
-seed();
+
+async function seedDeliveries() {
+  console.log("Seeding deliveries...");
+  for (const delivery of deliveries) {
+    try {
+      await addDoc(collection(db, "deliveries"), {
+        ...delivery,
+        createdAt: new Date(),
+      });
+      console.log(`Added delivery: ${delivery.itemName}`);
+    } catch (err) {
+      console.error("Error adding delivery:", err);
+    }
+  }
+  console.log("Deliveries seeding complete!");
+}
+
+
+async function main() {
+    await seedListings();
+    await seedDeliveries();
+    console.log("All data seeded!");
+}
+
+main();
