@@ -5,14 +5,11 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { OtpDialog } from "@/components/custom/otp-dialog";
 import { Button } from "@/components/ui/button";
-import { List, Map, Rocket, Check, Loader2 } from "lucide-react";
+import { List, Map, Rocket, Check, Loader2, Ban, RefreshCw } from "lucide-react";
 import { useState, useMemo, useEffect } from "react";
 import { GoogleMap, useJsApiLoader, Marker, Polyline } from '@react-google-maps/api';
 import Lottie from 'lottie-react';
 import confettiAnimation from '@/lib/confetti-lottie.json';
-import { useAuth } from "@/hooks/use-auth-context";
-import { getFirestore, collection, query, where, onSnapshot, doc, updateDoc, GeoPoint } from "firebase/firestore";
-import { firebaseApp } from "@/lib/firebase";
 
 type DeliveryStatus = "Assigned" | "In Transit" | "Delivered" | "Cancelled";
 
@@ -24,10 +21,83 @@ type Delivery = {
   status: DeliveryStatus;
   donorCoords: { lat: number; lng: number };
   receiverCoords: { lat: number; lng: number };
-  volunteerId?: string;
-  donorId?: string;
-  receiverId?: string;
 };
+
+const initialDeliveries: Delivery[] = [
+    {
+        id: "DEL001",
+        donorName: "Sunrise Bakery",
+        receiverName: "Community Shelter",
+        itemName: "Assorted Pastries (2 boxes)",
+        status: "Assigned",
+        donorCoords: { lat: 40.7128, lng: -74.0060 }, // NYC
+        receiverCoords: { lat: 40.7580, lng: -73.9855 }, // Times Square
+    },
+    {
+        id: "DEL002",
+        donorName: "The Corner Cafe",
+        receiverName: "Downtown Food Bank",
+        itemName: "Vegetable Soup (10L)",
+        status: "In Transit",
+        donorCoords: { lat: 40.7484, lng: -73.9857 }, // Empire State
+        receiverCoords: { lat: 40.7061, lng: -73.9969 }, // Wall Street
+    },
+    {
+        id: "DEL003",
+        donorName: "Good Eats Catering",
+        receiverName: "Uptown Soup Kitchen",
+        itemName: "Chicken & Rice (50 servings)",
+        status: "Delivered",
+        donorCoords: { lat: 40.7796, lng: -73.9632 }, // Central Park
+        receiverCoords: { lat: 40.8116, lng: -73.9465 }, // Harlem
+    },
+    {
+        id: "DEL004",
+        donorName: "Farm Fresh Grocers",
+        receiverName: "St. Jude's Center",
+        itemName: "Fresh Vegetables (15kg)",
+        status: "Assigned",
+        donorCoords: { lat: 40.730610, lng: -73.935242 }, // Brooklyn
+        receiverCoords: { lat: 40.749825, lng: -73.992004 }, // Penn Station
+    },
+     {
+        id: "DEL005",
+        donorName: "Pizza Palace",
+        receiverName: "Youth Center",
+        itemName: "10 Large Pizzas",
+        status: "Assigned",
+        donorCoords: { lat: 40.7679, lng: -73.9822 }, // Near MoMA
+        receiverCoords: { lat: 40.7505, lng: -73.9934 }, // Madison Square Garden
+    },
+    {
+        id: "DEL006",
+        donorName: "The Daily Grind",
+        receiverName: "Morning Star Shelter",
+        itemName: "Coffee and Sandwiches",
+        status: "Cancelled",
+        donorCoords: { lat: 40.7295, lng: -73.9965 }, // Greenwich Village
+        receiverCoords: { lat: 40.7143, lng: -74.0119 }, // WTC
+    },
+     {
+        id: "DEL007",
+        donorName: "Sushi Central",
+        receiverName: "City Harvest",
+        itemName: "Assorted Sushi Platters",
+        status: "Assigned",
+        donorCoords: { lat: 40.7590, lng: -73.9845 }, // Bryant Park
+        receiverCoords: { lat: 40.7614, lng: -73.9776 }, // 5th Avenue
+    },
+     {
+        id: "DEL008",
+        donorName: "Healthy Bites",
+        receiverName: "Local Community Fridge",
+        itemName: "Salads and Wraps",
+        status: "In Transit",
+        donorCoords: { lat: 40.7447, lng: -74.0024 }, // Meatpacking District
+        receiverCoords: { lat: 40.7308, lng: -73.9973 }, // Union Square
+    }
+];
+
 
 const containerStyle = {
   width: '100%',
@@ -36,60 +106,12 @@ const containerStyle = {
 };
 
 export default function DeliveriesPage() {
-  const [deliveries, setDeliveries] = useState<Delivery[]>([]);
+  const [deliveries, setDeliveries] = useState<Delivery[]>(initialDeliveries);
   const [view, setView] = useState<'list' | 'map'>('list');
-  const [selectedDelivery, setSelectedDelivery] = useState<Delivery | null>(null);
+  const [selectedDelivery, setSelectedDelivery] = useState<Delivery | null>(deliveries[0] || null);
   const [showConfetti, setShowConfetti] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const { user } = useAuth();
-  const db = getFirestore(firebaseApp);
-
-  useEffect(() => {
-    if (!user) {
-        setIsLoading(false);
-        setDeliveries([]);
-        return;
-    }
-
-    setIsLoading(true);
-    const deliveriesQuery = query(
-      collection(db, "deliveries"),
-      where("volunteerId", "==", user.uid)
-    );
-
-    const unsubscribe = onSnapshot(deliveriesQuery, (snapshot) => {
-      const fetchedDeliveries: Delivery[] = snapshot.docs.map(doc => {
-        const data = doc.data();
-        // Fallback for GeoPoint objects
-        const donorCoords = data.donorCoords instanceof GeoPoint ? { lat: data.donorCoords.latitude, lng: data.donorCoords.longitude } : data.donorCoords;
-        const receiverCoords = data.receiverCoords instanceof GeoPoint ? { lat: data.receiverCoords.latitude, lng: data.receiverCoords.longitude } : data.receiverCoords;
-
-        return {
-          id: doc.id,
-          donorName: data.donorName || 'Unknown Donor',
-          receiverName: data.receiverName || 'Unknown Receiver',
-          itemName: data.itemName || 'Unknown Item',
-          status: data.status,
-          donorCoords,
-          receiverCoords,
-        };
-      });
-      setDeliveries(fetchedDeliveries);
-      if (fetchedDeliveries.length > 0 && !selectedDelivery) {
-        setSelectedDelivery(fetchedDeliveries[0]);
-      } else if (fetchedDeliveries.length === 0) {
-        setSelectedDelivery(null);
-      }
-      setIsLoading(false);
-    }, (error) => {
-        console.error("Error fetching deliveries:", error);
-        setIsLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, [user, db, selectedDelivery]);
-
-
+  const [isLoading, setIsLoading] = useState(false);
+  
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""
@@ -105,9 +127,12 @@ export default function DeliveriesPage() {
   }, [selectedDelivery]);
 
   const updateDeliveryStatus = async (deliveryId: string, newStatus: DeliveryStatus) => {
-    const deliveryRef = doc(db, "deliveries", deliveryId);
-    await updateDoc(deliveryRef, { status: newStatus });
-    // The onSnapshot listener will automatically update the local state.
+    setDeliveries(currentDeliveries => 
+        currentDeliveries.map(d => 
+            d.id === deliveryId ? { ...d, status: newStatus } : d
+        )
+    );
+    setSelectedDelivery(prev => prev && prev.id === deliveryId ? { ...prev, status: newStatus } : prev);
   };
 
   const handleDeliveryConfirmed = (deliveryId: string) => {
@@ -115,6 +140,13 @@ export default function DeliveriesPage() {
     setShowConfetti(true);
     setTimeout(() => setShowConfetti(false), 4000); // Hide confetti after 4 seconds
   };
+
+  const resetData = () => {
+    setIsLoading(true);
+    setDeliveries(initialDeliveries);
+    setSelectedDelivery(initialDeliveries[0] || null);
+    setTimeout(() => setIsLoading(false), 500);
+  }
   
   return (
     <div className="flex-1 p-4 md:p-6 lg:p-8 relative">
@@ -137,10 +169,10 @@ export default function DeliveriesPage() {
                     </CardDescription>
                  </div>
                  <div className="flex gap-1">
-                    <Button variant={view === 'list' ? 'secondary' : 'ghost'} size="icon" onClick={() => setView('list')}>
+                    <Button variant={view === 'list' ? 'secondary' : 'ghost'} size="icon" onClick={() => setView('list')} aria-label="List View">
                         <List />
                     </Button>
-                     <Button variant={view === 'map' ? 'secondary' : 'ghost'} size="icon" onClick={() => setView('map')}>
+                     <Button variant={view === 'map' ? 'secondary' : 'ghost'} size="icon" onClick={() => setView('map')} aria-label="Map View">
                         <Map />
                     </Button>
                  </div>
@@ -168,6 +200,7 @@ export default function DeliveriesPage() {
                       className={
                         delivery.status === 'In Transit' ? 'bg-accent text-accent-foreground' 
                         : delivery.status === 'Delivered' ? 'bg-primary/80 text-primary-foreground' 
+                        : delivery.status === 'Cancelled' ? 'bg-destructive/80 text-destructive-foreground'
                         : ''
                       }
                     >
@@ -176,6 +209,9 @@ export default function DeliveriesPage() {
                   </div>
                 </Card>
               ))}
+                <Button onClick={resetData} variant="outline" className="w-full mt-4">
+                    <RefreshCw className="mr-2 h-4 w-4" /> Reset Demo Data
+                </Button>
             </CardContent>
           </Card>
         </div>
@@ -194,7 +230,7 @@ export default function DeliveriesPage() {
                                 <Rocket className="w-6 h-6 text-primary"/>
                                 <div>
                                     <p className="font-semibold">Pickup from {selectedDelivery.donorName}</p>
-                                    <p className="text-sm text-muted-foreground">Status: {selectedDelivery.status === 'Assigned' ? 'Pending Pickup' : 'Picked Up'}</p>
+                                    <p className="text-sm text-muted-foreground">Status: {selectedDelivery.status === 'Assigned' ? 'Pending Pickup' : 'On the way'}</p>
                                 </div>
                                 <Button 
                                   size="sm" 
@@ -216,6 +252,22 @@ export default function DeliveriesPage() {
                                   disabled={selectedDelivery.status !== 'In Transit'}
                                   onConfirm={() => handleDeliveryConfirmed(selectedDelivery.id)} 
                                 />
+                            </div>
+                             <div className="flex items-center gap-4 p-4 border rounded-lg bg-muted/50">
+                                <Ban className="w-6 h-6 text-destructive"/>
+                                <div>
+                                    <p className="font-semibold">Cancel Delivery</p>
+                                    <p className="text-sm text-muted-foreground">If you can no longer complete this task.</p>
+                                </div>
+                                <Button 
+                                  size="sm" 
+                                  variant="destructive"
+                                  className="ml-auto" 
+                                  disabled={selectedDelivery.status === 'Delivered' || selectedDelivery.status === 'Cancelled'}
+                                  onClick={() => updateDeliveryStatus(selectedDelivery.id, 'Cancelled')}
+                                >
+                                  Cancel Task
+                                </Button>
                             </div>
                         </div>
                     )}
