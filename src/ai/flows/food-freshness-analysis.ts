@@ -52,7 +52,7 @@ const prompt = ai.definePrompt({
   input: {schema: FoodFreshnessInputSchema},
   output: {schema: FoodFreshnessOutputSchema},
   config: {
-    model: 'gemini-pro',
+    model: 'gemini-pro-vision',
   },
   prompt: `You are an AI assistant specializing in assessing food freshness from images and descriptions for a food donation platform. Your goal is to provide a detailed and structured analysis.
 
