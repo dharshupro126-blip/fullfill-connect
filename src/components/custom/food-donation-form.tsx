@@ -169,48 +169,8 @@ export function FoodDonationForm() {
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setIsSubmitting(true);
     
-    if (!user) {
-      toast({
-        variant: 'destructive',
-        title: 'Authentication Error',
-        description: 'You must be logged in to create a donation.',
-      });
-      setIsSubmitting(false);
-      return;
-    }
-    
-    try {
-        const db = getFirestore(firebaseApp);
-        const storage = getStorage(firebaseApp);
-        const imageUrls: string[] = [];
-
-        // 1. Upload images to Firebase Storage
-        for (const file of Array.from(data.images)) {
-            const storageRef = ref(storage, `listings/${user.uid}/${Date.now()}-${file.name}`);
-            const snapshot = await uploadBytes(storageRef, file);
-            const downloadURL = await getDownloadURL(snapshot.ref);
-            imageUrls.push(downloadURL);
-        }
-
-        // 2. Create the listing document in Firestore
-        await addDoc(collection(db, 'listings'), {
-            title: data.foodName,
-            description: data.description,
-            quantity: data.quantity,
-            imageUrls: imageUrls,
-            donorId: user.uid, // Replace with actual authenticated user ID
-            status: 'available', // Initial status
-            createdAt: serverTimestamp(),
-            pickupWindow: {
-                start: new Date(data.pickupWindowStart),
-                end: new Date(data.pickupWindowEnd),
-            },
-            // For demo, using a fixed GeoPoint. In a real app, you'd geocode the address.
-            location: new GeoPoint(40.7128, -74.0060), 
-            pickupAddress: data.address,
-            freshnessAnalyses: imagePreviews.map(p => p.analysis)
-        });
-
+    // Simulate a successful donation for prototype purposes
+    setTimeout(() => {
         setIsSubmitting(false);
         reset(); // Reset form fields
         setImagePreviews([]); // Clear image previews
@@ -221,16 +181,7 @@ export function FoodDonationForm() {
             description: 'Thank you! Your donation is now visible to receivers.',
             className: 'bg-primary text-primary-foreground',
         });
-
-    } catch (error) {
-        console.error("Error submitting donation:", error);
-        setIsSubmitting(false);
-        toast({
-            variant: 'destructive',
-            title: 'Submission Failed',
-            description: 'Could not save your donation. Please try again.',
-        });
-    }
+    }, 1000); // Simulate a network delay
   };
 
   const stepVariants = {
@@ -294,7 +245,7 @@ export function FoodDonationForm() {
                            <Image src={preview.src} alt={`Preview ${index + 1}`} fill objectFit="cover" className="rounded-md" />
                            <Card className="absolute bottom-1 left-1 right-1 p-1 bg-background/80 backdrop-blur-sm">
                              <p className="text-xs font-semibold flex items-center gap-1">
-                              <Sparkles className="w-3 h-3 text-accent" /> AI Freshness
+                              <Sparkles className="w-3 h-3 text-accent" /> AI Assessment
                              </p>
                              {preview.isLoading ? (
                                <p className="text-xs text-muted-foreground animate-pulse">Analyzing...</p>
