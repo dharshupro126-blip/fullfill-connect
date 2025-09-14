@@ -1,4 +1,3 @@
-
 'use client';
 
 import {
@@ -15,10 +14,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
-import { getFunctions, httpsCallable, FirebaseFunctions } from 'firebase/functions';
-import { firebaseApp } from '@/lib/firebase';
 
 type OtpDialogProps = {
   deliveryId: string;
@@ -26,21 +23,7 @@ type OtpDialogProps = {
   onConfirm: (deliveryId: string) => void;
 };
 
-// Lazily initialize functions and callables outside the component
-let functions: FirebaseFunctions | null = null;
-let generateOtp: ReturnType<typeof httpsCallable> | null = null;
-let verifyOtp: ReturnType<typeof httpsCallable> | null = null;
-
-const getFirebaseFunctions = () => {
-    if (typeof window !== 'undefined') {
-        if (!functions) {
-            functions = getFunctions(firebaseApp);
-            generateOtp = httpsCallable(functions, 'generateOtp');
-            verifyOtp = httpsCallable(functions, 'verifyOtp');
-        }
-    }
-}
-
+const DUMMY_OTP = "123456";
 
 export function OtpDialog({ deliveryId, disabled, onConfirm }: OtpDialogProps) {
   const { toast } = useToast();
@@ -49,44 +32,24 @@ export function OtpDialog({ deliveryId, disabled, onConfirm }: OtpDialogProps) {
   const [otp, setOtp] = useState('');
   const [hasGeneratedOtp, setHasGeneratedOtp] = useState(false);
 
-  // Ensure functions are initialized on the client
-  useMemo(() => getFirebaseFunctions(), []);
-
-
   const handleGenerateOtp = async () => {
-    if (!generateOtp) {
-        toast({ variant: 'destructive', title: 'Error', description: 'Functions not initialized.' });
-        return;
-    };
     setIsConfirming(true);
-    try {
-      await generateOtp({ deliveryId });
+    // Simulate sending OTP
+    setTimeout(() => {
       toast({
-        title: 'OTP Generated',
-        description: 'An OTP has been sent to the receiver.',
+        title: 'OTP Generated (Prototype)',
+        description: `An OTP was "sent" to the receiver. Use ${DUMMY_OTP} to confirm.`,
       });
       setHasGeneratedOtp(true);
-    } catch (error: any) {
-      console.error("Error generating OTP:", error);
-      toast({
-        variant: 'destructive',
-        title: 'Failed to Generate OTP',
-        description: error.message || 'An unknown error occurred.',
-      });
-    } finally {
       setIsConfirming(false);
-    }
+    }, 500);
   }
 
   const handleConfirm = async () => {
-     if (!verifyOtp) {
-        toast({ variant: 'destructive', title: 'Error', description: 'Functions not initialized.' });
-        return;
-    };
     setIsConfirming(true);
-    try {
-      const result = await verifyOtp({ deliveryId, otp });
-      if ((result.data as any).success) {
+    // Simulate verifying OTP
+    setTimeout(() => {
+      if (otp === DUMMY_OTP) {
         toast({
           title: 'Delivery Confirmed!',
           description: `Delivery ${deliveryId} has been successfully completed.`,
@@ -95,18 +58,15 @@ export function OtpDialog({ deliveryId, disabled, onConfirm }: OtpDialogProps) {
         onConfirm(deliveryId);
         setOpen(false); // Close the dialog on success
       } else {
-         throw new Error((result.data as any).message || 'The OTP entered is incorrect.');
+        toast({
+          variant: 'destructive',
+          title: 'Incorrect OTP',
+          description: 'The OTP entered is incorrect. Please try again.',
+        });
       }
-    } catch (error: any) {
-      toast({
-        variant: 'destructive',
-        title: 'Incorrect OTP',
-        description: error.message || 'The OTP entered is incorrect. Please try again.',
-      });
-    } finally {
-        setIsConfirming(false);
-        setOtp('');
-    }
+      setIsConfirming(false);
+      setOtp('');
+    }, 500);
   };
   
   const handleOpenChange = (isOpen: boolean) => {
@@ -138,7 +98,7 @@ export function OtpDialog({ deliveryId, disabled, onConfirm }: OtpDialogProps) {
         </DialogHeader>
         {!hasGeneratedOtp ? (
           <div className="py-4">
-             <Button type="button" onClick={handleGenerateOtp} disabled={isConfirming || !generateOtp} className='w-full'>
+             <Button type="button" onClick={handleGenerateOtp} disabled={isConfirming} className='w-full'>
               {isConfirming && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Generate & Send OTP
             </Button>
@@ -167,7 +127,7 @@ export function OtpDialog({ deliveryId, disabled, onConfirm }: OtpDialogProps) {
             </Button>
           </DialogClose>
           {hasGeneratedOtp && (
-            <Button type="button" onClick={handleConfirm} disabled={isConfirming || otp.length < 6 || !verifyOtp}>
+            <Button type="button" onClick={handleConfirm} disabled={isConfirming || otp.length < 6}>
               {isConfirming && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Confirm
             </Button>
@@ -177,5 +137,3 @@ export function OtpDialog({ deliveryId, disabled, onConfirm }: OtpDialogProps) {
     </Dialog>
   );
 }
-
-    
