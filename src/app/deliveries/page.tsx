@@ -101,13 +101,13 @@ const initialDeliveries: Delivery[] = [
 
 const containerStyle = {
   width: '100%',
-  height: '400px',
+  height: '350px',
   borderRadius: '12px',
+  marginTop: '1.5rem',
 };
 
 export default function DeliveriesPage() {
   const [deliveries, setDeliveries] = useState<Delivery[]>(initialDeliveries);
-  const [view, setView] = useState<'list' | 'map'>('list');
   const [selectedDelivery, setSelectedDelivery] = useState<Delivery | null>(deliveries[0] || null);
   const [showConfetti, setShowConfetti] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -168,17 +168,9 @@ export default function DeliveriesPage() {
                         Your assigned tasks.
                     </CardDescription>
                  </div>
-                 <div className="flex gap-1">
-                    <Button variant={view === 'list' ? 'secondary' : 'ghost'} size="icon" onClick={() => setView('list')} aria-label="List View">
-                        <List />
-                    </Button>
-                     <Button variant={view === 'map' ? 'secondary' : 'ghost'} size="icon" onClick={() => setView('map')} aria-label="Map View">
-                        <Map />
-                    </Button>
-                 </div>
               </div>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 max-h-[70vh] overflow-y-auto">
               {isLoading && <div className="flex justify-center p-4"><Loader2 className="animate-spin" /></div>}
               {!isLoading && deliveries.length === 0 && (
                 <p className="text-center text-muted-foreground p-4">You have no assigned deliveries.</p>
@@ -209,7 +201,7 @@ export default function DeliveriesPage() {
                   </div>
                 </Card>
               ))}
-                <Button onClick={resetData} variant="outline" className="w-full mt-4">
+                <Button onClick={resetData} variant="outline" className="w-full mt-4 sticky bottom-0 bg-card">
                     <RefreshCw className="mr-2 h-4 w-4" /> Reset Demo Data
                 </Button>
             </CardContent>
@@ -224,54 +216,53 @@ export default function DeliveriesPage() {
                     <CardDescription>{selectedDelivery.itemName} from {selectedDelivery.donorName} to {selectedDelivery.receiverName}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    {view === 'list' && (
-                        <div className="space-y-4">
-                            <div className="flex items-center gap-4 p-4 border rounded-lg">
-                                <Rocket className="w-6 h-6 text-primary"/>
-                                <div>
-                                    <p className="font-semibold">Pickup from {selectedDelivery.donorName}</p>
-                                    <p className="text-sm text-muted-foreground">Status: {selectedDelivery.status === 'Assigned' ? 'Pending Pickup' : 'On the way'}</p>
-                                </div>
-                                <Button 
-                                  size="sm" 
-                                  className="ml-auto" 
-                                  disabled={selectedDelivery.status !== 'Assigned'}
-                                  onClick={() => updateDeliveryStatus(selectedDelivery.id, 'In Transit')}
-                                >
-                                  Mark Picked Up
-                                </Button>
+                    <div className="space-y-4">
+                        <div className="flex items-center gap-4 p-4 border rounded-lg">
+                            <Rocket className="w-6 h-6 text-primary"/>
+                            <div>
+                                <p className="font-semibold">Pickup from {selectedDelivery.donorName}</p>
+                                <p className="text-sm text-muted-foreground">Status: {selectedDelivery.status === 'Assigned' ? 'Pending Pickup' : 'On the way'}</p>
                             </div>
-                             <div className="flex items-center gap-4 p-4 border rounded-lg">
-                                <Check className="w-6 h-6 text-primary"/>
-                                <div>
-                                    <p className="font-semibold">Drop-off at {selectedDelivery.receiverName}</p>
-                                    <p className="text-sm text-muted-foreground">Status: {selectedDelivery.status === 'Delivered' ? 'Completed' : 'Pending Drop-off'}</p>
-                                </div>
-                                <OtpDialog 
-                                  deliveryId={selectedDelivery.id} 
-                                  disabled={selectedDelivery.status !== 'In Transit'}
-                                  onConfirm={() => handleDeliveryConfirmed(selectedDelivery.id)} 
-                                />
-                            </div>
-                             <div className="flex items-center gap-4 p-4 border rounded-lg bg-muted/50">
-                                <Ban className="w-6 h-6 text-destructive"/>
-                                <div>
-                                    <p className="font-semibold">Cancel Delivery</p>
-                                    <p className="text-sm text-muted-foreground">If you can no longer complete this task.</p>
-                                </div>
-                                <Button 
-                                  size="sm" 
-                                  variant="destructive"
-                                  className="ml-auto" 
-                                  disabled={selectedDelivery.status === 'Delivered' || selectedDelivery.status === 'Cancelled'}
-                                  onClick={() => updateDeliveryStatus(selectedDelivery.id, 'Cancelled')}
-                                >
-                                  Cancel Task
-                                </Button>
-                            </div>
+                            <Button 
+                              size="sm" 
+                              className="ml-auto" 
+                              disabled={selectedDelivery.status !== 'Assigned'}
+                              onClick={() => updateDeliveryStatus(selectedDelivery.id, 'In Transit')}
+                            >
+                              Mark Picked Up
+                            </Button>
                         </div>
-                    )}
-                    {view === 'map' && isLoaded && (
+                         <div className="flex items-center gap-4 p-4 border rounded-lg">
+                            <Check className="w-6 h-6 text-primary"/>
+                            <div>
+                                <p className="font-semibold">Drop-off at {selectedDelivery.receiverName}</p>
+                                <p className="text-sm text-muted-foreground">Status: {selectedDelivery.status === 'Delivered' ? 'Completed' : 'Pending Drop-off'}</p>
+                            </div>
+                            <OtpDialog 
+                              deliveryId={selectedDelivery.id} 
+                              disabled={selectedDelivery.status !== 'In Transit'}
+                              onConfirm={() => handleDeliveryConfirmed(selectedDelivery.id)} 
+                            />
+                        </div>
+                         <div className="flex items-center gap-4 p-4 border rounded-lg bg-muted/50">
+                            <Ban className="w-6 h-6 text-destructive"/>
+                            <div>
+                                <p className="font-semibold">Cancel Delivery</p>
+                                <p className="text-sm text-muted-foreground">If you can no longer complete this task.</p>
+                            </div>
+                            <Button 
+                              size="sm" 
+                              variant="destructive"
+                              className="ml-auto" 
+                              disabled={selectedDelivery.status === 'Delivered' || selectedDelivery.status === 'Cancelled'}
+                              onClick={() => updateDeliveryStatus(selectedDelivery.id, 'Cancelled')}
+                            >
+                              Cancel Task
+                            </Button>
+                        </div>
+                    </div>
+                    
+                    {isLoaded && (
                         <GoogleMap
                             mapContainerStyle={containerStyle}
                             center={selectedDelivery.donorCoords}
@@ -302,8 +293,8 @@ export default function DeliveriesPage() {
                             )}
                         </GoogleMap>
                     )}
-                     {view === 'map' && !isLoaded && (
-                        <div className="flex items-center justify-center w-full h-[400px] bg-muted rounded-lg">
+                     {!isLoaded && (
+                        <div className="flex items-center justify-center w-full h-[350px] bg-muted rounded-lg mt-6">
                             <p>Loading map...</p>
                         </div>
                     )}
