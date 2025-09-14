@@ -14,7 +14,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { useToast } from '@/hooks/use-toast';
 import { ArrowLeft, ArrowRight, Check, CheckCircle, Clock, Loader2, Sparkles, XCircle } from 'lucide-react';
 import Image from 'next/image';
-import { getFoodFreshnessAnalysis } from '@/app/actions';
 import type { FoodFreshnessOutput } from '@/ai/flows/food-freshness-analysis';
 import { getFirestore, collection, addDoc, serverTimestamp, GeoPoint } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -67,15 +66,6 @@ export function FoodDonationForm() {
     }
   });
 
-  const fileToDataUri = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  };
-
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files;
 
@@ -113,48 +103,25 @@ export function FoodDonationForm() {
 
     setImagePreviews(newPreviews); // Replace instead of append to enforce max
 
-    // Trigger AI analysis for each new image
-    newPreviews.forEach(async (preview) => {
-      const dataUri = await fileToDataUri(preview.file);
-      const foodDescription = getValues('description') || getValues('foodName') || 'food item';
-      
-      try {
-        const result = await getFoodFreshnessAnalysis({
-          foodPhotoDataUri: dataUri,
-          foodDescription,
-        });
+    // Simulate AI analysis for prototyping
+    const mockAnalysis: FoodFreshnessOutput = {
+        isEdible: true,
+        freshnessScore: 100,
+        estimatedShelfLife: 'Looks great',
+        assessmentSummary: 'Perfectly fresh and ready for donation.',
+        disclaimerNeeded: false,
+    };
 
-        setImagePreviews(prev => {
-            const updated = [...prev];
-            const targetIndex = prev.findIndex(p => p.src === preview.src);
-            if (targetIndex !== -1) {
-              updated[targetIndex] = { ...updated[targetIndex], analysis: result, isLoading: false };
-            }
-            return updated;
-        });
-
-      } catch (error) {
-        console.error("AI Analysis failed:", error);
-         setImagePreviews(prev => {
-            const updated = [...prev];
-            const targetIndex = prev.findIndex(p => p.src === preview.src);
-            if (targetIndex !== -1) {
-              updated[targetIndex] = { 
-                ...updated[targetIndex], 
-                analysis: { 
-                  isEdible: false,
-                  freshnessScore: 0,
-                  estimatedShelfLife: 'N/A',
-                  assessmentSummary: 'Analysis failed', 
-                  disclaimerNeeded: true 
-                },
-                isLoading: false 
-              };
-            }
-            return updated;
-        });
-      }
-    });
+    // Update previews with mock data after a short delay
+    setTimeout(() => {
+        setImagePreviews(prev => 
+            prev.map(p => ({
+                ...p,
+                analysis: mockAnalysis,
+                isLoading: false,
+            }))
+        );
+    }, 500); // 500ms delay to simulate processing
   };
   
   const nextStep = async () => {
@@ -363,3 +330,5 @@ export function FoodDonationForm() {
     </Card>
   );
 }
+
+    
