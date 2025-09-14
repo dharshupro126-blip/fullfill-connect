@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
+import { useToast } from '@/hooks/use-toast';
 
 // The data is now imported directly, so we can use the ImagePlaceholder type
 const listings: ImagePlaceholder[] = PlaceHolderImages;
@@ -16,12 +17,21 @@ const listings: ImagePlaceholder[] = PlaceHolderImages;
 function FoodCard({ item, index }: { item: ImagePlaceholder; index: number }) {
   const [quantity, setQuantity] = useState(0);
   const [freshness, setFreshness] = useState(0);
+  const { toast } = useToast();
 
   useEffect(() => {
     // Generate random values on the client-side to avoid hydration errors
     setQuantity(Math.floor(Math.random() * 20) + 5);
     setFreshness(Math.floor(Math.random() * 15) + 85);
   }, []);
+  
+  const handleRequestItem = () => {
+    toast({
+        title: "Request Sent!",
+        description: `Your request for "${item.title}" has been sent to the donor.`,
+        className: 'bg-primary text-primary-foreground',
+    });
+  };
 
   return (
     <motion.div key={item.id} whileHover={{ y: -5 }} className="h-full">
@@ -61,7 +71,7 @@ function FoodCard({ item, index }: { item: ImagePlaceholder; index: number }) {
           </p>
         </CardContent>
         <CardFooter className="p-4 pt-0">
-          <Button className="w-full">Request Item</Button>
+          <Button className="w-full" onClick={handleRequestItem}>Request Item</Button>
         </CardFooter>
       </Card>
     </motion.div>
@@ -71,10 +81,18 @@ function FoodCard({ item, index }: { item: ImagePlaceholder; index: number }) {
 
 export default function FindFoodPage() {
   const [search, setSearch] = useState('');
+  const { toast } = useToast();
 
   const filteredListings = listings.filter((item) =>
     item.title.toLowerCase().includes(search.toLowerCase())
   );
+  
+  const handlePostRequest = () => {
+    toast({
+        title: "Request Posted!",
+        description: "Volunteers and donors in your area have been notified of your request.",
+    });
+  }
 
   return (
     <div className="flex-1 p-4 md:p-6 lg:p-8">
@@ -96,7 +114,7 @@ export default function FindFoodPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
-            <Button>Post a Request</Button>
+            <Button onClick={handlePostRequest}>Post a Request</Button>
           </div>
         </div>
 
