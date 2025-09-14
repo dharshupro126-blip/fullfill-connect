@@ -12,7 +12,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowLeft, ArrowRight, Check, Loader2, Sparkles } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, CheckCircle, Clock, Loader2, Sparkles, XCircle } from 'lucide-react';
 import Image from 'next/image';
 import { getFoodFreshnessAnalysis } from '@/app/actions';
 import type { FoodFreshnessOutput } from '@/ai/flows/food-freshness-analysis';
@@ -20,6 +20,7 @@ import { getFirestore, collection, addDoc, serverTimestamp, GeoPoint } from 'fir
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { firebaseApp } from '@/lib/firebase';
 import { useAuth } from '@/hooks/use-auth-context';
+import { Progress } from '../ui/progress';
 
 // Step 1: Define the Zod schema for form validation
 const formSchema = z.object({
@@ -140,7 +141,13 @@ export function FoodDonationForm() {
             if (targetIndex !== -1) {
               updated[targetIndex] = { 
                 ...updated[targetIndex], 
-                analysis: { freshnessAssessment: 'Analysis failed', disclaimerNeeded: true },
+                analysis: { 
+                  isEdible: false,
+                  freshnessScore: 0,
+                  estimatedShelfLife: 'N/A',
+                  assessmentSummary: 'Analysis failed', 
+                  disclaimerNeeded: true 
+                },
                 isLoading: false 
               };
             }
@@ -190,13 +197,36 @@ export function FoodDonationForm() {
     exit: { opacity: 0, x: -50 },
   };
 
-  const getAnalysisColor = (assessment?: string) => {
-    if (!assessment) return 'text-muted-foreground';
-    const lowerCaseAssessment = assessment.toLowerCase();
-    if (lowerCaseAssessment.includes('fresh')) return 'text-green-600';
-    if (lowerCaseAssessment.includes('spoiled') || lowerCaseAssessment.includes('rotten')) return 'text-red-600';
-    if (lowerCaseAssessment.includes('stale') || lowerCaseAssessment.includes('wilting')) return 'text-amber-600';
-    return 'text-foreground';
+  const renderAnalysis = (preview: ImagePreviewState) => {
+    if (preview.isLoading) {
+      return <p className="text-xs text-muted-foreground animate-pulse">Analyzing...</p>;
+    }
+    if (!preview.analysis) {
+      return <p className="text-xs text-red-600">Analysis failed.</p>;
+    }
+
+    const { isEdible, freshnessScore, estimatedShelfLife, assessmentSummary } = preview.analysis;
+    const scoreColor = freshnessScore > 75 ? 'bg-green-500' : freshnessScore > 40 ? 'bg-yellow-500' : 'bg-red-500';
+
+    return (
+      <div className="space-y-1.5">
+        <div className="flex items-center gap-2">
+          <p className="text-xs font-semibold">Freshness: {freshnessScore}%</p>
+          <Progress value={freshnessScore} className="h-2 flex-1" indicatorClassName={scoreColor} />
+        </div>
+        <p className="text-xs text-muted-foreground line-clamp-1" title={assessmentSummary}>{assessmentSummary}</p>
+        <div className="flex items-center gap-4 text-xs">
+          <span className={`flex items-center gap-1 font-medium ${isEdible ? 'text-green-600' : 'text-red-600'}`}>
+            {isEdible ? <CheckCircle className="w-3 h-3" /> : <XCircle className="w-3 h-3" />}
+            {isEdible ? 'Edible' : 'Not Edible'}
+          </span>
+          <span className="flex items-center gap-1 text-muted-foreground">
+            <Clock className="w-3 h-3" />
+            {estimatedShelfLife}
+          </span>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -239,21 +269,15 @@ export function FoodDonationForm() {
                     <Label htmlFor="images-upload">Food Images (up to 3)</Label>
                     <Input id="images-upload" type="file" multiple accept="image/*" onChange={handleFileChange} />
                     {errors.images && <p className="text-sm text-destructive">{errors.images.message as string}</p>}
-                    <div className="mt-4 grid grid-cols-3 gap-4">
+                    <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
                       {imagePreviews.map((preview, index) => (
                         <div key={index} className="relative aspect-square">
                            <Image src={preview.src} alt={`Preview ${index + 1}`} fill objectFit="cover" className="rounded-md" />
-                           <Card className="absolute bottom-1 left-1 right-1 p-1 bg-background/80 backdrop-blur-sm">
-                             <p className="text-xs font-semibold flex items-center gap-1">
-                              <Sparkles className="w-3 h-3 text-accent" /> AI Assessment
+                           <Card className="absolute bottom-1 left-1 right-1 p-2 bg-background/80 backdrop-blur-sm">
+                             <p className="text-xs font-bold flex items-center gap-1 mb-1">
+                              <Sparkles className="w-3 h-3 text-accent" /> AI Quality Check
                              </p>
-                             {preview.isLoading ? (
-                               <p className="text-xs text-muted-foreground animate-pulse">Analyzing...</p>
-                             ) : (
-                               <p className={`text-xs font-medium ${getAnalysisColor(preview.analysis?.freshnessAssessment)}`}>
-                                 {preview.analysis?.freshnessAssessment || 'Analysis failed.'}
-                               </p>
-                             )}
+                             {renderAnalysis(preview)}
                            </Card>
                         </div>
                       ))}
@@ -300,13 +324,11 @@ export function FoodDonationForm() {
                       {imagePreviews.map((preview, index) => (
                         <div key={index} className="relative aspect-square">
                            <Image src={preview.src} alt={`Preview ${index + 1}`} fill objectFit="cover" className="rounded-md" />
-                           <Card className="absolute bottom-1 left-1 right-1 p-1 bg-background/80 backdrop-blur-sm">
-                             <p className="text-xs font-semibold flex items-center gap-1">
-                               <Sparkles className="w-3 h-3 text-accent" /> AI Assessment
+                            <Card className="absolute bottom-1 left-1 right-1 p-2 bg-background/80 backdrop-blur-sm">
+                             <p className="text-xs font-bold flex items-center gap-1 mb-1">
+                              <Sparkles className="w-3 h-3 text-accent" /> AI Quality Check
                              </p>
-                            <p className={`text-xs font-medium ${getAnalysisColor(preview.analysis?.freshnessAssessment)}`}>
-                                {preview.analysis?.freshnessAssessment}
-                            </p>
+                             {renderAnalysis(preview)}
                            </Card>
                         </div>
                       ))}

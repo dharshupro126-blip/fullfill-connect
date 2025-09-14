@@ -21,13 +21,22 @@ const FoodFreshnessInputSchema = z.object({
 export type FoodFreshnessInput = z.infer<typeof FoodFreshnessInputSchema>;
 
 const FoodFreshnessOutputSchema = z.object({
-  freshnessAssessment: z
+  isEdible: z.boolean().describe('A flag indicating if the food is likely safe to eat.'),
+  freshnessScore: z
+    .number()
+    .min(0)
+    .max(100)
+    .describe('A numerical score from 0 (spoiled) to 100 (peak freshness).'),
+  estimatedShelfLife: z
     .string()
-    .describe('The AI assessment of the food freshness.'),
+    .describe('The estimated remaining shelf life, e.g., "2-3 days" or "Consume immediately".'),
+  assessmentSummary: z
+    .string()
+    .describe('A concise, human-readable summary of the freshness assessment.'),
   disclaimerNeeded: z
     .boolean()
     .describe(
-      'Whether a disclaimer about the limitations of the freshness check tool is needed.'
+      'Whether a disclaimer about the limitations of the freshness check tool is needed due to poor image quality or other factors.'
     ),
 });
 export type FoodFreshnessOutput = z.infer<typeof FoodFreshnessOutputSchema>;
@@ -43,16 +52,21 @@ const prompt = ai.definePrompt({
   input: {schema: FoodFreshnessInputSchema},
   output: {schema: FoodFreshnessOutputSchema},
   model: 'googleai/gemini-2.5-flash',
-  prompt: `You are an AI assistant specializing in assessing food freshness based on images and descriptions.
+  prompt: `You are an AI assistant specializing in assessing food freshness from images and descriptions for a food donation platform. Your goal is to provide a detailed and structured analysis.
 
-You will receive a description of the food and a photo.  Based on these, assess the freshness of the food item. Provide a concise assessment.
+You will receive a description of a food item and a photo. Based on these, you must evaluate its quality and freshness.
 
-You should make a determination as to whether a disclaimer is needed.  If the image quality is poor, or the food is of a type that is difficult to assess based on appearance alone, you should set the disclaimerNeeded field to true.  Otherwise, you should set it to false.
+Your output must be a JSON object with the following fields:
+- isEdible: A boolean. True if the food appears safe to eat, false otherwise.
+- freshnessScore: An integer between 0 and 100, where 100 is peak freshness and 0 is completely spoiled.
+- estimatedShelfLife: A string estimating the remaining shelf life (e.g., "1 day", "2-3 days", "Up to a week", "Consume immediately").
+- assessmentSummary: A brief, one-sentence summary of your findings (e.g., "Appears fresh with no visible signs of spoilage.").
+- disclaimerNeeded: A boolean. Set to true if the image quality is poor, the item is difficult to assess visually (e.g., canned goods), or if you have any uncertainty. Otherwise, set it to false.
+
+Analyze the provided food item now.
 
 Description: {{{foodDescription}}}
 Photo: {{media url=foodPhotoDataUri}}
-
-Output the assessment and whether a disclaimer is needed in JSON format.
 `,
 });
 

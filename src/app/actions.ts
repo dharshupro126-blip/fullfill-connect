@@ -16,7 +16,10 @@ export async function getFoodFreshnessAnalysis(
     console.error('Error analyzing food freshness:', error);
     // In a real app, you'd want more robust error handling and logging.
     return {
-      freshnessAssessment: 'An error occurred during analysis. Please try again.',
+      isEdible: false,
+      freshnessScore: 0,
+      estimatedShelfLife: 'N/A',
+      assessmentSummary: 'An error occurred during analysis. Please try again.',
       disclaimerNeeded: true,
     };
   }
