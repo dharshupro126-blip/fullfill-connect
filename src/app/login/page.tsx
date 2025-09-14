@@ -9,8 +9,6 @@ import Link from "next/link";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { firebaseApp } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
@@ -19,29 +17,21 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
-  const auth = getAuth(firebaseApp);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
+    // Simulate a successful login for prototype purposes
+    setTimeout(() => {
       toast({
         title: "Login Successful",
         description: "Welcome back!",
         className: 'bg-primary text-primary-foreground',
       });
       router.push('/'); // Redirect to dashboard or another page
-    } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: "Login Failed",
-        description: error.message || "Invalid email or password.",
-      });
-    } finally {
       setIsLoading(false);
-    }
+    }, 1000); // Simulate a short delay
   };
 
   return (
