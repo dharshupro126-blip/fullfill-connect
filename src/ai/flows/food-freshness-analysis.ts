@@ -51,7 +51,6 @@ const prompt = ai.definePrompt({
   name: 'foodFreshnessPrompt',
   input: {schema: FoodFreshnessInputSchema},
   output: {schema: FoodFreshnessOutputSchema},
-  model: 'googleai/gemini-2.5-flash',
   prompt: `You are an AI assistant specializing in assessing food freshness from images and descriptions for a food donation platform. Your goal is to provide a detailed and structured analysis.
 
 You will receive a description of a food item and a photo. Based on these, you must evaluate its quality and freshness.
