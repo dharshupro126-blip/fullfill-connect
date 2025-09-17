@@ -75,16 +75,24 @@ export function FoodDonationForm() {
     if (foodNameValue && foodNameValue.length > 2) {
       setIsGenerating(true);
       const handler = setTimeout(() => {
-        const inputWords = foodNameValue.toLowerCase().split(' ');
+        const searchTerm = foodNameValue.toLowerCase().trim();
         
-        const matchedImage = PlaceHolderImages.find(p => {
-          const titleWords = p.title.toLowerCase().split(' ');
-          return inputWords.some(word => p.title.toLowerCase().includes(word)) || titleWords.some(word => foodNameValue.toLowerCase().includes(word));
-        });
+        // Prioritize exact match
+        let matchedImage = PlaceHolderImages.find(p => p.title.toLowerCase() === searchTerm);
+
+        // If no exact match, try partial match
+        if (!matchedImage) {
+            const inputWords = searchTerm.split(' ');
+            matchedImage = PlaceHolderImages.find(p => {
+                const titleWords = p.title.toLowerCase().split(' ');
+                // Check if any word from input is in title or any word from title is in input
+                return inputWords.some(word => p.title.toLowerCase().includes(word)) || titleWords.some(word => searchTerm.includes(word));
+            });
+        }
 
         const generatedUrl = matchedImage 
           ? matchedImage.imageUrl 
-          : `https://picsum.photos/seed/${foodNameValue.toLowerCase().trim().replace(/\s+/g, '-')}/600/400`;
+          : `https://picsum.photos/seed/${searchTerm.replace(/\s+/g, '-')}/600/400`;
         
         const generatedPreview: ImagePreviewState = {
           src: generatedUrl,
