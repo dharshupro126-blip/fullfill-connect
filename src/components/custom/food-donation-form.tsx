@@ -26,7 +26,7 @@ const formSchema = z.object({
   foodName: z.string().min(3, 'Food name must be at least 3 characters.'),
   description: z.string().min(10, 'Description must be at least 10 characters.'),
   quantity: z.string().min(1, 'Please enter a quantity.'),
-  images: z.custom<FileList>().refine(files => files && files.length > 0, 'At least one image is required.').or(z.string()),
+  images: z.string().optional(),
   pickupWindowStart: z.string().min(1, "Please select a start time."),
   pickupWindowEnd: z.string().min(1, "Please select an end time."),
   address: z.string().min(5, 'Please enter a valid pickup address.'),
@@ -37,7 +37,6 @@ type Step = 'details' | 'logistics' | 'review';
 
 type ImagePreviewState = {
   src: string;
-  file?: File;
   analysis?: FoodFreshnessOutput;
   isLoading: boolean;
   isGenerated?: boolean;
@@ -47,7 +46,7 @@ type ImagePreviewState = {
 export function FoodDonationForm() {
   const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState<Step>('details');
-  const [imagePreviews, setImagePreviews] = useState<ImagePreviewState[]>([]);
+  const [imagePreview, setImagePreview] = useState<ImagePreviewState | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { user } = useAuth(); 
   const [isGenerating, setIsGenerating] = useState(false);
@@ -77,114 +76,76 @@ export function FoodDonationForm() {
       const handler = setTimeout(() => {
         const searchTerm = foodNameValue.toLowerCase().trim();
         
-        // Prioritize exact match
         let matchedImage = PlaceHolderImages.find(p => p.title.toLowerCase() === searchTerm);
 
-        // If no exact match, try partial match
         if (!matchedImage) {
             const inputWords = searchTerm.split(' ');
             matchedImage = PlaceHolderImages.find(p => {
                 const titleWords = p.title.toLowerCase().split(' ');
-                // Check if any word from input is in title or any word from title is in input
                 return inputWords.some(word => p.title.toLowerCase().includes(word)) || titleWords.some(word => searchTerm.includes(word));
             });
         }
 
-        const generatedUrl = matchedImage 
-          ? matchedImage.imageUrl 
-          : `https://picsum.photos/seed/${searchTerm.replace(/\s+/g, '-')}/600/400`;
-        
-        const generatedPreview: ImagePreviewState = {
-          src: generatedUrl,
-          isLoading: true,
-          isGenerated: true,
-        };
-        setImagePreviews([generatedPreview]);
-        setValue('images', generatedUrl, { shouldValidate: true });
-        
-        // Simulate analysis after generation
-        const mockAnalysis: FoodFreshnessOutput = {
-          isEdible: true,
-          freshnessScore: 100,
-          estimatedShelfLife: 'Looks great',
-          assessmentSummary: 'Perfectly fresh and ready for donation.',
-          disclaimerNeeded: false,
-        };
-        setTimeout(() => {
-            setImagePreviews(prev => prev.map(p => p.isGenerated ? {...p, analysis: mockAnalysis, isLoading: false} : p));
-            setIsGenerating(false);
-        }, 500);
+        if (matchedImage) {
+          const generatedPreview: ImagePreviewState = {
+            src: matchedImage.imageUrl,
+            isLoading: true,
+            isGenerated: true,
+          };
+          setImagePreview(generatedPreview);
+          setValue('images', matchedImage.imageUrl, { shouldValidate: true });
+          setValue('description', matchedImage.description, { shouldValidate: true });
+
+          const mockAnalysis: FoodFreshnessOutput = {
+            isEdible: true,
+            freshnessScore: 100,
+            estimatedShelfLife: 'Looks great',
+            assessmentSummary: 'Perfectly fresh and ready for donation.',
+            disclaimerNeeded: false,
+          };
+          setTimeout(() => {
+              setImagePreview(prev => prev ? {...prev, analysis: mockAnalysis, isLoading: false} : null);
+              setIsGenerating(false);
+          }, 500);
+
+        } else {
+           const generatedUrl = `https://picsum.photos/seed/${searchTerm.replace(/\s+/g, '-')}/600/400`;
+            const generatedPreview: ImagePreviewState = {
+              src: generatedUrl,
+              isLoading: true,
+              isGenerated: true,
+            };
+            setImagePreview(generatedPreview);
+            setValue('images', generatedUrl, { shouldValidate: true });
+            
+            const mockAnalysis: FoodFreshnessOutput = {
+              isEdible: true,
+              freshnessScore: 100,
+              estimatedShelfLife: 'Looks great',
+              assessmentSummary: 'Perfectly fresh and ready for donation.',
+              disclaimerNeeded: false,
+            };
+            setTimeout(() => {
+                setImagePreview(prev => prev ? {...prev, analysis: mockAnalysis, isLoading: false} : null);
+                setIsGenerating(false);
+            }, 500);
+        }
 
       }, 1000); // Debounce time
 
       return () => {
         clearTimeout(handler);
+        setIsGenerating(false);
       };
     } else {
-        // Clear generated image if food name is too short
-        const hasGeneratedImage = imagePreviews.some(p => p.isGenerated);
-        if (hasGeneratedImage) {
-            setImagePreviews([]);
-            const dataTransfer = new DataTransfer();
-            setValue('images', dataTransfer.files, { shouldValidate: true });
+        if (imagePreview) {
+            setImagePreview(null);
+            setValue('images', undefined, { shouldValidate: true });
+            setValue('description', '', { shouldValidate: false });
         }
     }
   }, [foodNameValue, setValue]);
 
-
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const fileList = event.target.files;
-
-    if (!fileList) {
-      return;
-    }
-    
-    if (fileList.length === 0) {
-      setImagePreviews([]);
-      const dataTransfer = new DataTransfer();
-      setValue('images', dataTransfer.files, { shouldValidate: true });
-      return;
-    }
-
-    const files = Array.from(fileList);
-    
-    if (files.length > 3) {
-      toast({
-        variant: 'destructive',
-        title: 'Too many images',
-        description: 'You can only upload a maximum of 3 images.',
-      });
-      return;
-    }
-
-    setValue('images', fileList, { shouldValidate: true });
-
-    const newPreviews: ImagePreviewState[] = files.map(file => ({
-      src: URL.createObjectURL(file),
-      file,
-      isLoading: true,
-    }));
-
-    setImagePreviews(newPreviews);
-
-    const mockAnalysis: FoodFreshnessOutput = {
-        isEdible: true,
-        freshnessScore: 100,
-        estimatedShelfLife: 'Looks great',
-        assessmentSummary: 'Perfectly fresh and ready for donation.',
-        disclaimerNeeded: false,
-    };
-
-    setTimeout(() => {
-        setImagePreviews(prev => 
-            prev.map(p => ({
-                ...p,
-                analysis: mockAnalysis,
-                isLoading: false,
-            }))
-        );
-    }, 500);
-  };
   
   const nextStep = async () => {
     let isValid = false;
@@ -208,7 +169,7 @@ export function FoodDonationForm() {
     setTimeout(() => {
         setIsSubmitting(false);
         reset(); 
-        setImagePreviews([]); 
+        setImagePreview(null); 
         setCurrentStep('details'); 
 
         toast({
@@ -286,34 +247,32 @@ export function FoodDonationForm() {
 
                   {/* AI Generated Image Section */}
                   <AnimatePresence>
-                  {(isGenerating || imagePreviews.some(p => p.isGenerated)) && (
+                  {(isGenerating || imagePreview) && (
                     <motion.div 
                         className="space-y-2"
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
                     >
-                      <Label>AI Generated Image</Label>
+                      <Label>AI Generated Image Preview</Label>
                        <div className="relative aspect-video w-full rounded-md border-2 border-dashed flex items-center justify-center bg-muted/50">
-                        {isGenerating && !imagePreviews.some(p => p.isGenerated) && (
+                        {isGenerating && !imagePreview && (
                             <div className='text-center text-muted-foreground'>
                                 <ImageIcon className="mx-auto h-8 w-8 animate-pulse" />
                                 <p>Generating image for "{foodNameValue}"...</p>
                             </div>
                         )}
-                        {imagePreviews.map((preview, index) => (
-                           preview.isGenerated && (
-                            <div key={index} className="relative w-full h-full">
-                               <Image src={preview.src} alt={`Generated image of ${foodNameValue}`} fill objectFit="cover" className="rounded-md" />
+                        {imagePreview && (
+                            <div className="relative w-full h-full">
+                               <Image src={imagePreview.src} alt={`Generated image of ${foodNameValue}`} fill objectFit="cover" className="rounded-md" />
                                <Card className="absolute bottom-1 left-1 right-1 p-2 bg-background/80 backdrop-blur-sm">
                                  <p className="text-xs font-bold flex items-center gap-1 mb-1">
                                   <Sparkles className="w-3 h-3 text-accent" /> AI Quality Check
                                  </p>
-                                 {renderAnalysis(preview)}
+                                 {renderAnalysis(imagePreview)}
                                </Card>
                             </div>
-                           )
-                        ))}
+                        )}
                       </div>
                     </motion.div>
                   )}
@@ -328,26 +287,6 @@ export function FoodDonationForm() {
                     <Label htmlFor="quantity">Quantity (e.g., servings, kg, loaves)</Label>
                     <Input id="quantity" {...register('quantity')} placeholder="e.g., 2 loaves, 1 case" />
                     {errors.quantity && <p className="text-sm text-destructive">{errors.quantity.message}</p>}
-                  </div>
-                  <div>
-                    <Label htmlFor="images-upload">Or Upload Your Own Images (up to 3)</Label>
-                    <Input id="images-upload" type="file" multiple accept="image/*" onChange={handleFileChange} />
-                    {errors.images && typeof errors.images.message === 'string' && <p className="text-sm text-destructive">{errors.images.message}</p>}
-                    <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-                      {imagePreviews.map((preview, index) => (
-                        !preview.isGenerated && (
-                           <div key={index} className="relative aspect-square">
-                            <Image src={preview.src} alt={`Preview ${index + 1}`} fill objectFit="cover" className="rounded-md" />
-                            <Card className="absolute bottom-1 left-1 right-1 p-2 bg-background/80 backdrop-blur-sm">
-                              <p className="text-xs font-bold flex items-center gap-1 mb-1">
-                                <Sparkles className="w-3 h-3 text-accent" /> AI Quality Check
-                              </p>
-                              {renderAnalysis(preview)}
-                            </Card>
-                          </div>
-                        )
-                      ))}
-                    </div>
                   </div>
                 </div>
               )}
@@ -387,17 +326,17 @@ export function FoodDonationForm() {
                       <p><strong>Address:</strong> {getValues('address')}</p>
                    </div>
                    <div className="grid grid-cols-3 gap-4">
-                      {imagePreviews.map((preview, index) => (
-                        <div key={index} className="relative aspect-square">
-                           <Image src={preview.src} alt={`Preview ${index + 1}`} fill objectFit="cover" className="rounded-md" />
+                      {imagePreview && (
+                        <div className="relative aspect-square">
+                           <Image src={imagePreview.src} alt={`Preview`} fill objectFit="cover" className="rounded-md" />
                             <Card className="absolute bottom-1 left-1 right-1 p-2 bg-background/80 backdrop-blur-sm">
                              <p className="text-xs font-bold flex items-center gap-1 mb-1">
                               <Sparkles className="w-3 h-3 text-accent" /> AI Quality Check
                              </p>
-                             {renderAnalysis(preview)}
+                             {renderAnalysis(imagePreview)}
                            </Card>
                         </div>
-                      ))}
+                      )}
                     </div>
                 </div>
               )}
@@ -429,3 +368,5 @@ export function FoodDonationForm() {
     </Card>
   );
 }
+
+    
