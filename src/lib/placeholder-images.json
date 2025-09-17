@@ -70,6 +70,34 @@
       "description": "A healthy and refreshing salad bowl with fresh greens and vegetables.",
       "imageUrl": "https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg?auto=compress&cs=tinysrgb&w=600",
       "imageHint": "healthy greens"
+    },
+    {
+      "id": "paneer_tikka",
+      "title": "Paneer Tikka",
+      "description": "Cubes of paneer cheese marinated in spices and grilled in a tandoor.",
+      "imageUrl": "https://images.pexels.com/photos/9609842/pexels-photo-9609842.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "imageHint": "grilled cheese"
+    },
+    {
+      "id": "thali",
+      "title": "Thali",
+      "description": "A complete meal platter featuring a selection of various dishes, bread, and rice.",
+      "imageUrl": "https://images.pexels.com/photos/8437033/pexels-photo-8437033.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "imageHint": "meal platter"
+    },
+    {
+      "id": "idli_sambar",
+      "title": "Idli Sambar",
+      "description": "Steamed rice cakes served with a flavorful lentil-based vegetable stew.",
+      "imageUrl": "https://images.pexels.com/photos/8695055/pexels-photo-8695055.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "imageHint": "rice cakes"
+    },
+    {
+      "id": "medu_vada",
+      "title": "Medu Vada",
+      "description": "Crispy, savory fritters made from black lentils, often served with chutney.",
+      "imageUrl": "https://images.pexels.com/photos/14879203/pexels-photo-14879203.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "imageHint": "savory fritter"
     }
   ]
 }
