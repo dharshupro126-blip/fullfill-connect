@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -12,21 +12,20 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowLeft, ArrowRight, Check, CheckCircle, Clock, Loader2, Sparkles, XCircle } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, CheckCircle, Clock, Loader2, Sparkles, XCircle, Image as ImageIcon } from 'lucide-react';
 import Image from 'next/image';
 import type { FoodFreshnessOutput } from '@/ai/flows/food-freshness-analysis';
-import { getFirestore, collection, addDoc, serverTimestamp, GeoPoint } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { firebaseApp } from '@/lib/firebase';
 import { useAuth } from '@/hooks/use-auth-context';
 import { Progress } from '../ui/progress';
+import { Skeleton } from '../ui/skeleton';
 
 // Step 1: Define the Zod schema for form validation
 const formSchema = z.object({
   foodName: z.string().min(3, 'Food name must be at least 3 characters.'),
   description: z.string().min(10, 'Description must be at least 10 characters.'),
   quantity: z.string().min(1, 'Please enter a quantity.'),
-  images: z.custom<FileList>().refine(files => files && files.length > 0, 'At least one image is required.'),
+  images: z.custom<FileList>().refine(files => files && files.length > 0, 'At least one image is required.').or(z.string()),
   pickupWindowStart: z.string().min(1, "Please select a start time."),
   pickupWindowEnd: z.string().min(1, "Please select an end time."),
   address: z.string().min(5, 'Please enter a valid pickup address.'),
@@ -37,9 +36,10 @@ type Step = 'details' | 'logistics' | 'review';
 
 type ImagePreviewState = {
   src: string;
-  file: File;
+  file?: File;
   analysis?: FoodFreshnessOutput;
   isLoading: boolean;
+  isGenerated?: boolean;
 };
 
 
@@ -48,8 +48,9 @@ export function FoodDonationForm() {
   const [currentStep, setCurrentStep] = useState<Step>('details');
   const [imagePreviews, setImagePreviews] = useState<ImagePreviewState[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  // In a real app, you'd get the user from a proper auth context
   const { user } = useAuth(); 
+  const [isGenerating, setIsGenerating] = useState(false);
+
 
   const {
     register,
@@ -57,6 +58,7 @@ export function FoodDonationForm() {
     trigger,
     getValues,
     setValue,
+    watch,
     formState: { errors },
     reset,
   } = useForm<FormValues>({
@@ -66,6 +68,51 @@ export function FoodDonationForm() {
     }
   });
 
+  const foodNameValue = watch('foodName');
+
+  useEffect(() => {
+    if (foodNameValue && foodNameValue.length > 2) {
+      setIsGenerating(true);
+      const handler = setTimeout(() => {
+        const generatedUrl = `https://picsum.photos/seed/${foodNameValue.toLowerCase().trim().replace(/\s+/g, '-')}/600/400`;
+        const generatedPreview: ImagePreviewState = {
+          src: generatedUrl,
+          isLoading: true,
+          isGenerated: true,
+        };
+        setImagePreviews([generatedPreview]);
+        setValue('images', generatedUrl, { shouldValidate: true });
+        
+        // Simulate analysis after generation
+        const mockAnalysis: FoodFreshnessOutput = {
+          isEdible: true,
+          freshnessScore: 100,
+          estimatedShelfLife: 'Looks great',
+          assessmentSummary: 'Perfectly fresh and ready for donation.',
+          disclaimerNeeded: false,
+        };
+        setTimeout(() => {
+            setImagePreviews(prev => prev.map(p => p.isGenerated ? {...p, analysis: mockAnalysis, isLoading: false} : p));
+            setIsGenerating(false);
+        }, 500);
+
+      }, 1000); // Debounce time
+
+      return () => {
+        clearTimeout(handler);
+      };
+    } else {
+        // Clear generated image if food name is too short
+        const hasGeneratedImage = imagePreviews.some(p => p.isGenerated);
+        if (hasGeneratedImage) {
+            setImagePreviews([]);
+            const dataTransfer = new DataTransfer();
+            setValue('images', dataTransfer.files, { shouldValidate: true });
+        }
+    }
+  }, [foodNameValue, setValue]);
+
+
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files;
 
@@ -73,9 +120,7 @@ export function FoodDonationForm() {
       return;
     }
     
-    // Check if files were selected
     if (fileList.length === 0) {
-      // Clear images if no files are selected or selection is cancelled
       setImagePreviews([]);
       const dataTransfer = new DataTransfer();
       setValue('images', dataTransfer.files, { shouldValidate: true });
@@ -101,9 +146,8 @@ export function FoodDonationForm() {
       isLoading: true,
     }));
 
-    setImagePreviews(newPreviews); // Replace instead of append to enforce max
+    setImagePreviews(newPreviews);
 
-    // Simulate AI analysis for prototyping
     const mockAnalysis: FoodFreshnessOutput = {
         isEdible: true,
         freshnessScore: 100,
@@ -112,7 +156,6 @@ export function FoodDonationForm() {
         disclaimerNeeded: false,
     };
 
-    // Update previews with mock data after a short delay
     setTimeout(() => {
         setImagePreviews(prev => 
             prev.map(p => ({
@@ -121,7 +164,7 @@ export function FoodDonationForm() {
                 isLoading: false,
             }))
         );
-    }, 500); // 500ms delay to simulate processing
+    }, 500);
   };
   
   const nextStep = async () => {
@@ -143,19 +186,18 @@ export function FoodDonationForm() {
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setIsSubmitting(true);
     
-    // Simulate a successful donation for prototype purposes
     setTimeout(() => {
         setIsSubmitting(false);
-        reset(); // Reset form fields
-        setImagePreviews([]); // Clear image previews
-        setCurrentStep('details'); // Reset to the first step
+        reset(); 
+        setImagePreviews([]); 
+        setCurrentStep('details'); 
 
         toast({
             title: 'Donation Listed!',
             description: 'Thank you! Your donation is now visible to receivers.',
             className: 'bg-primary text-primary-foreground',
         });
-    }, 1000); // Simulate a network delay
+    }, 1000);
   };
 
   const stepVariants = {
@@ -205,7 +247,7 @@ export function FoodDonationForm() {
         </CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <CardContent className="overflow-hidden min-h-[450px]">
+        <CardContent className="overflow-hidden min-h-[500px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentStep}
@@ -219,12 +261,48 @@ export function FoodDonationForm() {
                 <div className="space-y-4">
                   <div>
                     <Label htmlFor="foodName">Food Name</Label>
-                    <Input id="foodName" {...register('foodName')} />
+                    <Input id="foodName" {...register('foodName')} placeholder="e.g., Freshly Baked Bread" />
                     {errors.foodName && <p className="text-sm text-destructive">{errors.foodName.message}</p>}
                   </div>
+
+                  {/* AI Generated Image Section */}
+                  <AnimatePresence>
+                  {(isGenerating || imagePreviews.some(p => p.isGenerated)) && (
+                    <motion.div 
+                        className="space-y-2"
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                    >
+                      <Label>AI Generated Image</Label>
+                       <div className="relative aspect-video w-full rounded-md border-2 border-dashed flex items-center justify-center bg-muted/50">
+                        {isGenerating && !imagePreviews.some(p => p.isGenerated) && (
+                            <div className='text-center text-muted-foreground'>
+                                <ImageIcon className="mx-auto h-8 w-8 animate-pulse" />
+                                <p>Generating image for "{foodNameValue}"...</p>
+                            </div>
+                        )}
+                        {imagePreviews.map((preview, index) => (
+                           preview.isGenerated && (
+                            <div key={index} className="relative w-full h-full">
+                               <Image src={preview.src} alt={`Generated image of ${foodNameValue}`} fill objectFit="cover" className="rounded-md" />
+                               <Card className="absolute bottom-1 left-1 right-1 p-2 bg-background/80 backdrop-blur-sm">
+                                 <p className="text-xs font-bold flex items-center gap-1 mb-1">
+                                  <Sparkles className="w-3 h-3 text-accent" /> AI Quality Check
+                                 </p>
+                                 {renderAnalysis(preview)}
+                               </Card>
+                            </div>
+                           )
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                  </AnimatePresence>
+
                   <div>
                     <Label htmlFor="description">Description</Label>
-                    <Textarea id="description" {...register('description')} placeholder="e.g., Unopened loaf of whole wheat bread..." />
+                    <Textarea id="description" {...register('description')} placeholder="e.g., Two unopened loaves of whole wheat bread..." />
                     {errors.description && <p className="text-sm text-destructive">{errors.description.message}</p>}
                   </div>
                    <div>
@@ -233,20 +311,22 @@ export function FoodDonationForm() {
                     {errors.quantity && <p className="text-sm text-destructive">{errors.quantity.message}</p>}
                   </div>
                   <div>
-                    <Label htmlFor="images-upload">Food Images (up to 3)</Label>
+                    <Label htmlFor="images-upload">Or Upload Your Own Images (up to 3)</Label>
                     <Input id="images-upload" type="file" multiple accept="image/*" onChange={handleFileChange} />
-                    {errors.images && <p className="text-sm text-destructive">{errors.images.message as string}</p>}
+                    {errors.images && typeof errors.images.message === 'string' && <p className="text-sm text-destructive">{errors.images.message}</p>}
                     <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
                       {imagePreviews.map((preview, index) => (
-                        <div key={index} className="relative aspect-square">
-                           <Image src={preview.src} alt={`Preview ${index + 1}`} fill objectFit="cover" className="rounded-md" />
-                           <Card className="absolute bottom-1 left-1 right-1 p-2 bg-background/80 backdrop-blur-sm">
-                             <p className="text-xs font-bold flex items-center gap-1 mb-1">
-                              <Sparkles className="w-3 h-3 text-accent" /> AI Quality Check
-                             </p>
-                             {renderAnalysis(preview)}
-                           </Card>
-                        </div>
+                        !preview.isGenerated && (
+                           <div key={index} className="relative aspect-square">
+                            <Image src={preview.src} alt={`Preview ${index + 1}`} fill objectFit="cover" className="rounded-md" />
+                            <Card className="absolute bottom-1 left-1 right-1 p-2 bg-background/80 backdrop-blur-sm">
+                              <p className="text-xs font-bold flex items-center gap-1 mb-1">
+                                <Sparkles className="w-3 h-3 text-accent" /> AI Quality Check
+                              </p>
+                              {renderAnalysis(preview)}
+                            </Card>
+                          </div>
+                        )
                       ))}
                     </div>
                   </div>
