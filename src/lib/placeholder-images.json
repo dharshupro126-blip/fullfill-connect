@@ -49,6 +49,27 @@
       "description": "Spicy and tangy fish curry, a coastal specialty.",
       "imageUrl": "https://images.pexels.com/photos/5410403/pexels-photo-5410403.jpeg?auto=compress&cs=tinysrgb&w=600",
       "imageHint": "fish curry"
+    },
+    {
+      "id": "fresh_bread",
+      "title": "Fresh Bread",
+      "description": "A loaf of freshly baked bread, ready to be enjoyed.",
+      "imageUrl": "https://images.pexels.com/photos/1775043/pexels-photo-1775043.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "imageHint": "baked goods"
+    },
+    {
+      "id": "sandwiches",
+      "title": "Sandwiches",
+      "description": "A variety of freshly made sandwiches with different fillings.",
+      "imageUrl": "https://images.pexels.com/photos/1647163/pexels-photo-1647163.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "imageHint": "deli food"
+    },
+    {
+      "id": "salad_bowl",
+      "title": "Salad Bowl",
+      "description": "A healthy and refreshing salad bowl with fresh greens and vegetables.",
+      "imageUrl": "https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "imageHint": "healthy greens"
     }
   ]
 }

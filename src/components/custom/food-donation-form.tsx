@@ -75,8 +75,11 @@ export function FoodDonationForm() {
     if (foodNameValue && foodNameValue.length > 2) {
       setIsGenerating(true);
       const handler = setTimeout(() => {
-        const foodNameLower = foodNameValue.toLowerCase();
-        const matchedImage = PlaceHolderImages.find(p => p.title.toLowerCase().includes(foodNameLower));
+        const inputWords = foodNameValue.toLowerCase().split(' ');
+        
+        const matchedImage = PlaceHolderImages.find(p => 
+          inputWords.some(word => p.title.toLowerCase().includes(word))
+        );
 
         const generatedUrl = matchedImage 
           ? matchedImage.imageUrl 
@@ -417,5 +420,3 @@ export function FoodDonationForm() {
     </Card>
   );
 }
-
-    
