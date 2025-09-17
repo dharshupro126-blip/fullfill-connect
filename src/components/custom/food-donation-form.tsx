@@ -77,9 +77,10 @@ export function FoodDonationForm() {
       const handler = setTimeout(() => {
         const inputWords = foodNameValue.toLowerCase().split(' ');
         
-        const matchedImage = PlaceHolderImages.find(p => 
-          inputWords.some(word => p.title.toLowerCase().includes(word))
-        );
+        const matchedImage = PlaceHolderImages.find(p => {
+          const titleWords = p.title.toLowerCase().split(' ');
+          return inputWords.some(word => p.title.toLowerCase().includes(word)) || titleWords.some(word => foodNameValue.toLowerCase().includes(word));
+        });
 
         const generatedUrl = matchedImage 
           ? matchedImage.imageUrl 
