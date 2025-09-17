@@ -19,6 +19,7 @@ import { firebaseApp } from '@/lib/firebase';
 import { useAuth } from '@/hooks/use-auth-context';
 import { Progress } from '../ui/progress';
 import { Skeleton } from '../ui/skeleton';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 // Step 1: Define the Zod schema for form validation
 const formSchema = z.object({
@@ -74,7 +75,13 @@ export function FoodDonationForm() {
     if (foodNameValue && foodNameValue.length > 2) {
       setIsGenerating(true);
       const handler = setTimeout(() => {
-        const generatedUrl = `https://picsum.photos/seed/${foodNameValue.toLowerCase().trim().replace(/\s+/g, '-')}/600/400`;
+        const foodNameLower = foodNameValue.toLowerCase();
+        const matchedImage = PlaceHolderImages.find(p => p.title.toLowerCase().includes(foodNameLower));
+
+        const generatedUrl = matchedImage 
+          ? matchedImage.imageUrl 
+          : `https://picsum.photos/seed/${foodNameValue.toLowerCase().trim().replace(/\s+/g, '-')}/600/400`;
+        
         const generatedPreview: ImagePreviewState = {
           src: generatedUrl,
           isLoading: true,
